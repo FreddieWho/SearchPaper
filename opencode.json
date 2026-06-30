@@ -4,7 +4,7 @@
     "paperSearch": {
       "type": "local",
       "command": "uv",
-      "args": ["--project", "/home/huyudi/Publish/paperSearch", "run", "python", "-m", "paper_search.server"],
+      "args": ["--project", "/path/to/paperSearch", "run", "python", "-m", "paper_search.server"],
       "env": {}
     }
   }

@@ -2,28 +2,42 @@
 
 [English README](README.md)
 
-paperSearch 是一个本地_stdio_ MCP 服务器，用于学术文献检索。它把 **Semantic Scholar**（通用论文搜索、引用、参考文献、推荐）和 **PubTator3**（生物医学实体标准化、实体关系、PMID 证据）封装成一组可缓存、可复现的 AI agent 工具。
+**paperSearch** 是一个本地_stdio_ MCP 服务器，让 AI 编程助手（Claude Code、OpenCode、Codex）能够结构化、可引用地检索学术文献。它把 **Semantic Scholar**（论文搜索、引用、参考文献、推荐）和 **PubTator3**（生物医学实体标准化、实体关系、PMID 证据）封装成一个可缓存、可复现的工具集。
 
-适用于生物信息学、肿瘤免疫、单细胞、免疫治疗等研究方向。
+适用场景：文献综述自动化、系统综述支持、引用图分析、基因-药物-疾病关系挖掘、生物医学证据检索、论文推荐、以及在 agent 工作流中进行研究问题回答。
+
+关键词：MCP server、学术搜索、论文检索、Semantic Scholar、PubTator3、PubMed、引用图、生物医学自然语言处理、实体关系、文献综述、生物信息学、肿瘤免疫、单细胞、免疫治疗、研究助手、AI agent 工具。
+
+---
+
+## 它能做什么
+
+- 跨 Semantic Scholar 搜索学术论文，支持年份、期刊、引用数、开放获取和排序过滤。
+- 把生物医学实体解析为 PubTator3 标准 ID：`@GENE_JAK1`、`@CHEMICAL_Pembrolizumab`、`@DISEASE_Neoplasms`。
+- 挖掘实体关系，如 `treat`、`inhibit`、`cause`、`associate`、`interact`，并链接回 PubMed 证据。
+- 遍历引用图（被引用/参考文献），并基于示例论文进行推荐。
+- 把结果缓存在本地 SQLite 中，重复查询更快、更可复现。
 
 ---
 
 ## 功能
 
-- **Semantic Scholar 工具**
-  - `s2_search_papers` – 通用论文搜索，支持年份、期刊、引用数、排序等过滤
-  - `s2_get_paper` – 单篇论文元数据（支持 S2 paperId、DOI、PMID、arXiv）
-  - `s2_batch_get_papers` – 批量查询元数据（最多 100 篇）
-  - `s2_get_citations` / `s2_get_references` – 引用图谱遍历
-  - `s2_recommend_papers` – 基于正/负例论文推荐
-- **PubTator3 工具**
-  - `pubtator_find_entity` – 生物医学实体标准化（如 `@GENE_JAK1`、`@CHEMICAL_Pembrolizumab`）
-  - `pubtator_find_relations` – 实体间关系及 PMID 证据
-  - `pubtator_search` – 自由文本或关系查询
-- **组合工具**
-  - `biomed_relation_evidence` – 从普通名称解析到实体 ID、关系及 PMID 证据
-  - `paper_enrich_with_pubtator` – 用 PubTator 注释丰富 Semantic Scholar 论文
-  - `research_query` – 统一文献搜索，可选 PubTator 增强
+### Semantic Scholar 工具
+- `s2_search_papers` – 通用论文搜索，支持年份、期刊、引用数、排序等过滤
+- `s2_get_paper` – 单篇论文元数据（支持 S2 paperId、DOI、PMID、arXiv）
+- `s2_batch_get_papers` – 批量查询元数据（最多 100 篇）
+- `s2_get_citations` / `s2_get_references` – 引用图谱遍历
+- `s2_recommend_papers` – 基于正/负例论文推荐
+
+### PubTator3 工具
+- `pubtator_find_entity` – 生物医学实体标准化（如 `@GENE_JAK1`、`@CHEMICAL_Pembrolizumab`）
+- `pubtator_find_relations` – 实体间生物医学关系及 PMID 证据计数
+- `pubtator_search` – 自由文本或关系查询
+
+### 组合工具
+- `biomed_relation_evidence` – 从普通名称解析到实体 ID、关系及 PMID 证据
+- `paper_enrich_with_pubtator` – 用 PubTator 注释丰富 Semantic Scholar 论文
+- `research_query` – 统一文献搜索，可选 PubTator 增强
 
 ---
 
@@ -114,7 +128,7 @@ paperSearch 先读取用户级 JSON 配置文件，再用环境变量覆盖。
       "command": "uv",
       "args": [
         "--project",
-        "/home/huyudi/Publish/paperSearch",
+        "/path/to/paperSearch",
         "run",
         "python",
         "-m",
@@ -139,7 +153,7 @@ API key 从 `~/.config/paperSearch/config.json` 读取，因此不需要把 key 
       "command": "uv",
       "args": [
         "--project",
-        "/home/huyudi/Publish/paperSearch",
+        "/path/to/paperSearch",
         "run",
         "python",
         "-m",
@@ -157,7 +171,7 @@ API key 从 `~/.config/paperSearch/config.json` 读取，因此不需要把 key 
 [mcp_servers.paperSearch]
 type = "stdio"
 command = "uv"
-args = ["--project", "/home/huyudi/Publish/paperSearch", "run", "python", "-m", "paper_search.server"]
+args = ["--project", "/path/to/paperSearch", "run", "python", "-m", "paper_search.server"]
 
 [mcp_servers.paperSearch.env]
 ```
@@ -175,7 +189,7 @@ args = ["--project", "/home/huyudi/Publish/paperSearch", "run", "python", "-m", 
       "command": [
         "uv",
         "--project",
-        "/home/huyudi/Publish/paperSearch",
+        "/path/to/paperSearch",
         "run",
         "python",
         "-m",
@@ -236,10 +250,23 @@ args = ["--project", "/home/huyudi/Publish/paperSearch", "run", "python", "-m", 
 
 ---
 
+## 为什么选择 paperSearch？
+
+大多数大模型文献检索只是浅层网页查询。paperSearch 让 agent 能够：
+
+- **结构化元数据**：DOI、PMID、引用数、期刊、作者、开放获取 PDF。
+- **实体级推理**：来自 PubTator3 的基因、化合物、疾病、变异。
+- **可引用证据**：每个关系都由 PubMed PMID 支持。
+- **本地缓存**：SQLite TTL 缓存减少 API 调用，结果更可复现。
+- **原生 agent 支持**：stdio MCP 让它开箱即用，支持 Claude Code、OpenCode、Codex 及任何其他 MCP 客户端。
+
+---
+
 ## 开发
 
 ```bash
 uv sync --extra dev
+uv run ruff check .
 uv run pytest -q
 uv run python scripts/smoke_test.py
 ```

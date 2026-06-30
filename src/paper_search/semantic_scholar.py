@@ -1,5 +1,6 @@
 import os
-from typing import Any, Optional
+from datetime import UTC, datetime
+from typing import Any
 
 import httpx
 
@@ -33,11 +34,11 @@ DEFAULT_FIELDS = [
 
 
 def _now() -> str:
-    return __import__("datetime").datetime.utcnow().isoformat() + "Z"
+    return datetime.now(UTC).isoformat().replace("+00:00", "Z")
 
 
 class SemanticScholarClient:
-    def __init__(self, api_key: Optional[str] = None, cache: Optional[Cache] = None):
+    def __init__(self, api_key: str | None = None, cache: Cache | None = None):
         self.api_key = api_key or os.getenv("SEMANTIC_SCHOLAR_API_KEY")
         self.cache = cache
         self.headers = {}
@@ -45,7 +46,10 @@ class SemanticScholarClient:
             self.headers["x-api-key"] = self.api_key
         self.client = httpx.AsyncClient(timeout=30.0, headers=self.headers)
 
-    def _build_fields(self, include_abstract: bool, extra: Optional[list[str]] = None) -> str:
+    async def aclose(self) -> None:
+        await self.client.aclose()
+
+    def _build_fields(self, include_abstract: bool, extra: list[str] | None = None) -> str:
         fields = list(DEFAULT_FIELDS)
         if include_abstract:
             fields.append("abstract")
@@ -76,15 +80,15 @@ class SemanticScholarClient:
     async def search_papers(
         self,
         query: str,
-        year: Optional[str] = None,
-        venue: Optional[str] = None,
-        fields_of_study: Optional[list[str]] = None,
-        publication_types: Optional[list[str]] = None,
-        min_citation_count: Optional[int] = None,
-        open_access_pdf: Optional[bool] = None,
+        year: str | None = None,
+        venue: str | None = None,
+        fields_of_study: list[str] | None = None,
+        publication_types: list[str] | None = None,
+        min_citation_count: int | None = None,
+        open_access_pdf: bool | None = None,
         limit: int = 20,
         include_abstract: bool = False,
-        sort: Optional[str] = None,
+        sort: str | None = None,
         refresh: bool = False,
     ) -> dict[str, Any]:
         limit = min(max(limit, 1), 100)
@@ -234,7 +238,7 @@ class SemanticScholarClient:
         self,
         paper_id: str,
         limit: int = 50,
-        offset_or_token: Optional[str] = None,
+        offset_or_token: str | None = None,
         include_abstract: bool = False,
         refresh: bool = False,
     ) -> dict[str, Any]:
@@ -283,7 +287,7 @@ class SemanticScholarClient:
         self,
         paper_id: str,
         limit: int = 50,
-        offset_or_token: Optional[str] = None,
+        offset_or_token: str | None = None,
         include_abstract: bool = False,
         refresh: bool = False,
     ) -> dict[str, Any]:
@@ -331,7 +335,7 @@ class SemanticScholarClient:
     async def recommend_papers(
         self,
         positive_paper_ids: list[str],
-        negative_paper_ids: Optional[list[str]] = None,
+        negative_paper_ids: list[str] | None = None,
         limit: int = 20,
         include_abstract: bool = False,
         refresh: bool = False,
@@ -358,7 +362,11 @@ class SemanticScholarClient:
         url = f"{S2_REC_BASE}/papers"
         resp = await fetch_with_retry(self.client, "POST", url, json=payload)
         if resp.status_code >= 400:
-            return self._error_result(resp, {"positive_paper_ids": positive_paper_ids, "negative_paper_ids": negative_paper_ids or []}, meta)
+            return self._error_result(
+                resp,
+                {"positive_paper_ids": positive_paper_ids, "negative_paper_ids": negative_paper_ids or []},
+                meta,
+            )
         data = resp.json()
         raw_items = data.get("recommendedPapers", [])
         items = [normalize_paper(i) for i in raw_items]

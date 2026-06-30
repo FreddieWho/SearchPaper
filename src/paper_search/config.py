@@ -9,7 +9,6 @@ import os
 from pathlib import Path
 from typing import Any
 
-
 DEFAULT_CONFIG_DIR = Path.home() / ".config" / "paperSearch"
 DEFAULT_CONFIG_PATH = DEFAULT_CONFIG_DIR / "config.json"
 

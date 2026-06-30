@@ -22,3 +22,6 @@ build/
 *.swp
 *.swo
 *~
+
+# Serena tool local data
+.serena/

@@ -3,10 +3,24 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "paperSearch"
-version = "0.1.0"
+name = "paper-search"
+dynamic = ["version"]
 description = "MCP server for academic paper search via Semantic Scholar and PubTator3"
+readme = "README.md"
 requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "who", email = "freddiewho@163.com" }]
+keywords = ["mcp", "semantic-scholar", "pubtator3", "literature-search", "bioinformatics"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
 dependencies = [
     "mcp>=1.6.0",
     "httpx>=0.27.0",
@@ -19,11 +33,30 @@ dev = [
     "pytest>=8.0",
     "pytest-asyncio>=0.23",
     "respx>=0.22",
+    "ruff>=0.6",
 ]
+
+[project.scripts]
+paper-search = "paper_search.server:main"
+
+[project.urls]
+Homepage = "https://github.com/freddiewho/paperSearch"
+Repository = "https://github.com/freddiewho/paperSearch"
+Issues = "https://github.com/freddiewho/paperSearch/issues"
+
+[tool.setuptools.dynamic]
+version = { attr = "paper_search.__version__" }
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

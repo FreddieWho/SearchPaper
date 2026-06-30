@@ -1,4 +1,5 @@
-from typing import Any, Optional
+from datetime import UTC, datetime
+from typing import Any
 
 import httpx
 
@@ -24,20 +25,23 @@ BLOCKED_ENTITY_NAMES = {
 }
 
 
-def _is_blocked_entity(name: Optional[str]) -> bool:
+def _is_blocked_entity(name: str | None) -> bool:
     if not name:
         return False
     return name.lower().replace(" ", "_") in BLOCKED_ENTITY_NAMES
 
 
 def _now() -> str:
-    return __import__("datetime").datetime.utcnow().isoformat() + "Z"
+    return datetime.now(UTC).isoformat().replace("+00:00", "Z")
 
 
 class PubTator3Client:
-    def __init__(self, cache: Optional[Cache] = None):
+    def __init__(self, cache: Cache | None = None):
         self.cache = cache
         self.client = httpx.AsyncClient(timeout=30.0)
+
+    async def aclose(self) -> None:
+        await self.client.aclose()
 
     def _cache_meta(self, endpoint: str, params: Any):
         if self.cache is None:

@@ -2,28 +2,42 @@
 
 [中文文档](README.zh.md)
 
-A local stdio MCP server for academic literature search. It wraps **Semantic Scholar** (general paper search, citations, references, recommendations) and **PubTator3** (biomedical entity normalization, entity relations, PMID evidence) into a single, cached, reproducible toolset for AI agents.
+**paperSearch** is a local stdio MCP server that gives AI coding agents — Claude Code, OpenCode, and Codex — structured, citable access to academic literature. It wraps **Semantic Scholar** (paper search, citations, references, recommendations) and **PubTator3** (biomedical entity normalization, entity relations, PMID evidence) into one cached, reproducible toolset.
 
-Built for bioinformatics, immuno-oncology, single-cell, and immunotherapy workflows.
+Use cases: literature review automation, systematic review support, citation graph analysis, gene–drug–disease relation mining, biomedical evidence retrieval, paper recommendation, and research question answering inside your agent workflow.
+
+Keywords: MCP server, academic search, paper search, Semantic Scholar, PubTator3, PubMed, citation graph, biomedical NLP, entity relation, literature review, bioinformatics, immuno-oncology, single-cell, immunotherapy, research assistant, AI agent tools.
+
+---
+
+## What it does
+
+- **Search academic papers** across Semantic Scholar with filters for year, venue, citation count, open access, and sort order.
+- **Resolve biomedical entities** to canonical PubTator3 IDs: `@GENE_JAK1`, `@CHEMICAL_Pembrolizumab`, `@DISEASE_Neoplasms`.
+- **Mine entity relations** such as `treat`, `inhibit`, `cause`, `associate`, `interact`, with links back to PubMed evidence.
+- **Traverse citation graphs** (citations/references) and get paper recommendations from examples.
+- **Cache everything locally** in SQLite so repeated queries are fast and reproducible.
 
 ---
 
 ## Features
 
-- **Semantic Scholar tools**
-  - `s2_search_papers` – general paper search with year, venue, citation count, and sorting filters
-  - `s2_get_paper` – single paper metadata (supports S2 paperId, DOI, PMID, arXiv)
-  - `s2_batch_get_papers` – batch metadata lookup (max 100)
-  - `s2_get_citations` / `s2_get_references` – citation graph traversal
-  - `s2_recommend_papers` – recommendation from positive/negative examples
-- **PubTator3 tools**
-  - `pubtator_find_entity` – normalize biomedical entities (`@GENE_JAK1`, `@CHEMICAL_Pembrolizumab`, …)
-  - `pubtator_find_relations` – entity–entity relations with PMID evidence
-  - `pubtator_search` – free-text or relation-query search
-- **Composite helpers**
-  - `biomed_relation_evidence` – one-shot resolver from plain names to entity IDs, relations, and PMIDs
-  - `paper_enrich_with_pubtator` – enrich a Semantic Scholar paper with PubTator annotations
-  - `research_query` – unified literature search with optional PubTator enrichment
+### Semantic Scholar tools
+- `s2_search_papers` – general paper search with year, venue, citation count, and sorting filters
+- `s2_get_paper` – single paper metadata (supports S2 paperId, DOI, PMID, arXiv)
+- `s2_batch_get_papers` – batch metadata lookup (max 100)
+- `s2_get_citations` / `s2_get_references` – citation graph traversal
+- `s2_recommend_papers` – recommendation from positive/negative examples
+
+### PubTator3 tools
+- `pubtator_find_entity` – normalize biomedical entities (`@GENE_JAK1`, `@CHEMICAL_Pembrolizumab`, …)
+- `pubtator_find_relations` – entity–entity relations with PMID evidence counts
+- `pubtator_search` – free-text or relation-query search
+
+### Composite helpers
+- `biomed_relation_evidence` – one-shot resolver from plain names to entity IDs, relations, and PMIDs
+- `paper_enrich_with_pubtator` – enrich a Semantic Scholar paper with PubTator annotations
+- `research_query` – unified literature search with optional PubTator enrichment
 
 ---
 
@@ -114,7 +128,7 @@ Edit `~/.claude/settings.json` (global) or `~/.claude.json` (project-level) and 
       "command": "uv",
       "args": [
         "--project",
-        "/home/huyudi/Publish/paperSearch",
+        "/path/to/paperSearch",
         "run",
         "python",
         "-m",
@@ -139,7 +153,7 @@ Edit `~/.codex/.mcp.json`:
       "command": "uv",
       "args": [
         "--project",
-        "/home/huyudi/Publish/paperSearch",
+        "/path/to/paperSearch",
         "run",
         "python",
         "-m",
@@ -157,7 +171,7 @@ Or, if you use `~/.codex/config.toml`:
 [mcp_servers.paperSearch]
 type = "stdio"
 command = "uv"
-args = ["--project", "/home/huyudi/Publish/paperSearch", "run", "python", "-m", "paper_search.server"]
+args = ["--project", "/path/to/paperSearch", "run", "python", "-m", "paper_search.server"]
 
 [mcp_servers.paperSearch.env]
 ```
@@ -175,7 +189,7 @@ Edit `~/.config/opencode/opencode.json` (global) or create `opencode.json` in yo
       "command": [
         "uv",
         "--project",
-        "/home/huyudi/Publish/paperSearch",
+        "/path/to/paperSearch",
         "run",
         "python",
         "-m",
@@ -236,10 +250,23 @@ All tools return a normalized envelope:
 
 ---
 
+## Why paperSearch?
+
+Most LLM literature searches are shallow web lookups. paperSearch gives agents:
+
+- **Structured metadata**: DOI, PMID, citation counts, venues, authors, open-access PDFs.
+- **Entity-level reasoning**: genes, chemicals, diseases, variants from PubTator3.
+- **Citable evidence**: every relation is backed by PubMed PMIDs.
+- **Local caching**: SQLite-backed TTL cache reduces API calls and keeps results reproducible.
+- **Agent-native**: stdio MCP means it works out of the box with Claude Code, OpenCode, Codex, and any other MCP client.
+
+---
+
 ## Development
 
 ```bash
 uv sync --extra dev
+uv run ruff check .
 uv run pytest -q
 uv run python scripts/smoke_test.py
 ```

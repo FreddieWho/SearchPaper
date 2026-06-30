@@ -1,15 +1,15 @@
 import os
-from pathlib import Path
-from typing import Any, Optional
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
+from datetime import UTC, datetime
+from typing import Any
 
 from mcp.server.fastmcp import FastMCP
 
 from paper_search.cache import Cache
 from paper_search.config import load_config
-from paper_search.semantic_scholar import SemanticScholarClient
 from paper_search.pubtator3 import PubTator3Client
-
-mcp = FastMCP("paperSearch")
+from paper_search.semantic_scholar import SemanticScholarClient
 
 _config = load_config()
 
@@ -21,20 +21,32 @@ s2 = SemanticScholarClient(api_key=s2_api_key, cache=cache)
 pubtator = PubTator3Client(cache=cache)
 
 
+@asynccontextmanager
+async def _lifespan(_server: FastMCP) -> AsyncIterator[None]:
+    try:
+        yield
+    finally:
+        await s2.aclose()
+        await pubtator.aclose()
+
+
+mcp = FastMCP("paperSearch", lifespan=_lifespan)
+
+
 # --- Semantic Scholar Tools ---
 
 @mcp.tool()
 async def s2_search_papers(
     query: str,
-    year: Optional[str] = None,
-    venue: Optional[str] = None,
-    fields_of_study: Optional[list[str]] = None,
-    publication_types: Optional[list[str]] = None,
-    min_citation_count: Optional[int] = None,
-    open_access_pdf: Optional[bool] = None,
+    year: str | None = None,
+    venue: str | None = None,
+    fields_of_study: list[str] | None = None,
+    publication_types: list[str] | None = None,
+    min_citation_count: int | None = None,
+    open_access_pdf: bool | None = None,
     limit: int = 20,
     include_abstract: bool = False,
-    sort: Optional[str] = None,
+    sort: str | None = None,
     refresh: bool = False,
 ) -> dict[str, Any]:
     return await s2.search_papers(
@@ -86,7 +98,7 @@ async def s2_batch_get_papers(
 async def s2_get_citations(
     paper_id: str,
     limit: int = 50,
-    offset_or_token: Optional[str] = None,
+    offset_or_token: str | None = None,
     include_abstract: bool = False,
     refresh: bool = False,
 ) -> dict[str, Any]:
@@ -103,7 +115,7 @@ async def s2_get_citations(
 async def s2_get_references(
     paper_id: str,
     limit: int = 50,
-    offset_or_token: Optional[str] = None,
+    offset_or_token: str | None = None,
     include_abstract: bool = False,
     refresh: bool = False,
 ) -> dict[str, Any]:
@@ -119,7 +131,7 @@ async def s2_get_references(
 @mcp.tool()
 async def s2_recommend_papers(
     positive_paper_ids: list[str],
-    negative_paper_ids: Optional[list[str]] = None,
+    negative_paper_ids: list[str] | None = None,
     limit: int = 20,
     include_abstract: bool = False,
     refresh: bool = False,
@@ -198,8 +210,8 @@ async def _fetch_relation_pmids(
 async def biomed_relation_evidence(
     entity1_name: str,
     relation_type: str,
-    entity2_name: Optional[str] = None,
-    entity2_type: Optional[str] = None,
+    entity2_name: str | None = None,
+    entity2_type: str | None = None,
     limit_entities: int = 5,
     limit_pmids_per_pair: int = 5,
     refresh: bool = False,
@@ -215,7 +227,7 @@ async def biomed_relation_evidence(
             return {
                 "source": "composite",
                 "query": {"entity1_name": entity1_name, "relation_type": relation_type, "entity2_name": entity2_name},
-                "retrieved_at": __import__("datetime").datetime.utcnow().isoformat() + "Z",
+                "retrieved_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
                 "cache_key": None,
                 "from_cache": False,
                 "raw_ids": [],
@@ -259,7 +271,7 @@ async def biomed_relation_evidence(
         return {
             "source": "composite",
             "query": {"entity1_name": entity1_name, "entity2_name": entity2_name, "relation_type": relation_type},
-            "retrieved_at": __import__("datetime").datetime.utcnow().isoformat() + "Z",
+            "retrieved_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
             "cache_key": None,
             "from_cache": False,
             "raw_ids": [r["entity2"]["entity_id"] for r in results],
@@ -289,7 +301,7 @@ async def biomed_relation_evidence(
     return {
         "source": "composite",
         "query": {"entity1_name": entity1_name, "relation_type": relation_type, "entity2_name": entity2_name},
-        "retrieved_at": __import__("datetime").datetime.utcnow().isoformat() + "Z",
+        "retrieved_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         "cache_key": None,
         "from_cache": False,
         "raw_ids": [r["entity2"]["entity_id"] for r in all_results],
@@ -310,7 +322,7 @@ async def paper_enrich_with_pubtator(
         return {
             "source": "composite",
             "query": {"paper_id_or_pmid": paper_id_or_pmid},
-            "retrieved_at": __import__("datetime").datetime.utcnow().isoformat() + "Z",
+            "retrieved_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
             "cache_key": None,
             "from_cache": False,
             "raw_ids": [],
@@ -332,7 +344,7 @@ async def paper_enrich_with_pubtator(
     return {
         "source": "composite",
         "query": {"paper_id_or_pmid": paper_id_or_pmid},
-        "retrieved_at": __import__("datetime").datetime.utcnow().isoformat() + "Z",
+        "retrieved_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         "cache_key": None,
         "from_cache": False,
         "raw_ids": [paper.get("paper_id")],
@@ -345,7 +357,7 @@ async def paper_enrich_with_pubtator(
 async def research_query(
     query: str,
     domain: str = "general",
-    year: Optional[str] = None,
+    year: str | None = None,
     limit: int = 20,
     include_pubtator: bool = True,
     refresh: bool = False,
@@ -376,7 +388,7 @@ async def research_query(
     return {
         "source": "composite",
         "query": query,
-        "retrieved_at": __import__("datetime").datetime.utcnow().isoformat() + "Z",
+        "retrieved_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         "cache_key": s2_res.get("cache_key"),
         "from_cache": s2_res.get("from_cache", False),
         "raw_ids": s2_res.get("raw_ids", []),

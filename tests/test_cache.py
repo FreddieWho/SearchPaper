@@ -1,6 +1,5 @@
-import json
 import time
-import pytest
+
 from paper_search.cache import Cache
 
 

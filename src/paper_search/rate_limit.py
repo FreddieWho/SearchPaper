@@ -1,7 +1,8 @@
 import asyncio
 import random
-import httpx
 from typing import Any
+
+import httpx
 
 
 def _is_retryable_status(status: int) -> bool:

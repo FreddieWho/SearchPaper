@@ -1,12 +1,12 @@
 import asyncio
 import json
 import os
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from paper_search.cache import Cache
 from paper_search.config import load_config
-from paper_search.semantic_scholar import SemanticScholarClient
 from paper_search.pubtator3 import PubTator3Client
+from paper_search.semantic_scholar import SemanticScholarClient
 
 
 async def main():
@@ -20,7 +20,7 @@ async def main():
     pt = PubTator3Client(cache=cache)
 
     results = {
-        "run_at": datetime.now(timezone.utc).isoformat(),
+        "run_at": datetime.now(UTC).isoformat(),
         "tests": {},
     }
 

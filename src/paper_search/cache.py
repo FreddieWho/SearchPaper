@@ -2,17 +2,24 @@ import hashlib
 import json
 import sqlite3
 import time
-from typing import Any, Optional
+from typing import Any
 
 
 class Cache:
-    def __init__(self, db_path: Optional[str] = None, default_ttl_seconds: int = 86400):
+    def __init__(self, db_path: str | None = None, default_ttl_seconds: int = 86400):
         self.db_path = db_path or "/tmp/paper_search_cache.db"
         self.default_ttl = default_ttl_seconds
         self._init_db()
 
     def _init_db(self):
+        # NOTE: sqlite calls here are synchronous and run inside async tool
+        # handlers. For this single-user stdio server each call completes in
+        # well under a millisecond, so blocking the event loop is negligible.
+        # If this ever serves concurrent clients, move reads/writes to a thread
+        # (e.g. asyncio.to_thread) or an async sqlite driver.
         with sqlite3.connect(self.db_path) as conn:
+            conn.execute("PRAGMA journal_mode=WAL")
+            conn.execute("PRAGMA synchronous=NORMAL")
             conn.execute(
                 """
                 CREATE TABLE IF NOT EXISTS cache (
@@ -35,10 +42,10 @@ class Cache:
     def _hash(obj: Any) -> str:
         return hashlib.sha256(json.dumps(obj, sort_keys=True, default=str).encode()).hexdigest()
 
-    def _make_key(self, source: str, endpoint: str, params: Any, fields: Optional[list[str]]) -> str:
+    def _make_key(self, source: str, endpoint: str, params: Any, fields: list[str] | None) -> str:
         return f"{source}:{endpoint}:{self._hash(params)}:{self._hash(fields or [])}"
 
-    def get(self, source: str, endpoint: str, params: Any, fields: Optional[list[str]]):
+    def get(self, source: str, endpoint: str, params: Any, fields: list[str] | None):
         key = self._make_key(source, endpoint, params, fields)
         with sqlite3.connect(self.db_path) as conn:
             row = conn.execute(
@@ -54,9 +61,9 @@ class Cache:
         source: str,
         endpoint: str,
         params: Any,
-        fields: Optional[list[str]],
+        fields: list[str] | None,
         value: Any,
-        ttl_seconds: Optional[int] = None,
+        ttl_seconds: int | None = None,
     ):
         key = self._make_key(source, endpoint, params, fields)
         ttl = ttl_seconds or self.default_ttl

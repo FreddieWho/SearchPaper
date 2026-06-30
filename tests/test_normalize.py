@@ -1,5 +1,4 @@
-import pytest
-from paper_search.normalize import normalize_paper, normalize_entity, normalize_relation
+from paper_search.normalize import normalize_entity, normalize_paper, normalize_relation
 
 
 def test_normalize_paper_minimal():
@@ -88,4 +87,7 @@ def test_normalize_relation():
     assert len(result["evidence_urls"]) == 2
     assert result["evidence_urls"][0]["pmid"] == "123"
     assert "https://pubmed.ncbi.nlm.nih.gov/123/" in result["evidence_urls"][0]["pubmed_url"]
-    assert "https://www.ncbi.nlm.nih.gov/research/pubtator3/publication/123" in result["evidence_urls"][0]["pubtator_url"]
+    assert (
+        "https://www.ncbi.nlm.nih.gov/research/pubtator3/publication/123"
+        in result["evidence_urls"][0]["pubtator_url"]
+    )

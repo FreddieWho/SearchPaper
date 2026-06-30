@@ -3,8 +3,8 @@ import respx
 from httpx import Response
 
 from paper_search.cache import Cache
-from paper_search.semantic_scholar import SemanticScholarClient
 from paper_search.pubtator3 import PubTator3Client
+from paper_search.semantic_scholar import SemanticScholarClient
 
 
 @pytest.fixture
@@ -14,7 +14,7 @@ def tmp_cache(tmp_path):
 
 @respx.mock
 async def test_s2_search_papers(tmp_cache):
-    route = respx.get("https://api.semanticscholar.org/graph/v1/paper/search").mock(
+    respx.get("https://api.semanticscholar.org/graph/v1/paper/search").mock(
         return_value=Response(200, json={
             "total": 1,
             "data": [{
@@ -40,7 +40,7 @@ async def test_s2_search_papers(tmp_cache):
 
 @respx.mock
 async def test_s2_get_paper_404_returns_structured(tmp_cache):
-    route = respx.get("https://api.semanticscholar.org/graph/v1/paper/doi:10.0000/nope").mock(
+    respx.get("https://api.semanticscholar.org/graph/v1/paper/doi:10.0000/nope").mock(
         return_value=Response(404, json={"error": "Not found"})
     )
     client = SemanticScholarClient(cache=tmp_cache)
@@ -51,7 +51,7 @@ async def test_s2_get_paper_404_returns_structured(tmp_cache):
 
 @respx.mock
 async def test_pubtator_find_entity(tmp_cache):
-    route = respx.get("https://www.ncbi.nlm.nih.gov/research/pubtator3-api/entity/autocomplete/").mock(
+    respx.get("https://www.ncbi.nlm.nih.gov/research/pubtator3-api/entity/autocomplete/").mock(
         return_value=Response(200, json=[
             {"id": "@GENE_JAK1", "name": "JAK1", "type": "gene"}
         ])
@@ -64,9 +64,13 @@ async def test_pubtator_find_entity(tmp_cache):
 
 @respx.mock
 async def test_pubtator_find_relations(tmp_cache):
-    route = respx.get("https://www.ncbi.nlm.nih.gov/research/pubtator3-api/relations").mock(
+    respx.get("https://www.ncbi.nlm.nih.gov/research/pubtator3-api/relations").mock(
         return_value=Response(200, json=[
-            {"entity1": {"id": "@GENE_JAK1"}, "entity2": {"id": "@CHEMICAL_X", "name": "X", "type": "chemical"}, "pmids": ["123"]}
+            {
+                "entity1": {"id": "@GENE_JAK1"},
+                "entity2": {"id": "@CHEMICAL_X", "name": "X", "type": "chemical"},
+                "pmids": ["123"],
+            }
         ])
     )
     client = PubTator3Client(cache=tmp_cache)
@@ -77,7 +81,7 @@ async def test_pubtator_find_relations(tmp_cache):
 
 @respx.mock
 async def test_pubtator_search(tmp_cache):
-    route = respx.get("https://www.ncbi.nlm.nih.gov/research/pubtator3-api/search/").mock(
+    respx.get("https://www.ncbi.nlm.nih.gov/research/pubtator3-api/search/").mock(
         return_value=Response(200, json=[
             {"pmid": "123", "title": "Study"}
         ])
