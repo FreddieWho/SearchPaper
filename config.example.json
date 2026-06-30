@@ -1,0 +1,4 @@
+{
+  "semantic_scholar_api_key": "YOUR_SEMANTIC_SCHOLAR_API_KEY",
+  "cache_path": "/tmp/paper_search_cache.db"
+}

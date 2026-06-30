@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "paperSearch": {
+      "type": "local",
+      "command": "uv",
+      "args": ["--project", "/home/huyudi/Publish/paperSearch", "run", "python", "-m", "paper_search.server"],
+      "env": {}
+    }
+  }
+}
