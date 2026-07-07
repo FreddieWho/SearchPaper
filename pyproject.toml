@@ -51,8 +51,6 @@ dev = [
 
 [project.scripts]
 searchpaper = "searchpaper.cli:main"
-# Compatibility alias for the previous package name
-paper-search = "searchpaper.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/freddiewho/paperSearch"

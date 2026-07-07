@@ -342,7 +342,7 @@ def make_envelope(
     }
 
 
-# Backward-compatibility aliases for legacy ``paper_search`` users.
+# Backward-compatibility aliases for legacy package users.
 
 
 class UnifiedPaper(BaseModel):

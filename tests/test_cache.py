@@ -1,6 +1,6 @@
 import time
 
-from paper_search.cache import Cache
+from searchpaper.cache import Cache
 
 
 def test_cache_set_get(tmp_path):

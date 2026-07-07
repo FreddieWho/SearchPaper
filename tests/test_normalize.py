@@ -1,4 +1,4 @@
-from paper_search.normalize import normalize_entity, normalize_paper, normalize_relation
+from searchpaper.normalize import normalize_entity, normalize_paper, normalize_relation
 
 
 def test_normalize_paper_minimal():

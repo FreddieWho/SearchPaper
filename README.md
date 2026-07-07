@@ -65,8 +65,7 @@ searchpaper doctor
 
 ## Installation
 
-The package is named `searchpaper` and provides the `searchpaper` CLI. A
-compatibility alias `paper-search` is also kept for existing users.
+The package is named `searchpaper` and provides the `searchpaper` CLI.
 
 ```bash
 uv pip install -e .
