@@ -1,6 +1,7 @@
 .env
 config.json
 examples/smoke_test_output.json
+.searchpaper/
 __pycache__/
 *.py[cod]
 *$py.class

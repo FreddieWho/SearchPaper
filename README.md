@@ -1,264 +1,215 @@
-# paperSearch
+# SearchPaper
 
 [中文文档](README.zh.md)
 
-**paperSearch** is a local stdio MCP server that gives AI coding agents — Claude Code, OpenCode, and Codex — structured, citable access to academic literature. It wraps **Semantic Scholar** (paper search, citations, references, recommendations) and **PubTator3** (biomedical entity normalization, entity relations, PMID evidence) into one cached, reproducible toolset.
+**SearchPaper** is a literature-first infrastructure layer for agent-assisted
+research. It searches open scholarly literature across multiple sources,
+normalizes identifiers, merges duplicate records conservatively, preserves
+provenance, and exports traceable results.
 
-Use cases: literature review automation, systematic review support, citation graph analysis, gene–drug–disease relation mining, biomedical evidence retrieval, paper recommendation, and research question answering inside your agent workflow.
+It is **not** a full research agent, systematic-review agent, evidence-evaluation
+engine, PDF parser, or Zotero replacement.
 
-Keywords: MCP server, academic search, paper search, Semantic Scholar, PubTator3, PubMed, citation graph, biomedical NLP, entity relation, literature review, bioinformatics, immuno-oncology, single-cell, immunotherapy, research assistant, AI agent tools.
+Supported sources: PubMed, Crossref, OpenAlex, Europe PMC, arXiv, bioRxiv,
+medRxiv, Semantic Scholar, and PubTator3 (biomedical signals). All core
+workflows are **no-key usable** by default; API keys are optional accelerators.
 
 ---
 
 ## What it does
 
-- **Search academic papers** across Semantic Scholar with filters for year, venue, citation count, open access, and sort order.
-- **Resolve biomedical entities** to canonical PubTator3 IDs: `@GENE_JAK1`, `@CHEMICAL_Pembrolizumab`, `@DISEASE_Neoplasms`.
-- **Mine entity relations** such as `treat`, `inhibit`, `cause`, `associate`, `interact`, with links back to PubMed evidence.
-- **Traverse citation graphs** (citations/references) and get paper recommendations from examples.
-- **Cache everything locally** in SQLite so repeated queries are fast and reproducible.
+- **Multi-source literature search** across PubMed, Crossref, OpenAlex, Europe
+  PMC, and Semantic Scholar.
+- **Identifier resolution** for DOI, PMID, PMCID, arXiv, OpenAlex, and Semantic
+  Scholar IDs.
+- **Conservative duplicate merge** preserving source provenance, conflicts, and
+  merge reasons.
+- **Local SQLite cache** with query/source-error trace for speed and
+  reproducibility.
+- **Literature signals** from PubTator3 with explicit signal levels and
+  interpretation warnings.
+- **CLI-first interface** and a small, stable MCP tool surface.
+- **Agent integration** helpers for OpenCode, Codex, and Claude.
 
 ---
 
-## Features
-
-### Semantic Scholar tools
-- `s2_search_papers` – general paper search with year, venue, citation count, and sorting filters
-- `s2_get_paper` – single paper metadata (supports S2 paperId, DOI, PMID, arXiv)
-- `s2_batch_get_papers` – batch metadata lookup (max 100)
-- `s2_get_citations` / `s2_get_references` – citation graph traversal
-- `s2_recommend_papers` – recommendation from positive/negative examples
-
-### PubTator3 tools
-- `pubtator_find_entity` – normalize biomedical entities (`@GENE_JAK1`, `@CHEMICAL_Pembrolizumab`, …)
-- `pubtator_find_relations` – entity–entity relations with PMID evidence counts
-- `pubtator_search` – free-text or relation-query search
-
-### Composite helpers
-- `biomed_relation_evidence` – one-shot resolver from plain names to entity IDs, relations, and PMIDs
-- `paper_enrich_with_pubtator` – enrich a Semantic Scholar paper with PubTator annotations
-- `research_query` – unified literature search with optional PubTator enrichment
-
----
-
-## Quick Start
+## Quick start
 
 ```bash
 git clone <repo-url> ~/Publish/paperSearch
 cd ~/Publish/paperSearch
 uv sync --extra dev
+uv run pytest -q
 ```
 
-Create your local config file:
+Search:
 
 ```bash
-mkdir -p ~/.config/paperSearch
-cp config.example.json ~/.config/paperSearch/config.json
-# edit ~/.config/paperSearch/config.json and add your Semantic Scholar API key
+searchpaper search "HCC TACE PD-1" --json
 ```
 
-Run the smoke test:
+Resolve a DOI:
 
 ```bash
-uv run python scripts/smoke_test.py
+searchpaper resolve --doi 10.1038/s41586-021-03819-2 --json
+```
+
+Check source health:
+
+```bash
+searchpaper sources status --json
+searchpaper doctor
+```
+
+---
+
+## Installation
+
+The package is named `searchpaper` and provides the `searchpaper` CLI. A
+compatibility alias `paper-search` is also kept for existing users.
+
+```bash
+uv pip install -e .
 ```
 
 ---
 
 ## Configuration
 
-paperSearch reads a user-level JSON config file, then lets environment variables override it.
-
-### Config file (recommended)
-
-Path: `~/.config/paperSearch/config.json`
+SearchPaper reads `~/.config/searchpaper/config.json`. Environment variables
+override file values.
 
 ```json
 {
-  "semantic_scholar_api_key": "YOUR_SEMANTIC_SCHOLAR_API_KEY",
-  "cache_path": "/tmp/paper_search_cache.db"
+  "semantic_scholar_api_key": "YOUR_KEY",
+  "crossref_email": "you@example.com",
+  "openalex_email": "you@example.com",
+  "ncbi_api_key": "YOUR_NCBI_KEY",
+  "cache_path": "~/.cache/searchpaper/cache.db"
 }
 ```
 
-| Key | Required | Default | Description |
-|---|---|---|---|
-| `semantic_scholar_api_key` | recommended | — | See [API tokens](#api-tokens) below |
-| `cache_path` | no | `/tmp/paper_search_cache.db` | Local SQLite cache file |
+| Variable | Maps to | Description |
+|---|---|---|
+| `SEARCHPAPER_CACHE` | `cache_path` | SQLite cache file |
+| `SEARCHPAPER_CONFIG` | `config_path` | Config file path |
+| `SEMANTIC_SCHOLAR_API_KEY` | `semantic_scholar_api_key` | Optional S2 key |
+| `CROSSREF_EMAIL` | `crossref_email` | Polite pool email |
+| `OPENALEX_EMAIL` | `openalex_email` | Polite pool email |
+| `NCBI_API_KEY` | `ncbi_api_key` | Optional NCBI key |
 
-### Environment variables
+---
 
-These override the config file if set:
+## CLI commands
 
-| Variable | Description |
+| Command | Description |
 |---|---|
-| `SEMANTIC_SCHOLAR_API_KEY` | Semantic Scholar API key |
-| `PAPER_SEARCH_CACHE` | SQLite cache file path |
-
-An `.env.example` template is included for users who prefer dotenv-style setup. **Do not commit `.env` or `config.json`.** Both are already ignored in `.gitignore`.
+| `searchpaper search "query" --json` | Search literature |
+| `searchpaper plan "query" --profile auto --json` | Plan source routing |
+| `searchpaper get --pmid 12345 --json` | Get work by identifier |
+| `searchpaper resolve --doi 10.xxx --json` | Resolve identifier across sources |
+| `searchpaper sources status --json` | Source health status |
+| `searchpaper sources tiers --json` | Source tier catalog |
+| `searchpaper sources preflight --sources pubmed,arxiv --json` | Probe selected sources |
+| `searchpaper pubmed mesh "term" --json` | MeSH descriptor lookup |
+| `searchpaper pubmed related 12345 --json` | PubMed related articles |
+| `searchpaper pubmed convert-ids 10.xxx --json` | DOI/PMID/PMCID conversion |
+| `searchpaper cache stats` | Cache statistics |
+| `searchpaper cache clear` | Clear cache |
+| `searchpaper doctor` | Diagnostics |
+| `searchpaper capabilities --json` | Report capabilities |
+| `searchpaper serve --mcp` | Start MCP server (stdio) |
+| `searchpaper signals "PDCD1" --entity2-type chemical --json` | Biomedical signals |
+| `searchpaper export results.json --format bibtex` | Export results |
+| `searchpaper references convert refs.txt --format ris` | Convert reference IDs |
+| `searchpaper install --target opencode` | Install agent integration |
+| `searchpaper integrate dry-run --target opencode` | Preview integration changes |
+| `searchpaper integrate uninstall --target opencode` | Remove integration |
 
 ---
 
-## API Tokens
+## MCP tools
 
-### Semantic Scholar API Key
+The MCP server exposes a small stable surface:
 
-- **Purpose:** Authenticates requests to the Semantic Scholar Academic Graph API. Using a key raises rate limits compared to anonymous access.
-- **Source:** https://www.semanticscholar.org/product/api
-- **Required?** No. The server works without a key, but you will hit stricter anonymous rate limits.
-- **How to provide:** Write it in `~/.config/paperSearch/config.json` under `semantic_scholar_api_key`, or export `SEMANTIC_SCHOLAR_API_KEY`.
+- `search_literature`
+- `get_work`
+- `resolve_identifiers`
+- `get_source_status`
+- `search_literature_signals`
+- `expand_from_work`
+- `export_records`
 
-### PubTator3
-
-- **Purpose:** NCBI PubTator3 provides biomedical entity normalization, relation mining, and article search.
-- **Source:** https://www.ncbi.nlm.nih.gov/research/pubtator3/
-- **Required?** No token is required; PubTator3 is a public NCBI service. Respect NCBI rate-limit guidelines.
+No source-specific tools are exposed by default.
 
 ---
 
-## Agent Setup
-
-### Claude Code
-
-Edit `~/.claude/settings.json` (global) or `~/.claude.json` (project-level) and add an entry under `mcpServers`:
-
-```json
-{
-  "mcpServers": {
-    "paperSearch": {
-      "command": "uv",
-      "args": [
-        "--project",
-        "/path/to/paperSearch",
-        "run",
-        "python",
-        "-m",
-        "paper_search.server"
-      ],
-      "env": {}
-    }
-  }
-}
-```
-
-The API key is read from `~/.config/paperSearch/config.json`, so you do not need to put it in the Claude config.
-
-### Codex
-
-Edit `~/.codex/.mcp.json`:
-
-```json
-{
-  "mcpServers": {
-    "paperSearch": {
-      "command": "uv",
-      "args": [
-        "--project",
-        "/path/to/paperSearch",
-        "run",
-        "python",
-        "-m",
-        "paper_search.server"
-      ],
-      "env": {}
-    }
-  }
-}
-```
-
-Or, if you use `~/.codex/config.toml`:
-
-```toml
-[mcp_servers.paperSearch]
-type = "stdio"
-command = "uv"
-args = ["--project", "/path/to/paperSearch", "run", "python", "-m", "paper_search.server"]
-
-[mcp_servers.paperSearch.env]
-```
+## Agent integration
 
 ### OpenCode
 
-Edit `~/.config/opencode/opencode.json` (global) or create `opencode.json` in your project root:
-
-```json
-{
-  "$schema": "https://opencode.ai/config.json",
-  "mcp": {
-    "paperSearch": {
-      "type": "local",
-      "command": [
-        "uv",
-        "--project",
-        "/path/to/paperSearch",
-        "run",
-        "python",
-        "-m",
-        "paper_search.server"
-      ],
-      "environment": {},
-      "enabled": true
-    }
-  }
-}
+```bash
+searchpaper install --target opencode
 ```
+
+This writes an MCP server entry and installs the cross-agent skill.
+
+### Codex and Claude
+
+Scaffolds are generated with MCP config snippets and instruction files:
+
+```bash
+searchpaper install --target codex
+searchpaper install --target claude
+searchpaper install --target all
+```
+
+Review the generated files and enable the `searchpaper` MCP server in your
+agent's settings.
 
 ---
 
-## Tool Reference
+## Signal levels
 
-All tools return a normalized envelope:
+SearchPaper returns literature signals with explicit levels:
 
-```json
-{
-  "source": "semantic_scholar|pubtator3|composite",
-  "query": ...,
-  "retrieved_at": "2026-06-30T12:00:00Z",
-  "cache_key": "sha256...",
-  "from_cache": false,
-  "raw_ids": [...],
-  "items": [...],
-  "warnings": []
-}
-```
+1. **Bibliographic** — title, venue, year, authors, citation, source hit.
+2. **Abstract** — title/abstract/keywords/MeSH/concepts.
+3. **Curated or extracted** — PubTator3, MeSH-like relations, source-provided
+   entity relations.
+4. **Full-text anchor** — reserved for future OA/PMC support.
+5. **Evaluated evidence** — out of scope for SearchPaper.
 
-### Semantic Scholar
-
-| Tool | Description |
-|---|---|
-| `s2_search_papers` | General paper search |
-| `s2_get_paper` | Single paper details |
-| `s2_batch_get_papers` | Batch metadata lookup (max 100) |
-| `s2_get_citations` | Papers citing a given paper |
-| `s2_get_references` | Papers referenced by a given paper |
-| `s2_recommend_papers` | Recommendations from example papers |
-
-### PubTator3
-
-| Tool | Description |
-|---|---|
-| `pubtator_find_entity` | Entity autocomplete/normalization |
-| `pubtator_find_relations` | Biomedical relations between entities |
-| `pubtator_search` | Article/PMID search |
-
-### Composite
-
-| Tool | Description |
-|---|---|
-| `biomed_relation_evidence` | Resolve names → entity IDs → relations → PMIDs |
-| `paper_enrich_with_pubtator` | Enrich a paper with PubTator annotations |
-| `research_query` | Unified search with optional PubTator enrichment |
+A signal is not an evaluated conclusion. Do not report PubTator co-mentions or
+relations as proof of causality.
 
 ---
 
-## Why paperSearch?
+## Source degradation
 
-Most LLM literature searches are shallow web lookups. paperSearch gives agents:
+Public APIs can be unreliable. If a source fails, SearchPaper returns partial
+results with clear warnings and trace entries. A degraded source does not fail
+the whole search. Use `searchpaper sources status` to see current source health.
 
-- **Structured metadata**: DOI, PMID, citation counts, venues, authors, open-access PDFs.
-- **Entity-level reasoning**: genes, chemicals, diseases, variants from PubTator3.
-- **Citable evidence**: every relation is backed by PubMed PMIDs.
-- **Local caching**: SQLite-backed TTL cache reduces API calls and keeps results reproducible.
-- **Agent-native**: stdio MCP means it works out of the box with Claude Code, OpenCode, Codex, and any other MCP client.
+---
+
+## Cache and privacy
+
+- Cache is stored in `~/.cache/searchpaper/cache.db` by default.
+- Use `--no-cache` on `search` to bypass it.
+- The cache contains raw API responses and query identifiers; keep the file in a
+  secure location.
+
+---
+
+## Testing without live APIs
+
+CI runs fixture-backed tests only. Live API tests are optional and skipped by
+default:
+
+```bash
+uv run pytest -q
+```
 
 ---
 
@@ -267,8 +218,8 @@ Most LLM literature searches are shallow web lookups. paperSearch gives agents:
 ```bash
 uv sync --extra dev
 uv run ruff check .
+uv run ruff format .
 uv run pytest -q
-uv run python scripts/smoke_test.py
 ```
 
 ---

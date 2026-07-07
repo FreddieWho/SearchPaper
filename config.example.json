@@ -1,4 +1,8 @@
 {
   "semantic_scholar_api_key": "YOUR_SEMANTIC_SCHOLAR_API_KEY",
-  "cache_path": "/tmp/paper_search_cache.db"
+  "crossref_email": "you@example.com",
+  "openalex_email": "you@example.com",
+  "ncbi_api_key": "YOUR_NCBI_API_KEY",
+  "europepmc_api_key": "YOUR_EUROPEPMC_API_KEY",
+  "cache_path": "~/.cache/searchpaper/cache.db"
 }
