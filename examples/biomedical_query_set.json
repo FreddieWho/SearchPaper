@@ -1,0 +1,54 @@
+{
+  "schema_version": "0.2",
+  "description": "Curated biomedical queries for smoke testing and benchmark evaluation.",
+  "queries": [
+    {
+      "name": "hcc_immunotherapy",
+      "query": "HCC TACE PD-1",
+      "domain": "oncology",
+      "expected_keywords": ["hepatocellular carcinoma", "TACE", "PD-1"]
+    },
+    {
+      "name": "crispr_cancer",
+      "query": "CRISPR screening cancer",
+      "domain": "genomics",
+      "expected_keywords": ["CRISPR", "screening", "cancer"]
+    },
+    {
+      "name": "single_cell_seq",
+      "query": "single-cell RNA-seq",
+      "domain": "methods",
+      "expected_keywords": ["single-cell", "RNA-seq"]
+    },
+    {
+      "name": "immune_checkpoint",
+      "query": "immune checkpoint inhibitors",
+      "domain": "immunotherapy",
+      "expected_keywords": ["immune checkpoint", "inhibitors"]
+    },
+    {
+      "name": "car_t_therapy",
+      "query": "CAR-T therapy",
+      "domain": "immunotherapy",
+      "expected_keywords": ["CAR-T", "therapy"]
+    },
+    {
+      "name": "tumor_microenvironment",
+      "query": "tumor microenvironment",
+      "domain": "oncology",
+      "expected_keywords": ["tumor", "microenvironment"]
+    },
+    {
+      "name": "pd_l1_expression",
+      "query": "PD-L1 expression",
+      "domain": "oncology",
+      "expected_keywords": ["PD-L1", "expression"]
+    },
+    {
+      "name": "cancer_vaccine",
+      "query": "cancer vaccine",
+      "domain": "immunotherapy",
+      "expected_keywords": ["cancer", "vaccine"]
+    }
+  ]
+}

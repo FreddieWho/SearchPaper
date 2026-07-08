@@ -72,6 +72,7 @@ SearchPaper 读取 `~/.config/searchpaper/config.json`，环境变量优先覆�
 | `searchpaper search "query" --json` | 搜索文献 |
 | `searchpaper get --pmid 12345 --json` | 按标识符获取作品 |
 | `searchpaper resolve --doi 10.xxx --json` | 跨源解析标识符 |
+| `searchpaper expand --doi 10.xxx --by citations,references --json` | 从已知作品扩展 |
 | `searchpaper sources status --json` | 源健康状态 |
 | `searchpaper cache stats` | 缓存统计 |
 | `searchpaper cache clear` | 清空缓存 |

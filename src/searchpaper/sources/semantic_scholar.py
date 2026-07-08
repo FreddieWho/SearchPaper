@@ -151,6 +151,77 @@ class SemanticScholarAdapter(SourceAdapter):
             return None
         return _normalize_paper(resp.json())
 
+    async def _resolve_paper_id(self, identifier: WorkIdentifier) -> str | None:
+        """Return a canonical S2 paperId for the identifier, using S2 lookup if needed."""
+        if identifier.type.value == "semantic_scholar":
+            return identifier.value
+        rec = await self.get(identifier)
+        if rec is None:
+            return None
+        return rec.raw_record.get("paperId") or rec.source_record_id
+
+    async def _fetch_paper_list(
+        self, url: str, params: dict[str, Any] | None = None, nested_key: str | None = None
+    ) -> list[SourceRecord]:
+        """Fetch a list of papers from an S2 endpoint and normalize results."""
+        try:
+            resp = await self.http.get(url, params=params)
+            if resp.status_code >= 400:
+                return []
+            data = resp.json()
+            if not isinstance(data, dict):
+                return []
+            items: list[dict[str, Any]] = []
+            if nested_key:
+                for wrapper in data.get("data", []):
+                    if isinstance(wrapper, dict) and isinstance(wrapper.get(nested_key), dict):
+                        items.append(wrapper[nested_key])
+            else:
+                items = data.get("data", [])
+            return [_normalize_paper(i) for i in items if isinstance(i, dict)]
+        except Exception:
+            return []
+
+    async def get_citations(self, identifier: WorkIdentifier, limit: int = 20) -> list[SourceRecord]:
+        paper_id = await self._resolve_paper_id(identifier)
+        if not paper_id:
+            return []
+        return await self._fetch_paper_list(
+            f"{S2_GRAPH_BASE}/paper/{paper_id}/citations",
+            params={"fields": self._build_fields(include_abstract=False), "limit": limit},
+            nested_key="citingPaper",
+        )
+
+    async def get_references(self, identifier: WorkIdentifier, limit: int = 20) -> list[SourceRecord]:
+        paper_id = await self._resolve_paper_id(identifier)
+        if not paper_id:
+            return []
+        return await self._fetch_paper_list(
+            f"{S2_GRAPH_BASE}/paper/{paper_id}/references",
+            params={"fields": self._build_fields(include_abstract=False), "limit": limit},
+            nested_key="citedPaper",
+        )
+
+    async def get_recommendations(self, identifier: WorkIdentifier, limit: int = 20) -> list[SourceRecord]:
+        paper_id = await self._resolve_paper_id(identifier)
+        if not paper_id:
+            return []
+        try:
+            resp = await self.http.post(
+                f"{S2_GRAPH_BASE}/paper/recommendations",
+                params={"fields": self._build_fields(include_abstract=False), "limit": limit},
+                json={"positivePaperIds": [paper_id]},
+            )
+            if resp.status_code >= 400:
+                return []
+            data = resp.json()
+            if not isinstance(data, dict):
+                return []
+            papers = data.get("recommendedPapers", [])
+            return [_normalize_paper(p) for p in papers if isinstance(p, dict)]
+        except Exception:
+            return []
+
     async def resolve(self, identifier: WorkIdentifier) -> list[SourceRecord]:
         rec = await self.get(identifier)
         return [rec] if rec else []

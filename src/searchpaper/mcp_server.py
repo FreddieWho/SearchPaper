@@ -213,7 +213,7 @@ async def expand_from_work(
     sources: list[str] | None = None,
     limit: int = 20,
 ) -> dict[str, Any]:
-    """Expand from a known work by citations, references, or similar (adapter-dependent)."""
+    """Expand from a known work by citations, references, or similar papers."""
     wid = identify(identifier)
     if not wid:
         return {
@@ -223,17 +223,14 @@ async def expand_from_work(
             "warnings": [],
             "trace": {},
         }
-    # For v0.2, expansion is a best-effort resolve; full citation/reference expansion is a v0.3+ extension point.
-    result = await _engine.resolve(wid, sources=sources)
+    result = await _engine.expand(wid, by=by, limit=limit)
     data = result.data if hasattr(result, "data") else result.get("data", {})
     works = data.get("works", [])
-    warnings = [f"expand_from_work by {by} is a v0.2 extension point; returning resolved work."]
-    warnings.extend(result.warnings if hasattr(result, "warnings") else result.get("warnings", []))
     return {
         "schema_version": "0.2",
         "object_type": "expand_result",
         "data": {"works": works, "by": by or [], "count": len(works)},
-        "warnings": warnings,
+        "warnings": result.warnings if hasattr(result, "warnings") else result.get("warnings", []),
         "trace": result.trace if hasattr(result, "trace") else result.get("trace", {}),
     }
 

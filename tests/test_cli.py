@@ -116,3 +116,23 @@ def test_cli_search(tmp_path):
     assert result.exit_code == 0
     assert "HCC TACE PD-1 Response" in result.output
     assert "pubmed" in result.output
+
+
+@respx.mock
+def test_cli_expand():
+    respx.get("https://api.semanticscholar.org/graph/v1/paper/DOI:10.1000/test").mock(
+        return_value=Response(
+            200,
+            json={"paperId": "s2id", "title": "S2 Test", "externalIds": {"DOI": "10.1000/test"}},
+        )
+    )
+    respx.get("https://api.semanticscholar.org/graph/v1/paper/s2id/citations").mock(
+        return_value=Response(
+            200,
+            json={"data": [{"citingPaper": {"paperId": "cit1", "title": "Citing", "year": 2024}}]},
+        )
+    )
+
+    result = runner.invoke(app, ["expand", "--doi", "10.1000/test", "--by", "citations", "--limit", "5", "--json"])
+    assert result.exit_code == 0
+    assert "cit1" in result.output

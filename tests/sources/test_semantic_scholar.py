@@ -51,3 +51,75 @@ async def test_semantic_scholar_get_by_doi():
     await adapter.aclose()
     assert record is not None
     assert record.identifiers.get("doi") == "10.1000/test"
+
+
+@respx.mock
+async def test_semantic_scholar_get_citations():
+    respx.get("https://api.semanticscholar.org/graph/v1/paper/DOI:10.1000/test").mock(
+        return_value=Response(
+            200,
+            json={"paperId": "abc123", "title": "S2 Test", "externalIds": {"DOI": "10.1000/test"}},
+        )
+    )
+    respx.get("https://api.semanticscholar.org/graph/v1/paper/abc123/citations").mock(
+        return_value=Response(
+            200,
+            json={
+                "data": [
+                    {"citingPaper": {"paperId": "cit1", "title": "Citing One", "year": 2024}},
+                    {"citingPaper": {"paperId": "cit2", "title": "Citing Two", "year": 2024}},
+                ]
+            },
+        )
+    )
+    adapter = SemanticScholarAdapter()
+    records = await adapter.get_citations(WorkIdentifier(type="doi", value="10.1000/test"), limit=5)
+    await adapter.aclose()
+    assert len(records) == 2
+    assert records[0].source_record_id == "cit1"
+
+
+@respx.mock
+async def test_semantic_scholar_get_references():
+    respx.get("https://api.semanticscholar.org/graph/v1/paper/DOI:10.1000/test").mock(
+        return_value=Response(
+            200,
+            json={"paperId": "abc123", "title": "S2 Test", "externalIds": {"DOI": "10.1000/test"}},
+        )
+    )
+    respx.get("https://api.semanticscholar.org/graph/v1/paper/abc123/references").mock(
+        return_value=Response(
+            200,
+            json={
+                "data": [
+                    {"citedPaper": {"paperId": "ref1", "title": "Reference One", "year": 2020}},
+                ]
+            },
+        )
+    )
+    adapter = SemanticScholarAdapter()
+    records = await adapter.get_references(WorkIdentifier(type="doi", value="10.1000/test"), limit=5)
+    await adapter.aclose()
+    assert len(records) == 1
+    assert records[0].source_record_id == "ref1"
+
+
+@respx.mock
+async def test_semantic_scholar_get_recommendations():
+    respx.get("https://api.semanticscholar.org/graph/v1/paper/DOI:10.1000/test").mock(
+        return_value=Response(
+            200,
+            json={"paperId": "abc123", "title": "S2 Test", "externalIds": {"DOI": "10.1000/test"}},
+        )
+    )
+    respx.post("https://api.semanticscholar.org/graph/v1/paper/recommendations").mock(
+        return_value=Response(
+            200,
+            json={"recommendedPapers": [{"paperId": "rec1", "title": "Recommended", "year": 2023}]},
+        )
+    )
+    adapter = SemanticScholarAdapter()
+    records = await adapter.get_recommendations(WorkIdentifier(type="doi", value="10.1000/test"), limit=5)
+    await adapter.aclose()
+    assert len(records) == 1
+    assert records[0].source_record_id == "rec1"

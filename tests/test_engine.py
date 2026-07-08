@@ -69,3 +69,27 @@ async def test_engine_get(tmp_cache):
     data = result.data
     assert len(data["works"]) == 1
     assert data["works"][0]["identifiers"]["pmid"] == "12345"
+
+
+@respx.mock
+async def test_engine_expand_citations(tmp_cache):
+    respx.get("https://api.semanticscholar.org/graph/v1/paper/DOI:10.1000/test").mock(
+        return_value=Response(
+            200,
+            json={"paperId": "s2id", "title": "S2 Test", "externalIds": {"DOI": "10.1000/test"}},
+        )
+    )
+    respx.get("https://api.semanticscholar.org/graph/v1/paper/s2id/citations").mock(
+        return_value=Response(
+            200,
+            json={"data": [{"citingPaper": {"paperId": "cit1", "title": "Citing", "year": 2024}}]},
+        )
+    )
+
+    from searchpaper.identifiers import identify
+
+    engine = SearchEngine(cache=tmp_cache)
+    result = await engine.expand(identify("10.1000/test"), by=["citations"], limit=5)
+    data = result.data
+    assert len(data["works"]) == 1
+    assert data["works"][0]["source_records"][0]["source_record_id"] == "cit1"

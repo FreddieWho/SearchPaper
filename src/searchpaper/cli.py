@@ -141,6 +141,29 @@ def resolve(
     _print_json(result.model_dump(mode="json"))
 
 
+@app.command("expand")
+def expand(
+    doi: str | None = typer.Option(None, "--doi", help="DOI"),
+    pmid: str | None = typer.Option(None, "--pmid", help="PMID"),
+    arxiv: str | None = typer.Option(None, "--arxiv", help="arXiv ID"),
+    by: str = typer.Option("citations", "--by", help="Comma-separated: citations,references,similar"),
+    limit: int = typer.Option(20, "--limit", help="Maximum results"),
+    json_output: bool = typer.Option(False, "--json", help="Output JSON envelope"),
+):
+    """Expand from a known work by citations, references, or similar papers."""
+    raw = doi or pmid or arxiv
+    if not raw:
+        console.print("[red]Error:[/red] provide --doi, --pmid, or --arxiv")
+        raise typer.Exit(code=2)
+    identifier = identify(raw)
+    if not identifier:
+        console.print(f"[red]Error:[/red] Could not identify: {raw}")
+        raise typer.Exit(code=2)
+    by_list = [s.strip() for s in by.split(",") if s.strip()]
+    result = asyncio.run(_engine().expand(identifier, by=by_list, limit=limit))
+    _print_json(result.model_dump(mode="json"))
+
+
 sources_app = typer.Typer(help="Source diagnostics")
 app.add_typer(sources_app, name="sources")
 

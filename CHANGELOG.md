@@ -19,6 +19,9 @@ All notable changes to SearchPaper are tracked here.
 - Added arXiv, bioRxiv, and medRxiv source adapters using official public APIs.
 - Added PubMed utility workflows for MeSH lookup, related articles, and DOI/PMID/PMCID conversion.
 - Added source tier/preflight CLI commands and reference conversion for RIS/BibTeX/NBIB/ENW-style workflows.
+- Added real `expand_from_work` support via Semantic Scholar citations, references, and recommendations.
+- Added `searchpaper expand` CLI command.
+- Added curated biomedical query set (`examples/biomedical_query_set.json`) and `scripts/smoke_benchmark.py`.
 
 ### Next README / Release What's New
 

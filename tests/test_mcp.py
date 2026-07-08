@@ -5,6 +5,7 @@ from httpx import Response
 
 from searchpaper.mcp_server import (
     convert_identifiers,
+    expand_from_work,
     get_source_status,
     lookup_mesh,
     plan_literature_search,
@@ -78,3 +79,24 @@ async def test_mcp_convert_identifiers():
     )
     result = await convert_identifiers(["10.1000/test"])
     assert result["data"][0]["pmid"] == "12345"
+
+
+@respx.mock
+async def test_mcp_expand_from_work():
+    respx.get("https://api.semanticscholar.org/graph/v1/paper/DOI:10.1000/test").mock(
+        return_value=Response(
+            200,
+            json={"paperId": "s2id", "title": "S2 Test", "externalIds": {"DOI": "10.1000/test"}},
+        )
+    )
+    respx.get("https://api.semanticscholar.org/graph/v1/paper/s2id/references").mock(
+        return_value=Response(
+            200,
+            json={"data": [{"citedPaper": {"paperId": "ref1", "title": "Reference", "year": 2020}}]},
+        )
+    )
+
+    result = await expand_from_work("10.1000/test", by=["references"], limit=5)
+    assert result["object_type"] == "expand_result"
+    assert result["data"]["count"] == 1
+    assert result["data"]["works"][0]["source_records"][0]["source_record_id"] == "ref1"

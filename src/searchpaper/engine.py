@@ -262,6 +262,75 @@ class SearchEngine:
         result = SearchResult(works=works, trace=trace.build())
         return ResponseEnvelope(data=result.model_dump(mode="json"), trace=result.trace.model_dump(mode="json"))
 
+    async def expand(
+        self,
+        identifier: WorkIdentifier,
+        by: list[str] | None = None,
+        limit: int = 20,
+    ) -> ResponseEnvelope:
+        """Expand from a known work by citations, references, or similar papers.
+
+        Currently uses Semantic Scholar as the primary enrichment source. If S2
+        fails or is unavailable, falls back to a basic resolve.
+        """
+        by = by or ["citations"]
+        valid_modes = {"citations", "references", "similar"}
+        modes = [m for m in by if m in valid_modes]
+        if not modes:
+            modes = ["citations"]
+
+        trace = TraceBuilder(sources_requested=["semantic_scholar"], cache_policy="default")
+        all_records: list[SourceRecord] = []
+        warnings: list[str] = []
+
+        try:
+            adapter = get_adapter("semantic_scholar")
+        except KeyError:
+            warnings.append("Semantic Scholar adapter not available; falling back to resolve.")
+            return await self.resolve(identifier)
+
+        try:
+            for mode in modes:
+                if mode == "citations":
+                    records = await adapter.get_citations(identifier, limit=limit)
+                elif mode == "references":
+                    records = await adapter.get_references(identifier, limit=limit)
+                else:  # similar
+                    records = await adapter.get_recommendations(identifier, limit=limit)
+
+                if records:
+                    trace.mark_succeeded(adapter.name)
+                    all_records.extend(records)
+                else:
+                    trace.mark_failed(adapter.name)
+        except Exception as exc:
+            trace.add_error(
+                SourceError(
+                    source=adapter.name,
+                    operation="expand",
+                    failure_class=FailureClass.UNKNOWN_ERROR,
+                    message=str(exc),
+                    timestamp=trace.trace.retrieved_at,
+                )
+            )
+            trace.mark_failed(adapter.name)
+            warnings.append(f"Semantic Scholar expansion failed: {exc}; falling back to resolve.")
+        finally:
+            await adapter.aclose()
+
+        if not all_records and warnings:
+            return await self.resolve(identifier)
+
+        works = merge_records(all_records)
+        works = rank_works(works)
+        trace.set_result_counts(result_count=len(all_records), merged_count=len(works))
+        result = SearchResult(works=works, trace=trace.build())
+        return ResponseEnvelope(
+            data=result.model_dump(mode="json"),
+            warnings=warnings,
+            trace=result.trace.model_dump(mode="json"),
+        )
+
     async def signals(
         self,
         query: str | None = None,

@@ -107,6 +107,7 @@ override file values.
 | `searchpaper plan "query" --profile auto --json` | Plan source routing |
 | `searchpaper get --pmid 12345 --json` | Get work by identifier |
 | `searchpaper resolve --doi 10.xxx --json` | Resolve identifier across sources |
+| `searchpaper expand --doi 10.xxx --by citations,references --json` | Expand from a work |
 | `searchpaper sources status --json` | Source health status |
 | `searchpaper sources tiers --json` | Source tier catalog |
 | `searchpaper sources preflight --sources pubmed,arxiv --json` | Probe selected sources |
