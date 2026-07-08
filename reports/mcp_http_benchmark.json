@@ -1,0 +1,73 @@
+{
+  "url": "http://127.0.0.1:18765/mcp/sse",
+  "slow_tool_samples": {
+    "get_source_status": {
+      "tool": "get_source_status",
+      "latency_ms": 7767.34,
+      "is_error": false,
+      "work_count": null
+    },
+    "search_literature": {
+      "tool": "search_literature",
+      "latency_ms": 85.2,
+      "is_error": false,
+      "work_count": 3
+    }
+  },
+  "fast_workload": [
+    {
+      "concurrent_clients": 1,
+      "requests_per_client": 10,
+      "total_calls": 10,
+      "errors": 0,
+      "error_rate": 0.0,
+      "total_time_seconds": 0.089,
+      "throughput_rps": 112.73,
+      "latency_ms": {
+        "min": 4.73,
+        "p50": 4.86,
+        "p95": 10.86,
+        "p99": 10.86,
+        "max": 10.86,
+        "mean": 5.48
+      },
+      "sample_error": null
+    },
+    {
+      "concurrent_clients": 2,
+      "requests_per_client": 10,
+      "total_calls": 20,
+      "errors": 0,
+      "error_rate": 0.0,
+      "total_time_seconds": 0.146,
+      "throughput_rps": 137.28,
+      "latency_ms": {
+        "min": 7.07,
+        "p50": 7.24,
+        "p95": 15.49,
+        "p99": 15.49,
+        "max": 15.49,
+        "mean": 8.08
+      },
+      "sample_error": null
+    },
+    {
+      "concurrent_clients": 4,
+      "requests_per_client": 10,
+      "total_calls": 40,
+      "errors": 0,
+      "error_rate": 0.0,
+      "total_time_seconds": 0.294,
+      "throughput_rps": 136.17,
+      "latency_ms": {
+        "min": 8.13,
+        "p50": 12.43,
+        "p95": 32.75,
+        "p99": 34.05,
+        "max": 34.05,
+        "mean": 15.25
+      },
+      "sample_error": null
+    }
+  ]
+}
