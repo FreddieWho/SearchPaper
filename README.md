@@ -11,8 +11,9 @@ It is **not** a full research agent, systematic-review agent, evidence-evaluatio
 engine, PDF parser, or Zotero replacement.
 
 Supported sources: PubMed, Crossref, OpenAlex, Europe PMC, arXiv, bioRxiv,
-medRxiv, Semantic Scholar, and PubTator3 (biomedical signals). All core
-workflows are **no-key usable** by default; API keys are optional accelerators.
+medRxiv, Semantic Scholar, Unpaywall, OpenCitations, and PubTator3 (biomedical
+signals). All core workflows are **no-key usable** by default; API keys are
+optional accelerators.
 
 ---
 
@@ -111,6 +112,10 @@ override file values.
 | `searchpaper sources status --json` | Source health status |
 | `searchpaper sources tiers --json` | Source tier catalog |
 | `searchpaper sources preflight --sources pubmed,arxiv --json` | Probe selected sources |
+| `searchpaper sources explain pubmed` | Source metadata and recommendations |
+| `searchpaper sources diagnose --json` | Aggregate source health diagnosis |
+| `searchpaper project traces` | List saved project traces |
+| `searchpaper project export <trace_id> --format bibtex` | Export a saved trace |
 | `searchpaper pubmed mesh "term" --json` | MeSH descriptor lookup |
 | `searchpaper pubmed related 12345 --json` | PubMed related articles |
 | `searchpaper pubmed convert-ids 10.xxx --json` | DOI/PMID/PMCID conversion |
@@ -124,7 +129,43 @@ override file values.
 | `searchpaper references convert refs.txt --format ris` | Convert reference IDs |
 | `searchpaper install --target opencode` | Install agent integration |
 | `searchpaper integrate dry-run --target opencode` | Preview integration changes |
+| `searchpaper integrate migrate --target all` | Update managed integrations |
 | `searchpaper integrate uninstall --target opencode` | Remove integration |
+
+Supported export formats: `json`, `jsonl`, `bibtex`, `ris`, `nbib`, `enw`,
+`markdown`, `zotero` (CSV), and `obsidian` (YAML-frontmatter notes).
+
+---
+
+## Project mode
+
+Initialize a project directory to save traces and exports locally:
+
+```bash
+searchpaper init
+searchpaper search "HCC TACE PD-1" --json --save
+searchpaper project traces
+searchpaper project export <trace_id> --format bibtex
+```
+
+---
+
+## MCP server
+
+Start the default stdio MCP server:
+
+```bash
+searchpaper serve --mcp
+```
+
+Start a remote HTTP/SSE MCP server (requires `searchpaper[remote]`):
+
+```bash
+searchpaper serve --mcp --transport http --host 127.0.0.1 --port 8000 --path /mcp
+```
+
+The HTTP endpoint exposes `/mcp/sse` and `/mcp/messages/` for MCP clients that
+support SSE transport.
 
 ---
 

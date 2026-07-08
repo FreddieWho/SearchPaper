@@ -253,8 +253,61 @@ async def export_records(
     }
 
 
-def main() -> None:
-    mcp.run(transport="stdio")
+def main(transport: str = "stdio", host: str = "127.0.0.1", port: int = 8000, path: str = "/mcp") -> None:
+    if transport == "stdio":
+        mcp.run(transport="stdio")
+    elif transport == "http":
+        _run_http_server(host=host, port=port, path=path)
+    else:
+        raise ValueError(f"Unsupported MCP transport: {transport}")
+
+
+def create_http_app(path: str = "/mcp") -> Any:
+    """Create a Starlette application exposing the MCP server over SSE."""
+    try:
+        from starlette.applications import Starlette
+        from starlette.routing import Route
+    except ImportError as exc:
+        raise ImportError(
+            "Remote MCP server requires 'starlette' and 'uvicorn'. Install with: uv pip install 'searchpaper[remote]'"
+        ) from exc
+
+    from mcp.server.sse import SseServerTransport
+
+    sse = SseServerTransport(f"{path}/messages/")
+
+    class _SseHandler:
+        async def __call__(self, scope, receive, send):
+            async with sse.connect_sse(scope, receive, send) as (read_stream, write_stream):
+                await mcp._mcp_server.run(
+                    read_stream,
+                    write_stream,
+                    mcp._mcp_server.create_initialization_options(),
+                )
+
+    class _MessagesHandler:
+        async def __call__(self, scope, receive, send):
+            await sse.handle_post_message(scope, receive, send)
+
+    return Starlette(
+        debug=False,
+        routes=[
+            Route(f"{path}/sse", endpoint=_SseHandler()),
+            Route(f"{path}/messages/", endpoint=_MessagesHandler(), methods=["POST"]),
+        ],
+    )
+
+
+def _run_http_server(host: str, port: int, path: str) -> None:
+    try:
+        import uvicorn
+    except ImportError as exc:
+        raise ImportError(
+            "Remote MCP server requires 'starlette' and 'uvicorn'. Install with: uv pip install 'searchpaper[remote]'"
+        ) from exc
+
+    app = create_http_app(path=path)
+    uvicorn.run(app, host=host, port=port)
 
 
 if __name__ == "__main__":

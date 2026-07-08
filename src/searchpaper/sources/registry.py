@@ -51,7 +51,7 @@ async def source_status(name: str, **kwargs: object) -> SourceStatus:
     adapter = get_adapter(name, **kwargs)
     try:
         return await asyncio.wait_for(adapter.status(), timeout=_STATUS_TIMEOUT_SECONDS)
-    except asyncio.TimeoutError:
+    except TimeoutError:
         return SourceStatus(
             source=name,
             state="degraded",
@@ -71,7 +71,7 @@ async def all_source_statuses(**kwargs: object) -> list[SourceStatus]:
     coros = [source_status(name, **kwargs) for name in list_sources()]
     results = await asyncio.gather(*coros, return_exceptions=True)
     statuses: list[SourceStatus] = []
-    for name, result in zip(list_sources(), results):
+    for name, result in zip(list_sources(), results, strict=True):
         if isinstance(result, SourceStatus):
             statuses.append(result)
         else:

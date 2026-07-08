@@ -21,6 +21,28 @@ async def test_integration_dry_run_opencode(tmp_path, monkeypatch):
     assert not (tmp_path / "integrations.json").exists()
 
 
+@pytest.mark.asyncio
+async def test_integration_migration_updates_state_version(tmp_path, monkeypatch):
+    from searchpaper.integrations import manager
+
+    monkeypatch.setattr(manager, "STATE_PATH", tmp_path / "integrations.json")
+    mgr = IntegrationManager()
+
+    # Simulate an older installation.
+    state_path = tmp_path / "integrations.json"
+    state_path.write_text(
+        '{"schema_version": "0.2", "searchpaper_version": "0.1.0", "installed_targets": {"opencode": {}}}',
+        encoding="utf-8",
+    )
+
+    migration_check = mgr.needs_migration()
+    assert migration_check["needs_migration"] is True
+    assert "opencode" in migration_check["outdated_targets"]
+
+    result = await mgr.migrate("opencode", dry_run=True)
+    assert any(r["target"] == "opencode" and r.get("migrated") for r in result["results"])
+
+
 def test_agent_instruction_content_contains_required_safety_rules():
     for content in [opencode.skill_content(), codex.instructions_content(), claude.instructions_content()]:
         assert "search_literature" in content

@@ -17,12 +17,27 @@ DEFAULT_CACHE_DIR = Path.home() / ".cache" / "searchpaper"
 DEFAULT_CACHE_PATH = DEFAULT_CACHE_DIR / "cache.db"
 DEFAULT_PROJECT_DIR = Path(".searchpaper")
 
+
+def find_project_dir(start: Path | None = None) -> Path | None:
+    """Walk upward from ``start`` looking for a SearchPaper project directory."""
+    path = (start or Path(".")).resolve()
+    for _ in range(100):
+        candidate = path / DEFAULT_PROJECT_DIR
+        if candidate.is_dir():
+            return candidate
+        if path.parent == path:
+            break
+        path = path.parent
+    return None
+
+
 ENV_MAPPINGS: dict[str, tuple[str, type]] = {
     "SEARCHPAPER_CACHE": ("cache_path", Path),
     "SEARCHPAPER_CONFIG": ("config_path", Path),
     "SEMANTIC_SCHOLAR_API_KEY": ("semantic_scholar_api_key", str),
     "CROSSREF_EMAIL": ("crossref_email", str),
     "OPENALEX_EMAIL": ("openalex_email", str),
+    "UNPAYWALL_EMAIL": ("unpaywall_email", str),
     "NCBI_API_KEY": ("ncbi_api_key", str),
     "EUROPEPMC_API_KEY": ("europepmc_api_key", str),
 }

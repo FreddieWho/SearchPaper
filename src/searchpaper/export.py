@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import csv
+import io
 import json
 import re
 from pathlib import Path
@@ -138,6 +140,59 @@ def work_to_markdown(work: dict[str, Any]) -> str:
     return "\n\n".join(parts)
 
 
+def work_to_zotero_csv_row(work: dict[str, Any]) -> dict[str, str]:
+    """Map a work dict to a flat row suitable for Zotero import helpers."""
+    ids = work.get("identifiers", {})
+    authors = work.get("authors", [])
+    return {
+        "title": work.get("title") or "",
+        "authors": "; ".join(a.get("name") or "" for a in authors if a.get("name")),
+        "year": str(work.get("year") or ""),
+        "venue": work.get("venue") or "",
+        "doi": ids.get("doi") or "",
+        "pmid": ids.get("pmid") or "",
+        "abstract": (work.get("abstract") or "")[:2000],
+    }
+
+
+def works_to_zotero(works: list[dict[str, Any]]) -> str:
+    """Export works to a CSV table that can be imported into Zotero via plugins or scripts."""
+    if not works:
+        return ""
+    fieldnames = ["title", "authors", "year", "venue", "doi", "pmid", "abstract"]
+    buffer = io.StringIO()
+    writer = csv.DictWriter(buffer, fieldnames=fieldnames)
+    writer.writeheader()
+    for work in works:
+        writer.writerow(work_to_zotero_csv_row(work))
+    return buffer.getvalue()
+
+
+def work_to_obsidian(work: dict[str, Any]) -> str:
+    """Convert one work dict to an Obsidian literature note with YAML frontmatter."""
+    ids = work.get("identifiers", {})
+    authors = work.get("authors", [])
+    frontmatter = {
+        "title": work.get("title") or "",
+        "authors": [a.get("name") or "" for a in authors if a.get("name")],
+        "year": work.get("year"),
+        "venue": work.get("venue") or "",
+        "doi": ids.get("doi") or "",
+        "pmid": ids.get("pmid") or "",
+        "source": ",".join(work.get("merged_from_sources", [])),
+    }
+    yaml = json.dumps(frontmatter, indent=2, ensure_ascii=False)
+    body = f"# {work.get('title') or 'Untitled'}\n\n"
+    if work.get("abstract"):
+        body += f"## Abstract\n\n{work.get('abstract')}\n\n"
+    body += "## Links\n\n"
+    if ids.get("doi"):
+        body += f"- DOI: https://doi.org/{ids['doi']}\n"
+    if ids.get("pmid"):
+        body += f"- PubMed: https://pubmed.ncbi.nlm.nih.gov/{ids['pmid']}/\n"
+    return f"---\n{yaml}\n---\n\n{body}"
+
+
 def works_to_format(works: list[dict[str, Any]], format: str) -> str:
     """Serialize a list of work dicts to the requested format."""
     fmt = format.lower().strip()
@@ -156,6 +211,10 @@ def works_to_format(works: list[dict[str, Any]], format: str) -> str:
         return "\n\n".join(work_to_nbib(w) for w in works)
     if fmt == "markdown":
         return "\n\n---\n\n".join(work_to_markdown(w) for w in works)
+    if fmt == "zotero":
+        return works_to_zotero(works)
+    if fmt == "obsidian":
+        return "\n\n---\n\n".join(work_to_obsidian(w) for w in works)
     raise ValueError(f"Unsupported export format: {format}")
 
 

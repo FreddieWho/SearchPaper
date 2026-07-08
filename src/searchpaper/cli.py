@@ -13,10 +13,11 @@ from rich.table import Table
 
 from searchpaper import __version__
 from searchpaper.cache import Cache
-from searchpaper.config import DEFAULT_CONFIG_DIR, DEFAULT_PROJECT_DIR, get_cache_path, load_config
+from searchpaper.config import DEFAULT_CONFIG_DIR, DEFAULT_PROJECT_DIR, find_project_dir, get_cache_path, load_config
 from searchpaper.engine import SearchEngine
 from searchpaper.identifiers import identify
 from searchpaper.planner import plan_search
+from searchpaper.project import save_search_trace
 from searchpaper.schemas import SearchFilters
 from searchpaper.source_catalog import list_source_descriptors
 from searchpaper.sources import list_sources
@@ -79,6 +80,7 @@ def search(
     profile: str = typer.Option("default", "--profile", help="Search profile"),
     sort: str = typer.Option("relevance", "--sort", help="Ranking mode"),
     json_output: bool = typer.Option(False, "--json", help="Output JSON envelope"),
+    save: bool = typer.Option(False, "--save", help="Save trace and results when inside a project"),
 ):
     """Search open scholarly literature."""
     if sources == DEFAULT_SEARCH_SOURCES and profile != "default":
@@ -94,7 +96,17 @@ def search(
         sort=sort,
     )
     result = asyncio.run(_engine().search(query, filters=filters, sources=source_list, no_cache=no_cache))
-    _print_json(result.model_dump(mode="json"))
+    envelope = result.model_dump(mode="json")
+    if save:
+        if find_project_dir() is None:
+            console.print("[yellow]Warning:[/yellow] --save ignored; not inside a SearchPaper project.")
+        else:
+            try:
+                saved = save_search_trace(query, envelope)
+                console.print(f"Saved trace {saved['trace_id']} ({saved['work_count']} works)")
+            except Exception as exc:  # noqa: BLE001
+                console.print(f"[red]Failed to save trace:[/red] {exc}")
+    _print_json(envelope)
 
 
 @app.command("get")
@@ -208,6 +220,29 @@ def sources_preflight(
         return results
 
     _print_json(asyncio.run(_run()))
+
+
+@sources_app.command("explain")
+def sources_explain(
+    source: str = typer.Argument(..., help="Source name"),
+    json_output: bool = typer.Option(False, "--json", help="Output JSON"),
+):
+    """Explain a source: catalog metadata, current status, and recommendations."""
+    from searchpaper.diagnostics import explain_source
+
+    _print_json(asyncio.run(explain_source(source)))
+
+
+@sources_app.command("diagnose")
+def sources_diagnose(
+    sources: str = typer.Option("", "--sources", help="Comma-separated source names (default: all implemented)"),
+    json_output: bool = typer.Option(False, "--json", help="Output JSON"),
+):
+    """Run health diagnostics for selected sources and show recommendations."""
+    from searchpaper.diagnostics import diagnose_sources
+
+    source_list = [s.strip() for s in sources.split(",") if s.strip()] or None
+    _print_json(asyncio.run(diagnose_sources(source_list)))
 
 
 pubmed_app = typer.Typer(help="PubMed utilities")
@@ -331,6 +366,8 @@ def capabilities(
             "sources status",
             "sources tiers",
             "sources preflight",
+            "sources explain",
+            "sources diagnose",
             "pubmed mesh",
             "pubmed related",
             "pubmed convert-ids",
@@ -341,6 +378,9 @@ def capabilities(
             "serve",
             "install",
             "integrate",
+            "integrate migrate",
+            "project traces",
+            "project export",
             "export",
             "references convert",
             "signals",
@@ -359,7 +399,7 @@ def capabilities(
             "export_records",
         ],
         "sources": list_sources(),
-        "export_formats": ["json", "jsonl", "bibtex", "ris", "markdown", "nbib", "enw"],
+        "export_formats": ["json", "jsonl", "bibtex", "ris", "markdown", "nbib", "enw", "zotero", "obsidian"],
         "agent_integrations": ["opencode", "codex", "claude"],
     }
     _print_json(data)
@@ -368,14 +408,18 @@ def capabilities(
 @app.command("serve")
 def serve(
     mcp: bool = typer.Option(False, "--mcp", help="Start MCP server"),
+    transport: str = typer.Option("stdio", "--transport", help="MCP transport: stdio or http"),
+    host: str = typer.Option("127.0.0.1", "--host", help="HTTP server host"),
+    port: int = typer.Option(8000, "--port", help="HTTP server port"),
+    path: str = typer.Option("/mcp", "--path", help="HTTP MCP endpoint path"),
 ):
-    """Serve SearchPaper over MCP (stdio)."""
+    """Serve SearchPaper over MCP (stdio or http)."""
     if not mcp:
         console.print("Use --mcp to start the MCP server.")
         raise typer.Exit(code=2)
     from searchpaper.mcp_server import main as mcp_main
 
-    mcp_main()
+    mcp_main(transport=transport, host=host, port=port, path=path)
 
 
 @app.command("export")
@@ -430,12 +474,53 @@ def init(
     config_path = project_dir / "config.toml"
     if not config_path.exists():
         config_path.write_text(
-            '# SearchPaper project config\n'
+            "# SearchPaper project config\n"
             '# sources = ["pubmed", "crossref", "openalex"]\n'
             '# cache_path = ".searchpaper/cache.db"\n',
             encoding="utf-8",
         )
     console.print(f"Initialized SearchPaper project at {project_dir}")
+
+
+project_app = typer.Typer(help="Project-level trace and export workflow")
+app.add_typer(project_app, name="project")
+
+
+@project_app.command("traces")
+def project_traces(
+    json_output: bool = typer.Option(False, "--json", help="Output JSON"),
+):
+    """List saved search traces in the current project."""
+    from searchpaper.project import list_traces
+
+    if find_project_dir() is None:
+        console.print("[red]Error:[/red] not inside a SearchPaper project.")
+        raise typer.Exit(code=2)
+    _print_json(list_traces())
+
+
+@project_app.command("export")
+def project_export(
+    trace_id: str = typer.Argument(..., help="Trace ID or prefix"),
+    format: str = typer.Option("jsonl", "--format", help="Export format"),
+    output: Path = typer.Option(Path("-"), "--output", help="Output file (default stdout)"),
+):
+    """Export a saved project trace to a supported format."""
+    from searchpaper.project import export_trace
+
+    if find_project_dir() is None:
+        console.print("[red]Error:[/red] not inside a SearchPaper project.")
+        raise typer.Exit(code=2)
+    try:
+        result = export_trace(trace_id, fmt=format)
+    except FileNotFoundError as exc:
+        console.print(f"[red]Error:[/red] {exc}")
+        raise typer.Exit(code=2) from exc
+    content = result["content"]
+    if str(output) == "-":
+        console.print(content)
+    else:
+        output.write_text(content, encoding="utf-8")
 
 
 integrate_app = typer.Typer(help="Agent integration management")
@@ -490,6 +575,19 @@ def integrate_doctor():
     mgr = IntegrationManager()
     report = mgr.doctor()
     _print_json(report)
+
+
+@integrate_app.command("migrate")
+def integrate_migrate(
+    target: str = typer.Option("all", "--target", help="Target agent: opencode, codex, claude, all"),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Show what would change"),
+):
+    """Re-install managed files to update integrations to the current SearchPaper version."""
+    from searchpaper.integrations.manager import IntegrationManager
+
+    mgr = IntegrationManager()
+    result = asyncio.run(mgr.migrate(target, dry_run=dry_run))
+    _print_json(result)
 
 
 @integrate_app.command("uninstall")

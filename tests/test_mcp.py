@@ -1,10 +1,12 @@
 """Mocked MCP tool tests for SearchPaper."""
 
+import pytest
 import respx
 from httpx import Response
 
 from searchpaper.mcp_server import (
     convert_identifiers,
+    create_http_app,
     expand_from_work,
     get_source_status,
     lookup_mesh,
@@ -100,3 +102,47 @@ async def test_mcp_expand_from_work():
     assert result["object_type"] == "expand_result"
     assert result["data"]["count"] == 1
     assert result["data"]["works"][0]["source_records"][0]["source_record_id"] == "ref1"
+
+
+@pytest.mark.asyncio
+async def test_mcp_http_app_routes():
+    app = create_http_app(path="/mcp")
+    routes = {r.path: r for r in app.routes}
+    assert "/mcp/sse" in routes
+    assert "/mcp/messages/" in routes
+
+
+@pytest.mark.asyncio
+async def test_mcp_http_sse_endpoint_responds():
+    app = create_http_app(path="/mcp")
+    messages = []
+
+    async def receive():
+        return {"type": "http.disconnect"}
+
+    async def send(message):
+        messages.append(message)
+
+    scope = {
+        "type": "http",
+        "asgi": {"version": "3.0"},
+        "http_version": "1.1",
+        "method": "GET",
+        "scheme": "http",
+        "path": "/mcp/sse",
+        "raw_path": b"/mcp/sse",
+        "query_string": b"",
+        "root_path": "",
+        "headers": [(b"accept", b"text/event-stream")],
+        "client": ("127.0.0.1", 12345),
+        "server": ("testserver", 80),
+    }
+
+    await app(scope, receive, send)
+
+    assert messages
+    start = messages[0]
+    assert start["type"] == "http.response.start"
+    assert start["status"] == 200
+    headers = {k.decode(): v.decode() for k, v in start["headers"]}
+    assert "text/event-stream" in headers.get("content-type", "")

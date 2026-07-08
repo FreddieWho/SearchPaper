@@ -4,6 +4,26 @@ All notable changes to SearchPaper are tracked here.
 
 ## Unreleased
 
+## 0.4.0 — Integration and Source Expansion
+
+### Added
+
+- **Unpaywall adapter** for open-access PDF resolution and OA status (requires `UNPAYWALL_EMAIL` or `CROSSREF_EMAIL` for polite pool).
+- **OpenCitations adapter** for DOI-to-DOI citation links.
+- **Remote/HTTP MCP server** via `searchpaper serve --mcp --transport http` using SSE.
+- **Enhanced source health diagnostics**: `searchpaper sources explain <source>` and `searchpaper sources diagnose` with actionable recommendations.
+- **Integration migration support**: `searchpaper integrate migrate` re-installs managed files and tracks `searchpaper_version` in integration state.
+- **Project-level trace/export workflow**: `searchpaper init`, `searchpaper search ... --save`, `searchpaper project traces`, and `searchpaper project export <trace_id> --format ...`.
+- **Zotero CSV** and **Obsidian YAML-frontmatter** export formats.
+- Documentation for source-specific usage limitations in `docs/source-usage.md`.
+
+### Changed
+
+- Bumped version to `0.4.0`.
+- Updated `searchpaper capabilities` to report new CLI commands and export formats.
+
+## 0.3.0 — Biomedical Signal and Agent Hardening
+
 ### Fixed
 
 - Fixed local test discovery by adding `src` to pytest's import path.
@@ -22,9 +42,3 @@ All notable changes to SearchPaper are tracked here.
 - Added real `expand_from_work` support via Semantic Scholar citations, references, and recommendations.
 - Added `searchpaper expand` CLI command.
 - Added curated biomedical query set (`examples/biomedical_query_set.json`) and `scripts/smoke_benchmark.py`.
-
-### Next README / Release What's New
-
-- SearchPaper now installs consistent agent guidance for OpenCode, Codex, and Claude through a package-backed instruction template.
-- Test runs are more reproducible in sandboxed or CI environments because source imports and cache paths are configured explicitly.
-- SearchPaper now covers official preprint sources and PubMed utility workflows while cataloging Scopus, Web of Science, Google Scholar, CNKI, and 万方 as external/manual sources.

@@ -51,3 +51,17 @@ def test_works_to_nbib():
     assert "PMID- 12345" in out
     assert "TI  - A Test Paper" in out
     assert "LID - 10.1000/test [doi]" in out
+
+
+def test_works_to_zotero():
+    out = works_to_format([sample_work()], "zotero")
+    assert "title,authors,year,venue,doi,pmid,abstract" in out
+    assert "A Test Paper" in out
+    assert "10.1000/test" in out
+
+
+def test_works_to_obsidian():
+    out = works_to_format([sample_work()], "obsidian")
+    assert "---" in out
+    assert "A Test Paper" in out
+    assert "https://doi.org/10.1000/test" in out
