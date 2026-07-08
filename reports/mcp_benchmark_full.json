@@ -1,0 +1,6745 @@
+{
+  "run_at": "2026-07-08T06:51:37.350872+00:00",
+  "total_calls": 115,
+  "total_success": 113,
+  "total_failure": 2,
+  "overall_success_rate": 0.9826,
+  "overall_latency_ms": {
+    "count": 115,
+    "mean": 4806.14,
+    "min": 2.95,
+    "max": 62022.06,
+    "p50": 225.22,
+    "p95": 24518.61,
+    "p99": 34396.1
+  },
+  "by_tool": {
+    "search_literature": {
+      "count": 67,
+      "success": 66,
+      "failure": 1,
+      "success_rate": 0.9851,
+      "latency_ms": {
+        "count": 67,
+        "mean": 4780.78,
+        "min": 2.95,
+        "max": 34396.1,
+        "p50": 228.89,
+        "p95": 24819.44,
+        "p99": 34396.1
+      }
+    },
+    "plan_literature_search": {
+      "count": 13,
+      "success": 13,
+      "failure": 0,
+      "success_rate": 1.0,
+      "latency_ms": {
+        "count": 13,
+        "mean": 5.62,
+        "min": 4.5,
+        "max": 7.24,
+        "p50": 5.68,
+        "p95": 7.24,
+        "p99": 7.24
+      }
+    },
+    "get_work": {
+      "count": 2,
+      "success": 2,
+      "failure": 0,
+      "success_rate": 1.0,
+      "latency_ms": {
+        "count": 2,
+        "mean": 9081.16,
+        "min": 146.91,
+        "max": 18015.41,
+        "p50": 18015.41,
+        "p95": 18015.41,
+        "p99": 18015.41
+      }
+    },
+    "resolve_identifiers": {
+      "count": 1,
+      "success": 1,
+      "failure": 0,
+      "success_rate": 1.0,
+      "latency_ms": {
+        "count": 1,
+        "mean": 17927.89,
+        "min": 17927.89,
+        "max": 17927.89,
+        "p50": 17927.89,
+        "p95": 17927.89,
+        "p99": 17927.89
+      }
+    },
+    "get_source_status": {
+      "count": 1,
+      "success": 1,
+      "failure": 0,
+      "success_rate": 1.0,
+      "latency_ms": {
+        "count": 1,
+        "mean": 62022.06,
+        "min": 62022.06,
+        "max": 62022.06,
+        "p50": 62022.06,
+        "p95": 62022.06,
+        "p99": 62022.06
+      }
+    },
+    "lookup_mesh": {
+      "count": 14,
+      "success": 14,
+      "failure": 0,
+      "success_rate": 1.0,
+      "latency_ms": {
+        "count": 14,
+        "mean": 6439.32,
+        "min": 6178.2,
+        "max": 7044.1,
+        "p50": 6373.11,
+        "p95": 7044.1,
+        "p99": 7044.1
+      }
+    },
+    "find_related_articles": {
+      "count": 1,
+      "success": 1,
+      "failure": 0,
+      "success_rate": 1.0,
+      "latency_ms": {
+        "count": 1,
+        "mean": 9511.77,
+        "min": 9511.77,
+        "max": 9511.77,
+        "p50": 9511.77,
+        "p95": 9511.77,
+        "p99": 9511.77
+      }
+    },
+    "convert_identifiers": {
+      "count": 1,
+      "success": 0,
+      "failure": 1,
+      "success_rate": 0.0,
+      "latency_ms": {
+        "count": 1,
+        "mean": 5901.99,
+        "min": 5901.99,
+        "max": 5901.99,
+        "p50": 5901.99,
+        "p95": 5901.99,
+        "p99": 5901.99
+      }
+    },
+    "search_literature_signals": {
+      "count": 1,
+      "success": 1,
+      "failure": 0,
+      "success_rate": 1.0,
+      "latency_ms": {
+        "count": 1,
+        "mean": 10699.14,
+        "min": 10699.14,
+        "max": 10699.14,
+        "p50": 10699.14,
+        "p95": 10699.14,
+        "p99": 10699.14
+      }
+    },
+    "expand_from_work": {
+      "count": 1,
+      "success": 1,
+      "failure": 0,
+      "success_rate": 1.0,
+      "latency_ms": {
+        "count": 1,
+        "mean": 17877.31,
+        "min": 17877.31,
+        "max": 17877.31,
+        "p50": 17877.31,
+        "p95": 17877.31,
+        "p99": 17877.31
+      }
+    },
+    "export_records": {
+      "count": 13,
+      "success": 13,
+      "failure": 0,
+      "success_rate": 1.0,
+      "latency_ms": {
+        "count": 13,
+        "mean": 5.21,
+        "min": 3.62,
+        "max": 9.13,
+        "p50": 4.95,
+        "p95": 9.13,
+        "p99": 9.13
+      }
+    }
+  },
+  "raw_records": [
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535595.3092718,
+      "end": 40535619.15268017,
+      "latency_ms": 23843.40837597847,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:42:30.551211Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "plan_literature_search",
+      "params": {
+        "query": "immunotherapy biomarkers",
+        "profile": "default"
+      },
+      "start": 40535619.15821557,
+      "end": 40535619.163892925,
+      "latency_ms": 5.677357316017151,
+      "success": true,
+      "result_summary": {
+        "selected_sources": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ]
+      },
+      "warnings": [
+        "Manual or unsupported sources are cataloged but not queried automatically: scopus, sciencedirect, webofscience, google_scholar, cnki, wanfang"
+      ],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "get_work",
+      "params": {
+        "identifier": "10.1038/s41586-021-03819-2"
+      },
+      "start": 40535619.16392726,
+      "end": 40535637.1793355,
+      "latency_ms": 18015.408240258694,
+      "success": true,
+      "result_summary": {
+        "work_count": 1
+      },
+      "warnings": [],
+      "trace": {
+        "query": null,
+        "filters": {},
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [],
+        "retrieved_at": "2026-07-08T06:42:54.403653Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 3,
+        "merged_count": 1
+      },
+      "error": null
+    },
+    {
+      "tool": "resolve_identifiers",
+      "params": {
+        "identifiers": [
+          "10.1038/s41586-021-03819-2"
+        ]
+      },
+      "start": 40535637.18117183,
+      "end": 40535655.1090593,
+      "latency_ms": 17927.887469530106,
+      "success": true,
+      "result_summary": {
+        "work_count": 1
+      },
+      "warnings": [],
+      "trace": {
+        "query": null,
+        "filters": {},
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [],
+        "retrieved_at": "2026-07-08T06:43:12.421140Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 3,
+        "merged_count": 1
+      },
+      "error": null
+    },
+    {
+      "tool": "get_source_status",
+      "params": {
+        "include_catalog": true
+      },
+      "start": 40535655.11060191,
+      "end": 40535717.13266612,
+      "latency_ms": 62022.064208984375,
+      "success": true,
+      "result_summary": {
+        "status_count": 9,
+        "available_count": 8
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "lookup_mesh",
+      "params": {
+        "term": "hepatocellular carcinoma",
+        "limit": 5
+      },
+      "start": 40535717.13287605,
+      "end": 40535723.46860094,
+      "latency_ms": 6335.724890232086,
+      "success": true,
+      "result_summary": {
+        "mesh_count": 0
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "find_related_articles",
+      "params": {
+        "pmid": "12345678",
+        "limit": 5
+      },
+      "start": 40535723.468661405,
+      "end": 40535732.9804278,
+      "latency_ms": 9511.766396462917,
+      "success": true,
+      "result_summary": {
+        "pmid_count": 5
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "convert_identifiers",
+      "params": {
+        "identifiers": [
+          "10.1038/s41586-021-03819-2"
+        ]
+      },
+      "start": 40535732.98048915,
+      "end": 40535738.882477365,
+      "latency_ms": 5901.988215744495,
+      "success": false,
+      "result_summary": {},
+      "warnings": [],
+      "trace": {},
+      "error": "MCP tool error: Error executing tool convert_identifiers: Expecting value: line 1 column 1 (char 0)"
+    },
+    {
+      "tool": "search_literature_signals",
+      "params": {
+        "entity1": "PDCD1",
+        "entity2_type": "chemical",
+        "limit": 5
+      },
+      "start": 40535738.882509455,
+      "end": 40535749.58164959,
+      "latency_ms": 10699.140131473541,
+      "success": true,
+      "result_summary": {
+        "signal_count": 5
+      },
+      "warnings": [],
+      "trace": {
+        "query": "PDCD1",
+        "filters": {},
+        "sources_requested": [
+          "pubtator3"
+        ],
+        "sources_succeeded": [
+          "pubtator3"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [],
+        "retrieved_at": "2026-07-08T06:44:54.122321Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 0,
+        "merged_count": 0
+      },
+      "error": null
+    },
+    {
+      "tool": "expand_from_work",
+      "params": {
+        "identifier": "10.1038/s41586-021-03819-2",
+        "by": [
+          "citations"
+        ]
+      },
+      "start": 40535749.58182235,
+      "end": 40535767.45912792,
+      "latency_ms": 17877.305567264557,
+      "success": true,
+      "result_summary": {
+        "work_count": 1
+      },
+      "warnings": [
+        "expand_from_work by ['citations'] is a v0.2 extension point; returning resolved work."
+      ],
+      "trace": {
+        "query": null,
+        "filters": {},
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [],
+        "retrieved_at": "2026-07-08T06:45:04.821617Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 3,
+        "merged_count": 1
+      },
+      "error": null
+    },
+    {
+      "tool": "export_records",
+      "params": {
+        "works": [
+          {
+            "work_id": "w1",
+            "title": "Example Paper One",
+            "year": 2024,
+            "authors": [
+              {
+                "name": "Alice"
+              }
+            ],
+            "identifiers": {
+              "doi": "10.1000/one"
+            }
+          },
+          {
+            "work_id": "w2",
+            "title": "Example Paper Two",
+            "year": 2023,
+            "authors": [
+              {
+                "name": "Bob"
+              }
+            ],
+            "identifiers": {
+              "doi": "10.1000/two"
+            }
+          }
+        ],
+        "format": "bibtex"
+      },
+      "start": 40535767.46058649,
+      "end": 40535767.46971762,
+      "latency_ms": 9.131133556365967,
+      "success": true,
+      "result_summary": {
+        "content_length": 252
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535767.4697606,
+      "end": 40535767.69498179,
+      "latency_ms": 225.2211943268776,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:22.709339Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535767.69952176,
+      "end": 40535767.89355562,
+      "latency_ms": 194.03386116027832,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:22.942333Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535767.89820463,
+      "end": 40535768.12778392,
+      "latency_ms": 229.57928478717804,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:23.139864Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535768.13228408,
+      "end": 40535768.31904621,
+      "latency_ms": 186.76212430000305,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:23.373808Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535768.32369796,
+      "end": 40535768.53168097,
+      "latency_ms": 207.98300951719284,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:23.565236Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535768.53599339,
+      "end": 40535768.7648786,
+      "latency_ms": 228.8852110505104,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:23.776949Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535768.769437805,
+      "end": 40535769.00893079,
+      "latency_ms": 239.4929826259613,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:24.011315Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535769.013472915,
+      "end": 40535769.20578357,
+      "latency_ms": 192.3106536269188,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:24.255028Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535769.210260406,
+      "end": 40535769.486800246,
+      "latency_ms": 276.5398398041725,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:24.451894Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535769.49194545,
+      "end": 40535769.69111875,
+      "latency_ms": 199.17329400777817,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:24.733554Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535769.69591811,
+      "end": 40535769.879191086,
+      "latency_ms": 183.27297270298004,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:24.939185Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535769.88389084,
+      "end": 40535770.11780407,
+      "latency_ms": 233.91323536634445,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:25.125442Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535770.147108845,
+      "end": 40535770.33799402,
+      "latency_ms": 190.88517129421234,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:25.388950Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535770.34267891,
+      "end": 40535770.5341707,
+      "latency_ms": 191.49179011583328,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:25.584209Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535770.53865512,
+      "end": 40535770.76581551,
+      "latency_ms": 227.16039419174194,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:25.780132Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535770.77035786,
+      "end": 40535770.985603906,
+      "latency_ms": 215.2460440993309,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:26.011923Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535770.98997447,
+      "end": 40535771.17977216,
+      "latency_ms": 189.79769200086594,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:26.231445Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535771.184226714,
+      "end": 40535771.40631586,
+      "latency_ms": 222.08914905786514,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:26.425172Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535771.41136787,
+      "end": 40535771.63898314,
+      "latency_ms": 227.61526703834534,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:26.652965Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535771.649542674,
+      "end": 40535771.90323383,
+      "latency_ms": 253.6911591887474,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:26.891307Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40535771.908146344,
+      "end": 40535772.15757483,
+      "latency_ms": 249.42848831415176,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:27.149936Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "immunotherapy biomarkers",
+        "limit": 5
+      },
+      "start": 40535772.1625008,
+      "end": 40535795.46195674,
+      "latency_ms": 23299.45594072342,
+      "success": true,
+      "result_summary": {
+        "work_count": 15
+      },
+      "warnings": [],
+      "trace": {
+        "query": "immunotherapy biomarkers",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:27.404056Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 15
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "single-cell RNA-seq",
+        "limit": 5
+      },
+      "start": 40535795.464480326,
+      "end": 40535817.46672669,
+      "latency_ms": 22002.246364951134,
+      "success": true,
+      "result_summary": {
+        "work_count": 15
+      },
+      "warnings": [],
+      "trace": {
+        "query": "single-cell RNA-seq",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:45:50.705182Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 15
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "CRISPR screening cancer",
+        "limit": 5
+      },
+      "start": 40535817.47051983,
+      "end": 40535839.81301648,
+      "latency_ms": 22342.496648430824,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "CRISPR screening cancer",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:46:12.712002Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "hepatocellular carcinoma immunotherapy",
+        "limit": 5
+      },
+      "start": 40535839.81673256,
+      "end": 40535862.28659109,
+      "latency_ms": 22469.858527183533,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "hepatocellular carcinoma immunotherapy",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:46:35.058199Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "PD-L1 expression",
+        "limit": 5
+      },
+      "start": 40535862.290188566,
+      "end": 40535889.495271675,
+      "latency_ms": 27205.08310943842,
+      "success": true,
+      "result_summary": {
+        "work_count": 13
+      },
+      "warnings": [],
+      "trace": {
+        "query": "PD-L1 expression",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:46:57.531717Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 13
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "tumor microenvironment",
+        "limit": 5
+      },
+      "start": 40535889.498609215,
+      "end": 40535914.01721783,
+      "latency_ms": 24518.60861480236,
+      "success": true,
+      "result_summary": {
+        "work_count": 15
+      },
+      "warnings": [],
+      "trace": {
+        "query": "tumor microenvironment",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:47:24.739255Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 15
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "CAR-T therapy",
+        "limit": 5
+      },
+      "start": 40535914.02084739,
+      "end": 40535938.8402835,
+      "latency_ms": 24819.436110556126,
+      "success": true,
+      "result_summary": {
+        "work_count": 15
+      },
+      "warnings": [],
+      "trace": {
+        "query": "CAR-T therapy",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:47:49.262303Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 15
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "immune checkpoint inhibitors",
+        "limit": 5
+      },
+      "start": 40535938.844490714,
+      "end": 40535964.46799521,
+      "latency_ms": 25623.504497110844,
+      "success": true,
+      "result_summary": {
+        "work_count": 15
+      },
+      "warnings": [],
+      "trace": {
+        "query": "immune checkpoint inhibitors",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:48:14.086074Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 15
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "cancer vaccine",
+        "limit": 5
+      },
+      "start": 40535964.47394083,
+      "end": 40535998.87004022,
+      "latency_ms": 34396.099396049976,
+      "success": true,
+      "result_summary": {
+        "work_count": 15
+      },
+      "warnings": [],
+      "trace": {
+        "query": "cancer vaccine",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:48:39.720905Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 15
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "sources": [
+          "pubmed"
+        ],
+        "limit": 5
+      },
+      "start": 40535998.872461535,
+      "end": 40535998.948493555,
+      "latency_ms": 76.03202015161514,
+      "success": true,
+      "result_summary": {
+        "work_count": 5
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed"
+        ],
+        "sources_succeeded": [
+          "pubmed"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:14.112800Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 5,
+        "merged_count": 5
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "sources": [
+          "crossref"
+        ],
+        "limit": 5
+      },
+      "start": 40535998.94925189,
+      "end": 40535999.01243794,
+      "latency_ms": 63.186049461364746,
+      "success": true,
+      "result_summary": {
+        "work_count": 5
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "crossref"
+        ],
+        "sources_succeeded": [
+          "crossref"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:14.189302Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 5,
+        "merged_count": 5
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "sources": [
+          "openalex"
+        ],
+        "limit": 5
+      },
+      "start": 40535999.01343697,
+      "end": 40535999.146264605,
+      "latency_ms": 132.82763212919235,
+      "success": true,
+      "result_summary": {
+        "work_count": 5
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:14.253273Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 5,
+        "merged_count": 5
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "sources": [
+          "pubmed",
+          "crossref"
+        ],
+        "limit": 5
+      },
+      "start": 40535999.150182284,
+      "end": 40535999.24705229,
+      "latency_ms": 96.87000513076782,
+      "success": true,
+      "result_summary": {
+        "work_count": 10
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:14.393540Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 10,
+        "merged_count": 10
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "sources": [
+          "pubmed",
+          "crossref",
+          "openalex",
+          "semantic_scholar"
+        ],
+        "limit": 5
+      },
+      "start": 40535999.24829123,
+      "end": 40536006.869692914,
+      "latency_ms": 7621.401682496071,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex",
+          "semantic_scholar"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex",
+          "semantic_scholar"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "semantic_scholar",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 0,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:14.488016Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40536006.87516037,
+      "end": 40536007.11710463,
+      "latency_ms": 241.94426089525223,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:22.116937Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "immunotherapy biomarkers",
+        "limit": 5
+      },
+      "start": 40536006.87531632,
+      "end": 40536007.29901402,
+      "latency_ms": 423.69769513607025,
+      "success": true,
+      "result_summary": {
+        "work_count": 15
+      },
+      "warnings": [],
+      "trace": {
+        "query": "immunotherapy biomarkers",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:22.289028Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 15
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "single-cell RNA-seq",
+        "limit": 5
+      },
+      "start": 40536006.87536017,
+      "end": 40536007.610933915,
+      "latency_ms": 735.5737462639809,
+      "success": true,
+      "result_summary": {
+        "work_count": 15
+      },
+      "warnings": [],
+      "trace": {
+        "query": "single-cell RNA-seq",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:22.390532Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 15
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "CRISPR screening cancer",
+        "limit": 5
+      },
+      "start": 40536006.87539233,
+      "end": 40536007.66802529,
+      "latency_ms": 792.6329597830772,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "CRISPR screening cancer",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:22.502259Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "hepatocellular carcinoma immunotherapy",
+        "limit": 5
+      },
+      "start": 40536006.87542003,
+      "end": 40536007.707437344,
+      "latency_ms": 832.0173174142838,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "hepatocellular carcinoma immunotherapy",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:22.605157Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40536007.7113716,
+      "end": 40536007.935279615,
+      "latency_ms": 223.90801459550858,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:22.953263Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "immunotherapy biomarkers",
+        "limit": 5
+      },
+      "start": 40536007.71170326,
+      "end": 40536008.13118677,
+      "latency_ms": 419.4835051894188,
+      "success": true,
+      "result_summary": {
+        "work_count": 15
+      },
+      "warnings": [],
+      "trace": {
+        "query": "immunotherapy biomarkers",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:23.112535Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 15
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "single-cell RNA-seq",
+        "limit": 5
+      },
+      "start": 40536007.71174595,
+      "end": 40536008.40406696,
+      "latency_ms": 692.3210099339485,
+      "success": true,
+      "result_summary": {
+        "work_count": 15
+      },
+      "warnings": [],
+      "trace": {
+        "query": "single-cell RNA-seq",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:23.215907Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 15
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "CRISPR screening cancer",
+        "limit": 5
+      },
+      "start": 40536007.71177519,
+      "end": 40536008.48469479,
+      "latency_ms": 772.9195952415466,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "CRISPR screening cancer",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:23.335585Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "hepatocellular carcinoma immunotherapy",
+        "limit": 5
+      },
+      "start": 40536007.71180054,
+      "end": 40536008.526930705,
+      "latency_ms": 815.1301667094231,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "hepatocellular carcinoma immunotherapy",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:23.439451Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40536008.53083695,
+      "end": 40536008.72702946,
+      "latency_ms": 196.19251042604446,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:23.772146Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "immunotherapy biomarkers",
+        "limit": 5
+      },
+      "start": 40536008.53095228,
+      "end": 40536008.910218626,
+      "latency_ms": 379.2663440108299,
+      "success": true,
+      "result_summary": {
+        "work_count": 15
+      },
+      "warnings": [],
+      "trace": {
+        "query": "immunotherapy biomarkers",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:23.898553Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 15
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "single-cell RNA-seq",
+        "limit": 5
+      },
+      "start": 40536008.53098843,
+      "end": 40536009.20183047,
+      "latency_ms": 670.8420366048813,
+      "success": true,
+      "result_summary": {
+        "work_count": 15
+      },
+      "warnings": [],
+      "trace": {
+        "query": "single-cell RNA-seq",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:24.001849Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 15
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "CRISPR screening cancer",
+        "limit": 5
+      },
+      "start": 40536008.53101979,
+      "end": 40536009.28820921,
+      "latency_ms": 757.1894153952599,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "CRISPR screening cancer",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:24.120876Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "hepatocellular carcinoma immunotherapy",
+        "limit": 5
+      },
+      "start": 40536008.531047255,
+      "end": 40536009.33162019,
+      "latency_ms": 800.57293176651,
+      "success": true,
+      "result_summary": {
+        "work_count": 14
+      },
+      "warnings": [],
+      "trace": {
+        "query": "hepatocellular carcinoma immunotherapy",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:24.268982Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 3
+      },
+      "start": 40536009.336248815,
+      "end": 40536032.57544727,
+      "latency_ms": 23239.198453724384,
+      "success": true,
+      "result_summary": {
+        "work_count": 9
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 3,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 3,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:24.577401Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 9,
+        "merged_count": 9
+      },
+      "error": null
+    },
+    {
+      "tool": "lookup_mesh",
+      "params": {
+        "term": "carcinoma",
+        "limit": 3
+      },
+      "start": 40536032.583259635,
+      "end": 40536038.95102699,
+      "latency_ms": 6367.767356336117,
+      "success": true,
+      "result_summary": {
+        "mesh_count": 3
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "plan_literature_search",
+      "params": {
+        "query": "biomarkers",
+        "profile": "default"
+      },
+      "start": 40536038.951077,
+      "end": 40536038.955990754,
+      "latency_ms": 4.913754761219025,
+      "success": true,
+      "result_summary": {
+        "selected_sources": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ]
+      },
+      "warnings": [
+        "Manual or unsupported sources are cataloged but not queried automatically: scopus, sciencedirect, webofscience, google_scholar, cnki, wanfang"
+      ],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "export_records",
+      "params": {
+        "works": [
+          {
+            "work_id": "w1",
+            "title": "Example Paper",
+            "year": 2024,
+            "authors": [
+              {
+                "name": "Alice"
+              }
+            ],
+            "identifiers": {
+              "doi": "10.1000/one"
+            }
+          }
+        ],
+        "format": "ris"
+      },
+      "start": 40536038.95603569,
+      "end": 40536038.95974607,
+      "latency_ms": 3.7103816866874695,
+      "success": true,
+      "result_summary": {
+        "content_length": 78
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 3
+      },
+      "start": 40536038.959773235,
+      "end": 40536039.1299627,
+      "latency_ms": 170.18946260213852,
+      "success": true,
+      "result_summary": {
+        "work_count": 9
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 3,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:49:54.198578Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 9,
+        "merged_count": 9
+      },
+      "error": null
+    },
+    {
+      "tool": "lookup_mesh",
+      "params": {
+        "term": "carcinoma",
+        "limit": 3
+      },
+      "start": 40536039.13663787,
+      "end": 40536046.18074064,
+      "latency_ms": 7044.102773070335,
+      "success": true,
+      "result_summary": {
+        "mesh_count": 3
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "plan_literature_search",
+      "params": {
+        "query": "biomarkers",
+        "profile": "default"
+      },
+      "start": 40536046.18078988,
+      "end": 40536046.185668156,
+      "latency_ms": 4.878275096416473,
+      "success": true,
+      "result_summary": {
+        "selected_sources": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ]
+      },
+      "warnings": [
+        "Manual or unsupported sources are cataloged but not queried automatically: scopus, sciencedirect, webofscience, google_scholar, cnki, wanfang"
+      ],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "export_records",
+      "params": {
+        "works": [
+          {
+            "work_id": "w1",
+            "title": "Example Paper",
+            "year": 2024,
+            "authors": [
+              {
+                "name": "Alice"
+              }
+            ],
+            "identifiers": {
+              "doi": "10.1000/one"
+            }
+          }
+        ],
+        "format": "ris"
+      },
+      "start": 40536046.185711056,
+      "end": 40536046.189541265,
+      "latency_ms": 3.8302093744277954,
+      "success": true,
+      "result_summary": {
+        "content_length": 78
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 3
+      },
+      "start": 40536046.18957566,
+      "end": 40536046.38995007,
+      "latency_ms": 200.37440955638885,
+      "success": true,
+      "result_summary": {
+        "work_count": 9
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 3,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:50:01.428469Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 9,
+        "merged_count": 9
+      },
+      "error": null
+    },
+    {
+      "tool": "lookup_mesh",
+      "params": {
+        "term": "carcinoma",
+        "limit": 3
+      },
+      "start": 40536046.39579755,
+      "end": 40536052.75015242,
+      "latency_ms": 6354.354865849018,
+      "success": true,
+      "result_summary": {
+        "mesh_count": 3
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "plan_literature_search",
+      "params": {
+        "query": "biomarkers",
+        "profile": "default"
+      },
+      "start": 40536052.7502378,
+      "end": 40536052.75614352,
+      "latency_ms": 5.905717611312866,
+      "success": true,
+      "result_summary": {
+        "selected_sources": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ]
+      },
+      "warnings": [
+        "Manual or unsupported sources are cataloged but not queried automatically: scopus, sciencedirect, webofscience, google_scholar, cnki, wanfang"
+      ],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "export_records",
+      "params": {
+        "works": [
+          {
+            "work_id": "w1",
+            "title": "Example Paper",
+            "year": 2024,
+            "authors": [
+              {
+                "name": "Alice"
+              }
+            ],
+            "identifiers": {
+              "doi": "10.1000/one"
+            }
+          }
+        ],
+        "format": "ris"
+      },
+      "start": 40536052.75619724,
+      "end": 40536052.761274494,
+      "latency_ms": 5.077257752418518,
+      "success": true,
+      "result_summary": {
+        "content_length": 78
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 3
+      },
+      "start": 40536052.761318944,
+      "end": 40536052.96826945,
+      "latency_ms": 206.95050805807114,
+      "success": true,
+      "result_summary": {
+        "work_count": 9
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 3,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:50:08.000427Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 9,
+        "merged_count": 9
+      },
+      "error": null
+    },
+    {
+      "tool": "lookup_mesh",
+      "params": {
+        "term": "carcinoma",
+        "limit": 3
+      },
+      "start": 40536052.97185956,
+      "end": 40536059.329477035,
+      "latency_ms": 6357.617475092411,
+      "success": true,
+      "result_summary": {
+        "mesh_count": 3
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "plan_literature_search",
+      "params": {
+        "query": "biomarkers",
+        "profile": "default"
+      },
+      "start": 40536059.3295375,
+      "end": 40536059.33644308,
+      "latency_ms": 6.905578076839447,
+      "success": true,
+      "result_summary": {
+        "selected_sources": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ]
+      },
+      "warnings": [
+        "Manual or unsupported sources are cataloged but not queried automatically: scopus, sciencedirect, webofscience, google_scholar, cnki, wanfang"
+      ],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "export_records",
+      "params": {
+        "works": [
+          {
+            "work_id": "w1",
+            "title": "Example Paper",
+            "year": 2024,
+            "authors": [
+              {
+                "name": "Alice"
+              }
+            ],
+            "identifiers": {
+              "doi": "10.1000/one"
+            }
+          }
+        ],
+        "format": "ris"
+      },
+      "start": 40536059.33650277,
+      "end": 40536059.344842285,
+      "latency_ms": 8.339516818523407,
+      "success": true,
+      "result_summary": {
+        "content_length": 78
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 3
+      },
+      "start": 40536059.34487898,
+      "end": 40536059.51686358,
+      "latency_ms": 171.98459804058075,
+      "success": true,
+      "result_summary": {
+        "work_count": 9
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 3,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:50:14.586096Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 9,
+        "merged_count": 9
+      },
+      "error": null
+    },
+    {
+      "tool": "lookup_mesh",
+      "params": {
+        "term": "carcinoma",
+        "limit": 3
+      },
+      "start": 40536059.52039099,
+      "end": 40536065.6985864,
+      "latency_ms": 6178.195409476757,
+      "success": true,
+      "result_summary": {
+        "mesh_count": 3
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "plan_literature_search",
+      "params": {
+        "query": "biomarkers",
+        "profile": "default"
+      },
+      "start": 40536065.69862635,
+      "end": 40536065.703889474,
+      "latency_ms": 5.263127386569977,
+      "success": true,
+      "result_summary": {
+        "selected_sources": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ]
+      },
+      "warnings": [
+        "Manual or unsupported sources are cataloged but not queried automatically: scopus, sciencedirect, webofscience, google_scholar, cnki, wanfang"
+      ],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "export_records",
+      "params": {
+        "works": [
+          {
+            "work_id": "w1",
+            "title": "Example Paper",
+            "year": 2024,
+            "authors": [
+              {
+                "name": "Alice"
+              }
+            ],
+            "identifiers": {
+              "doi": "10.1000/one"
+            }
+          }
+        ],
+        "format": "ris"
+      },
+      "start": 40536065.70394193,
+      "end": 40536065.70911682,
+      "latency_ms": 5.174890160560608,
+      "success": true,
+      "result_summary": {
+        "content_length": 78
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 3
+      },
+      "start": 40536065.709173866,
+      "end": 40536065.91689005,
+      "latency_ms": 207.7161818742752,
+      "success": true,
+      "result_summary": {
+        "work_count": 9
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 3,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:50:20.948602Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 9,
+        "merged_count": 9
+      },
+      "error": null
+    },
+    {
+      "tool": "lookup_mesh",
+      "params": {
+        "term": "carcinoma",
+        "limit": 3
+      },
+      "start": 40536065.92041607,
+      "end": 40536072.30108925,
+      "latency_ms": 6380.673177540302,
+      "success": true,
+      "result_summary": {
+        "mesh_count": 3
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "plan_literature_search",
+      "params": {
+        "query": "biomarkers",
+        "profile": "default"
+      },
+      "start": 40536072.301150724,
+      "end": 40536072.30696709,
+      "latency_ms": 5.816362798213959,
+      "success": true,
+      "result_summary": {
+        "selected_sources": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ]
+      },
+      "warnings": [
+        "Manual or unsupported sources are cataloged but not queried automatically: scopus, sciencedirect, webofscience, google_scholar, cnki, wanfang"
+      ],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "export_records",
+      "params": {
+        "works": [
+          {
+            "work_id": "w1",
+            "title": "Example Paper",
+            "year": 2024,
+            "authors": [
+              {
+                "name": "Alice"
+              }
+            ],
+            "identifiers": {
+              "doi": "10.1000/one"
+            }
+          }
+        ],
+        "format": "ris"
+      },
+      "start": 40536072.30702363,
+      "end": 40536072.31191829,
+      "latency_ms": 4.894658923149109,
+      "success": true,
+      "result_summary": {
+        "content_length": 78
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 3
+      },
+      "start": 40536072.31195789,
+      "end": 40536072.473881565,
+      "latency_ms": 161.92367672920227,
+      "success": true,
+      "result_summary": {
+        "work_count": 9
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 3,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:50:27.551042Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 9,
+        "merged_count": 9
+      },
+      "error": null
+    },
+    {
+      "tool": "lookup_mesh",
+      "params": {
+        "term": "carcinoma",
+        "limit": 3
+      },
+      "start": 40536072.47732368,
+      "end": 40536079.00695727,
+      "latency_ms": 6529.633589088917,
+      "success": true,
+      "result_summary": {
+        "mesh_count": 3
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "plan_literature_search",
+      "params": {
+        "query": "biomarkers",
+        "profile": "default"
+      },
+      "start": 40536079.00701755,
+      "end": 40536079.01425391,
+      "latency_ms": 7.236354053020477,
+      "success": true,
+      "result_summary": {
+        "selected_sources": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ]
+      },
+      "warnings": [
+        "Manual or unsupported sources are cataloged but not queried automatically: scopus, sciencedirect, webofscience, google_scholar, cnki, wanfang"
+      ],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "export_records",
+      "params": {
+        "works": [
+          {
+            "work_id": "w1",
+            "title": "Example Paper",
+            "year": 2024,
+            "authors": [
+              {
+                "name": "Alice"
+              }
+            ],
+            "identifiers": {
+              "doi": "10.1000/one"
+            }
+          }
+        ],
+        "format": "ris"
+      },
+      "start": 40536079.0143073,
+      "end": 40536079.02040122,
+      "latency_ms": 6.093919277191162,
+      "success": true,
+      "result_summary": {
+        "content_length": 78
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 3
+      },
+      "start": 40536079.0204462,
+      "end": 40536079.27195771,
+      "latency_ms": 251.51150673627853,
+      "success": true,
+      "result_summary": {
+        "work_count": 9
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 3,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:50:34.260157Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 9,
+        "merged_count": 9
+      },
+      "error": null
+    },
+    {
+      "tool": "lookup_mesh",
+      "params": {
+        "term": "carcinoma",
+        "limit": 3
+      },
+      "start": 40536079.2754297,
+      "end": 40536085.77452617,
+      "latency_ms": 6499.096468091011,
+      "success": true,
+      "result_summary": {
+        "mesh_count": 3
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "plan_literature_search",
+      "params": {
+        "query": "biomarkers",
+        "profile": "default"
+      },
+      "start": 40536085.774576604,
+      "end": 40536085.77907885,
+      "latency_ms": 4.502244293689728,
+      "success": true,
+      "result_summary": {
+        "selected_sources": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ]
+      },
+      "warnings": [
+        "Manual or unsupported sources are cataloged but not queried automatically: scopus, sciencedirect, webofscience, google_scholar, cnki, wanfang"
+      ],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "export_records",
+      "params": {
+        "works": [
+          {
+            "work_id": "w1",
+            "title": "Example Paper",
+            "year": 2024,
+            "authors": [
+              {
+                "name": "Alice"
+              }
+            ],
+            "identifiers": {
+              "doi": "10.1000/one"
+            }
+          }
+        ],
+        "format": "ris"
+      },
+      "start": 40536085.77910801,
+      "end": 40536085.78273186,
+      "latency_ms": 3.623850643634796,
+      "success": true,
+      "result_summary": {
+        "content_length": 78
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 3
+      },
+      "start": 40536085.78275512,
+      "end": 40536085.96577753,
+      "latency_ms": 183.0224096775055,
+      "success": true,
+      "result_summary": {
+        "work_count": 9
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 3,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:50:41.021527Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 9,
+        "merged_count": 9
+      },
+      "error": null
+    },
+    {
+      "tool": "lookup_mesh",
+      "params": {
+        "term": "carcinoma",
+        "limit": 3
+      },
+      "start": 40536085.97110635,
+      "end": 40536092.34421232,
+      "latency_ms": 6373.105973005295,
+      "success": true,
+      "result_summary": {
+        "mesh_count": 3
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "plan_literature_search",
+      "params": {
+        "query": "biomarkers",
+        "profile": "default"
+      },
+      "start": 40536092.344281256,
+      "end": 40536092.34975106,
+      "latency_ms": 5.469806492328644,
+      "success": true,
+      "result_summary": {
+        "selected_sources": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ]
+      },
+      "warnings": [
+        "Manual or unsupported sources are cataloged but not queried automatically: scopus, sciencedirect, webofscience, google_scholar, cnki, wanfang"
+      ],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "export_records",
+      "params": {
+        "works": [
+          {
+            "work_id": "w1",
+            "title": "Example Paper",
+            "year": 2024,
+            "authors": [
+              {
+                "name": "Alice"
+              }
+            ],
+            "identifiers": {
+              "doi": "10.1000/one"
+            }
+          }
+        ],
+        "format": "ris"
+      },
+      "start": 40536092.349797055,
+      "end": 40536092.35407086,
+      "latency_ms": 4.273802042007446,
+      "success": true,
+      "result_summary": {
+        "content_length": 78
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 3
+      },
+      "start": 40536092.35409884,
+      "end": 40536092.57485316,
+      "latency_ms": 220.75431793928146,
+      "success": true,
+      "result_summary": {
+        "work_count": 9
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 3,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:50:47.593022Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 9,
+        "merged_count": 9
+      },
+      "error": null
+    },
+    {
+      "tool": "lookup_mesh",
+      "params": {
+        "term": "carcinoma",
+        "limit": 3
+      },
+      "start": 40536092.578083016,
+      "end": 40536099.07655844,
+      "latency_ms": 6498.4754249453545,
+      "success": true,
+      "result_summary": {
+        "mesh_count": 3
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "plan_literature_search",
+      "params": {
+        "query": "biomarkers",
+        "profile": "default"
+      },
+      "start": 40536099.07659619,
+      "end": 40536099.081502944,
+      "latency_ms": 4.906751215457916,
+      "success": true,
+      "result_summary": {
+        "selected_sources": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ]
+      },
+      "warnings": [
+        "Manual or unsupported sources are cataloged but not queried automatically: scopus, sciencedirect, webofscience, google_scholar, cnki, wanfang"
+      ],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "export_records",
+      "params": {
+        "works": [
+          {
+            "work_id": "w1",
+            "title": "Example Paper",
+            "year": 2024,
+            "authors": [
+              {
+                "name": "Alice"
+              }
+            ],
+            "identifiers": {
+              "doi": "10.1000/one"
+            }
+          }
+        ],
+        "format": "ris"
+      },
+      "start": 40536099.08153328,
+      "end": 40536099.08521996,
+      "latency_ms": 3.686673939228058,
+      "success": true,
+      "result_summary": {
+        "content_length": 78
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 3
+      },
+      "start": 40536099.08525902,
+      "end": 40536099.24762972,
+      "latency_ms": 162.3706966638565,
+      "success": true,
+      "result_summary": {
+        "work_count": 9
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 3,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:50:54.324022Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 9,
+        "merged_count": 9
+      },
+      "error": null
+    },
+    {
+      "tool": "lookup_mesh",
+      "params": {
+        "term": "carcinoma",
+        "limit": 3
+      },
+      "start": 40536099.25309931,
+      "end": 40536105.79292328,
+      "latency_ms": 6539.823971688747,
+      "success": true,
+      "result_summary": {
+        "mesh_count": 3
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "plan_literature_search",
+      "params": {
+        "query": "biomarkers",
+        "profile": "default"
+      },
+      "start": 40536105.79297743,
+      "end": 40536105.79879565,
+      "latency_ms": 5.818217992782593,
+      "success": true,
+      "result_summary": {
+        "selected_sources": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ]
+      },
+      "warnings": [
+        "Manual or unsupported sources are cataloged but not queried automatically: scopus, sciencedirect, webofscience, google_scholar, cnki, wanfang"
+      ],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "export_records",
+      "params": {
+        "works": [
+          {
+            "work_id": "w1",
+            "title": "Example Paper",
+            "year": 2024,
+            "authors": [
+              {
+                "name": "Alice"
+              }
+            ],
+            "identifiers": {
+              "doi": "10.1000/one"
+            }
+          }
+        ],
+        "format": "ris"
+      },
+      "start": 40536105.798844546,
+      "end": 40536105.803799935,
+      "latency_ms": 4.955388605594635,
+      "success": true,
+      "result_summary": {
+        "content_length": 78
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 3
+      },
+      "start": 40536105.8038429,
+      "end": 40536105.99066573,
+      "latency_ms": 186.8228241801262,
+      "success": true,
+      "result_summary": {
+        "work_count": 9
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 3,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:51:01.042788Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 9,
+        "merged_count": 9
+      },
+      "error": null
+    },
+    {
+      "tool": "lookup_mesh",
+      "params": {
+        "term": "carcinoma",
+        "limit": 3
+      },
+      "start": 40536105.994295016,
+      "end": 40536112.33507399,
+      "latency_ms": 6340.778976678848,
+      "success": true,
+      "result_summary": {
+        "mesh_count": 3
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "plan_literature_search",
+      "params": {
+        "query": "biomarkers",
+        "profile": "default"
+      },
+      "start": 40536112.33512794,
+      "end": 40536112.340888105,
+      "latency_ms": 5.760163068771362,
+      "success": true,
+      "result_summary": {
+        "selected_sources": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ]
+      },
+      "warnings": [
+        "Manual or unsupported sources are cataloged but not queried automatically: scopus, sciencedirect, webofscience, google_scholar, cnki, wanfang"
+      ],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "export_records",
+      "params": {
+        "works": [
+          {
+            "work_id": "w1",
+            "title": "Example Paper",
+            "year": 2024,
+            "authors": [
+              {
+                "name": "Alice"
+              }
+            ],
+            "identifiers": {
+              "doi": "10.1000/one"
+            }
+          }
+        ],
+        "format": "ris"
+      },
+      "start": 40536112.3409395,
+      "end": 40536112.34589219,
+      "latency_ms": 4.952691495418549,
+      "success": true,
+      "result_summary": {
+        "content_length": 78
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 3
+      },
+      "start": 40536112.34593432,
+      "end": 40536112.50549862,
+      "latency_ms": 159.5643013715744,
+      "success": true,
+      "result_summary": {
+        "work_count": 9
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 3,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": true,
+            "returned_count": 3,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:51:07.585088Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 9,
+        "merged_count": 9
+      },
+      "error": null
+    },
+    {
+      "tool": "lookup_mesh",
+      "params": {
+        "term": "carcinoma",
+        "limit": 3
+      },
+      "start": 40536112.509326525,
+      "end": 40536118.8604612,
+      "latency_ms": 6351.134672760963,
+      "success": true,
+      "result_summary": {
+        "mesh_count": 3
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "get_work",
+      "params": {
+        "identifier": "not-a-real-id"
+      },
+      "start": 40536118.86054408,
+      "end": 40536119.00745253,
+      "latency_ms": 146.9084545969963,
+      "success": true,
+      "result_summary": {
+        "work_count": 0
+      },
+      "warnings": [],
+      "trace": {
+        "query": null,
+        "filters": {},
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [],
+        "sources_degraded": [],
+        "sources_failed": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "source_errors": [],
+        "source_result_counts": [],
+        "retrieved_at": "2026-07-08T06:51:14.100632Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 0,
+        "merged_count": 0
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": ""
+      },
+      "start": 40536119.00755997,
+      "end": 40536141.9555634,
+      "latency_ms": 22948.00343364477,
+      "success": true,
+      "result_summary": {
+        "work_count": 20
+      },
+      "warnings": [
+        "Some sources failed: openalex"
+      ],
+      "trace": {
+        "query": "",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 20,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [
+          "openalex"
+        ],
+        "source_errors": [
+          {
+            "source": "openalex",
+            "operation": "search",
+            "failure_class": "unknown_error",
+            "message": "'NoneType' object has no attribute 'get'",
+            "timestamp": "2026-07-08T06:51:14.246943Z",
+            "retry_count": 0,
+            "fallback_used": false,
+            "query_or_identifier": null
+          }
+        ],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 0,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 20,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:51:14.246943Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 20,
+        "merged_count": 20
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC",
+        "sources": [
+          "nonexistent"
+        ]
+      },
+      "start": 40536141.958477445,
+      "end": 40536141.96836479,
+      "latency_ms": 9.887345135211945,
+      "success": true,
+      "result_summary": {
+        "work_count": 0
+      },
+      "warnings": [
+        "Some sources failed: nonexistent"
+      ],
+      "trace": {
+        "query": "HCC",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 20,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "nonexistent"
+        ],
+        "sources_succeeded": [],
+        "sources_degraded": [],
+        "sources_failed": [
+          "nonexistent"
+        ],
+        "source_errors": [
+          {
+            "source": "nonexistent",
+            "operation": "search",
+            "failure_class": "not_configured",
+            "message": "Unknown source adapter: nonexistent",
+            "timestamp": "2026-07-08T06:51:37.199551Z",
+            "retry_count": 0,
+            "fallback_used": false,
+            "query_or_identifier": null
+          }
+        ],
+        "source_result_counts": [],
+        "retrieved_at": "2026-07-08T06:51:37.199551Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 0,
+        "merged_count": 0
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC",
+        "limit": 500
+      },
+      "start": 40536141.968419656,
+      "end": 40536141.97136616,
+      "latency_ms": 2.946503460407257,
+      "success": false,
+      "result_summary": {},
+      "warnings": [],
+      "trace": {},
+      "error": "MCP tool error: Error executing tool search_literature: 1 validation error for SearchFilters\nlimit\n  Input should be less than or equal to 200 [type=less_than_equal, input_value=500, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.13/v/less_than_equal"
+    }
+  ]
+}

@@ -1,0 +1,761 @@
+[07/08/26 14:42:30] INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:42:36] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esearch.fcgi?retmode=jso                
+                             n&db=pubmed&term=HCC+TACE+PD-1&retm                
+                             ax=5&sort=relevance "HTTP/1.1 200                  
+                             OK"                                                
+                    INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esummary.fcgi?retmode=js                
+                             on&db=pubmed&id=37540187%2C35681776                
+                             %2C39161764%2C36999793%2C40574843                  
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:42:47] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.crossref.org/works?quer                
+                             y=HCC+TACE+PD-1&rows=5&sort=relevan                
+                             ce&order=desc "HTTP/1.1 200 OK"                    
+[07/08/26 14:42:53] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.openalex.org/works?sear                
+                             ch=HCC+TACE+PD-1&per-page=5                        
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:42:54] INFO     Processing request of type            server.py:733
+                             ListToolsRequest                                   
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:43:00] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esearch.fcgi?retmode=jso                
+                             n&db=pubmed&term=10.1038%2Fs41586-0                
+                             21-03819-2%5Bdoi%5D&retmax=1&sort=r                
+                             elevance "HTTP/1.1 200 OK"                         
+                    INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esummary.fcgi?retmode=js                
+                             on&db=pubmed&id=34265844 "HTTP/1.1                 
+                             200 OK"                                            
+[07/08/26 14:43:06] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.crossref.org/works/10.1                
+                             038/s41586-021-03819-2 "HTTP/1.1                   
+                             200 OK"                                            
+[07/08/26 14:43:11] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.openalex.org/works/doi:                
+                             10.1038/s41586-021-03819-2                         
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:43:12] INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:43:18] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esearch.fcgi?retmode=jso                
+                             n&db=pubmed&term=10.1038%2Fs41586-0                
+                             21-03819-2%5Bdoi%5D&retmax=1&sort=r                
+                             elevance "HTTP/1.1 200 OK"                         
+                    INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esummary.fcgi?retmode=js                
+                             on&db=pubmed&id=34265844 "HTTP/1.1                 
+                             200 OK"                                            
+[07/08/26 14:43:24] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.crossref.org/works/10.1                
+                             038/s41586-021-03819-2 "HTTP/1.1                   
+                             200 OK"                                            
+[07/08/26 14:43:29] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.openalex.org/works/doi:                
+                             10.1038/s41586-021-03819-2                         
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:43:30] INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:43:35] INFO     HTTP Request: GET                   _client.py:1740
+                             https://export.arxiv.org/api/query?                
+                             search_query=all%3Atest&max_results                
+                             =1 "HTTP/1.1 200 OK"                               
+[07/08/26 14:43:42] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.biorxiv.org/details/bio                
+                             rxiv/2020-01-01/2020-01-02                         
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:43:52] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.crossref.org/works?rows                
+                             =1 "HTTP/1.1 200 OK"                               
+[07/08/26 14:43:59] INFO     HTTP Request: GET                   _client.py:1740
+                             https://www.ebi.ac.uk/europepmc/web                
+                             services/rest/search?query=test&for                
+                             mat=json&pageSize=1 "HTTP/1.1 200                  
+                             OK"                                                
+[07/08/26 14:44:05] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.biorxiv.org/details/med                
+                             rxiv/2020-01-01/2020-01-02                         
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:44:11] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.openalex.org/works?per-                
+                             page=1 "HTTP/1.1 200 OK"                           
+[07/08/26 14:44:17] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esearch.fcgi?retmode=jso                
+                             n&db=pubmed&term=test&retmax=1&sort                
+                             =relevance "HTTP/1.1 200 OK"                       
+[07/08/26 14:44:24] INFO     HTTP Request: GET                   _client.py:1740
+                             https://www.ncbi.nlm.nih.gov/resear                
+                             ch/pubtator3-api/search/?text=test&                
+                             page=1 "HTTP/1.1 200 OK"                           
+[07/08/26 14:44:30] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.semanticscholar.org/gra                
+                             ph/v1/paper/search?query=test&field                
+                             s=paperId&limit=1 "HTTP/1.1 429 "                  
+[07/08/26 14:44:32] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.semanticscholar.org/gra                
+                             ph/v1/paper/search?query=test&field                
+                             s=paperId&limit=1 "HTTP/1.1 429 "                  
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:44:38] INFO     HTTP Request: GET                   _client.py:1740
+                             https://id.nlm.nih.gov/mesh/lookup/                
+                             descriptor?label=hepatocellular+car                
+                             cinoma&match=contains&limit=5                      
+                             "HTTP/1.1 200 "                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:44:48] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/elink.fcgi?retmode=json&                
+                             dbfrom=pubmed&db=pubmed&id=12345678                
+                             &cmd=neighbor "HTTP/1.1 200 OK"                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:44:54] INFO     HTTP Request: GET                   _client.py:1740
+                             https://www.ncbi.nlm.nih.gov/pmc/ut                
+                             ils/idconv/v1.0/?ids=10.1038%2Fs415                
+                             86-021-03819-2&format=json                         
+                             "HTTP/1.1 301 Moved Permanently"                   
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:45:00] INFO     HTTP Request: GET                   _client.py:1740
+                             https://www.ncbi.nlm.nih.gov/resear                
+                             ch/pubtator3-api/entity/autocomplet                
+                             e/?query=PDCD1&limit=5 "HTTP/1.1                   
+                             200 OK"                                            
+[07/08/26 14:45:04] INFO     HTTP Request: GET                   _client.py:1740
+                             https://www.ncbi.nlm.nih.gov/resear                
+                             ch/pubtator3-api/relations?e1=%40GE                
+                             NE_PDCD1&e2=chemical&type=interact&                
+                             limit=5 "HTTP/1.1 200 OK"                          
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:45:10] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esearch.fcgi?retmode=jso                
+                             n&db=pubmed&term=10.1038%2Fs41586-0                
+                             21-03819-2%5Bdoi%5D&retmax=1&sort=r                
+                             elevance "HTTP/1.1 200 OK"                         
+                    INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esummary.fcgi?retmode=js                
+                             on&db=pubmed&id=34265844 "HTTP/1.1                 
+                             200 OK"                                            
+[07/08/26 14:45:16] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.crossref.org/works/10.1                
+                             038/s41586-021-03819-2 "HTTP/1.1                   
+                             200 OK"                                            
+[07/08/26 14:45:22] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.openalex.org/works/doi:                
+                             10.1038/s41586-021-03819-2                         
+                             "HTTP/1.1 200 OK"                                  
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:45:23] INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:45:24] INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:45:25] INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:45:26] INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:45:27] INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:45:33] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esearch.fcgi?retmode=jso                
+                             n&db=pubmed&term=immunotherapy+biom                
+                             arkers&retmax=5&sort=relevance                     
+                             "HTTP/1.1 200 OK"                                  
+                    INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esummary.fcgi?retmode=js                
+                             on&db=pubmed&id=37726418%2C36111569                
+                             %2C38057451%2C31797153%2C40054999                  
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:45:44] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.crossref.org/works?quer                
+                             y=immunotherapy+biomarkers&rows=5&s                
+                             ort=relevance&order=desc "HTTP/1.1                 
+                             200 OK"                                            
+[07/08/26 14:45:50] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.openalex.org/works?sear                
+                             ch=immunotherapy+biomarkers&per-pag                
+                             e=5 "HTTP/1.1 200 OK"                              
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:45:56] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esearch.fcgi?retmode=jso                
+                             n&db=pubmed&term=single-cell+RNA-se                
+                             q&retmax=5&sort=relevance "HTTP/1.1                
+                             200 OK"                                            
+[07/08/26 14:45:57] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esummary.fcgi?retmode=js                
+                             on&db=pubmed&id=36708705%2C37566049                
+                             %2C37081869%2C38751367%2C39264020                  
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:46:06] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.crossref.org/works?quer                
+                             y=single-cell+RNA-seq&rows=5&sort=r                
+                             elevance&order=desc "HTTP/1.1 200                  
+                             OK"                                                
+[07/08/26 14:46:11] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.openalex.org/works?sear                
+                             ch=single-cell+RNA-seq&per-page=5                  
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:46:12] INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:46:18] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esearch.fcgi?retmode=jso                
+                             n&db=pubmed&term=CRISPR+screening+c                
+                             ancer&retmax=5&sort=relevance                      
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:46:19] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esummary.fcgi?retmode=js                
+                             on&db=pubmed&id=35189910%2C24336571                
+                             %2C40650785%2C39186674%2C38003514                  
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:46:28] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.crossref.org/works?quer                
+                             y=CRISPR+screening+cancer&rows=5&so                
+                             rt=relevance&order=desc "HTTP/1.1                  
+                             200 OK"                                            
+[07/08/26 14:46:34] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.openalex.org/works?sear                
+                             ch=CRISPR+screening+cancer&per-page                
+                             =5 "HTTP/1.1 200 OK"                               
+[07/08/26 14:46:35] INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:46:41] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esearch.fcgi?retmode=jso                
+                             n&db=pubmed&term=hepatocellular+car                
+                             cinoma+immunotherapy&retmax=5&sort=                
+                             relevance "HTTP/1.1 200 OK"                        
+                    INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esummary.fcgi?retmode=js                
+                             on&db=pubmed&id=33850328%2C38679698                
+                             %2C36001163%2C40076561%2C38855876                  
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:46:50] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.crossref.org/works?quer                
+                             y=hepatocellular+carcinoma+immunoth                
+                             erapy&rows=5&sort=relevance&order=d                
+                             esc "HTTP/1.1 200 OK"                              
+[07/08/26 14:46:56] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.openalex.org/works?sear                
+                             ch=hepatocellular+carcinoma+immunot                
+                             herapy&per-page=5 "HTTP/1.1 200 OK"                
+[07/08/26 14:46:57] INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:47:03] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esearch.fcgi?retmode=jso                
+                             n&db=pubmed&term=PD-L1+expression&r                
+                             etmax=5&sort=relevance "HTTP/1.1                   
+                             200 OK"                                            
+                    INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esummary.fcgi?retmode=js                
+                             on&db=pubmed&id=31668929%2C34126195                
+                             %2C34493872%2C32839551%2C25695955                  
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:47:18] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.crossref.org/works?quer                
+                             y=PD-L1+expression&rows=5&sort=rele                
+                             vance&order=desc "HTTP/1.1 200 OK"                 
+[07/08/26 14:47:24] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.openalex.org/works?sear                
+                             ch=PD-L1+expression&per-page=5                     
+                             "HTTP/1.1 200 OK"                                  
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:47:30] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esearch.fcgi?retmode=jso                
+                             n&db=pubmed&term=tumor+microenviron                
+                             ment&retmax=5&sort=relevance                       
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:47:32] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esummary.fcgi?retmode=js                
+                             on&db=pubmed&id=32398706%2C38977835                
+                             %2C37491279%2C35674109%2C35689826                  
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:47:42] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.crossref.org/works?quer                
+                             y=tumor+microenvironment&rows=5&sor                
+                             t=relevance&order=desc "HTTP/1.1                   
+                             200 OK"                                            
+[07/08/26 14:47:48] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.openalex.org/works?sear                
+                             ch=tumor+microenvironment&per-page=                
+                             5 "HTTP/1.1 200 OK"                                
+[07/08/26 14:47:49] INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:47:55] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esearch.fcgi?retmode=jso                
+                             n&db=pubmed&term=CAR-T+therapy&retm                
+                             ax=5&sort=relevance "HTTP/1.1 200                  
+                             OK"                                                
+                    INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esummary.fcgi?retmode=js                
+                             on&db=pubmed&id=39539554%2C38568061                
+                             %2C38072433%2C37779413%2C35652169                  
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:48:07] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.crossref.org/works?quer                
+                             y=CAR-T+therapy&rows=5&sort=relevan                
+                             ce&order=desc "HTTP/1.1 200 OK"                    
+[07/08/26 14:48:13] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.openalex.org/works?sear                
+                             ch=CAR-T+therapy&per-page=5                        
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:48:14] INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:48:19] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esearch.fcgi?retmode=jso                
+                             n&db=pubmed&term=immune+checkpoint+                
+                             inhibitors&retmax=5&sort=relevance                 
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:48:20] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esummary.fcgi?retmode=js                
+                             on&db=pubmed&id=39447408%2C35621637                
+                             %2C37304306%2C35159131%2C37009977                  
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:48:33] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.crossref.org/works?quer                
+                             y=immune+checkpoint+inhibitors&rows                
+                             =5&sort=relevance&order=desc                       
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:48:39] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.openalex.org/works?sear                
+                             ch=immune+checkpoint+inhibitors&per                
+                             -page=5 "HTTP/1.1 200 OK"                          
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:48:45] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esearch.fcgi?retmode=jso                
+                             n&db=pubmed&term=cancer+vaccine&ret                
+                             max=5&sort=relevance "HTTP/1.1 200                 
+                             OK"                                                
+[07/08/26 14:48:46] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esummary.fcgi?retmode=js                
+                             on&db=pubmed&id=33632261%2C37681891                
+                             %2C37612832%2C39582860%2C39957693                  
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:49:07] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.crossref.org/works?quer                
+                             y=cancer+vaccine&rows=5&sort=releva                
+                             nce&order=desc "HTTP/1.1 200 OK"                   
+[07/08/26 14:49:13] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.openalex.org/works?sear                
+                             ch=cancer+vaccine&per-page=5                       
+                             "HTTP/1.1 200 OK"                                  
+[07/08/26 14:49:14] INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:49:20] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.semanticscholar.org/gra                
+                             ph/v1/paper/search?query=HCC+TACE+P                
+                             D-1&fields=paperId%2Ctitle%2Cyear%2                
+                             CpublicationDate%2Curl%2Cvenue%2Cci                
+                             tationCount%2CinfluentialCitationCo                
+                             unt%2Cauthors%2CexternalIds%2CopenA                
+                             ccessPdf%2CpublicationTypes%2Cfield                
+                             sOfStudy&limit=5&sort=relevance                    
+                             "HTTP/1.1 429 "                                    
+[07/08/26 14:49:21] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.semanticscholar.org/gra                
+                             ph/v1/paper/search?query=HCC+TACE+P                
+                             D-1&fields=paperId%2Ctitle%2Cyear%2                
+                             CpublicationDate%2Curl%2Cvenue%2Cci                
+                             tationCount%2CinfluentialCitationCo                
+                             unt%2Cauthors%2CexternalIds%2CopenA                
+                             ccessPdf%2CpublicationTypes%2Cfield                
+                             sOfStudy&limit=5&sort=relevance                    
+                             "HTTP/1.1 429 "                                    
+[07/08/26 14:49:22] INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:49:23] INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:49:24] INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:49:30] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esearch.fcgi?retmode=jso                
+                             n&db=pubmed&term=HCC+TACE+PD-1&retm                
+                             ax=3&sort=relevance "HTTP/1.1 200                  
+                             OK"                                                
+                    INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esummary.fcgi?retmode=js                
+                             on&db=pubmed&id=37540187%2C35681776                
+                             %2C39161764 "HTTP/1.1 200 OK"                      
+[07/08/26 14:49:41] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.crossref.org/works?quer                
+                             y=HCC+TACE+PD-1&rows=3&sort=relevan                
+                             ce&order=desc "HTTP/1.1 200 OK"                    
+[07/08/26 14:49:47] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.openalex.org/works?sear                
+                             ch=HCC+TACE+PD-1&per-page=3                        
+                             "HTTP/1.1 200 OK"                                  
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:49:54] INFO     HTTP Request: GET                   _client.py:1740
+                             https://id.nlm.nih.gov/mesh/lookup/                
+                             descriptor?label=carcinoma&match=co                
+                             ntains&limit=3 "HTTP/1.1 200 "                     
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:50:01] INFO     HTTP Request: GET                   _client.py:1740
+                             https://id.nlm.nih.gov/mesh/lookup/                
+                             descriptor?label=carcinoma&match=co                
+                             ntains&limit=3 "HTTP/1.1 200 "                     
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:50:07] INFO     HTTP Request: GET                   _client.py:1740
+                             https://id.nlm.nih.gov/mesh/lookup/                
+                             descriptor?label=carcinoma&match=co                
+                             ntains&limit=3 "HTTP/1.1 200 "                     
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:50:08] INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:50:14] INFO     HTTP Request: GET                   _client.py:1740
+                             https://id.nlm.nih.gov/mesh/lookup/                
+                             descriptor?label=carcinoma&match=co                
+                             ntains&limit=3 "HTTP/1.1 200 "                     
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:50:20] INFO     HTTP Request: GET                   _client.py:1740
+                             https://id.nlm.nih.gov/mesh/lookup/                
+                             descriptor?label=carcinoma&match=co                
+                             ntains&limit=3 "HTTP/1.1 200 "                     
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:50:21] INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:50:27] INFO     HTTP Request: GET                   _client.py:1740
+                             https://id.nlm.nih.gov/mesh/lookup/                
+                             descriptor?label=carcinoma&match=co                
+                             ntains&limit=3 "HTTP/1.1 200 "                     
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:50:34] INFO     HTTP Request: GET                   _client.py:1740
+                             https://id.nlm.nih.gov/mesh/lookup/                
+                             descriptor?label=carcinoma&match=co                
+                             ntains&limit=3 "HTTP/1.1 200 "                     
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:50:40] INFO     HTTP Request: GET                   _client.py:1740
+                             https://id.nlm.nih.gov/mesh/lookup/                
+                             descriptor?label=carcinoma&match=co                
+                             ntains&limit=3 "HTTP/1.1 200 "                     
+[07/08/26 14:50:41] INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:50:47] INFO     HTTP Request: GET                   _client.py:1740
+                             https://id.nlm.nih.gov/mesh/lookup/                
+                             descriptor?label=carcinoma&match=co                
+                             ntains&limit=3 "HTTP/1.1 200 "                     
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:50:54] INFO     HTTP Request: GET                   _client.py:1740
+                             https://id.nlm.nih.gov/mesh/lookup/                
+                             descriptor?label=carcinoma&match=co                
+                             ntains&limit=3 "HTTP/1.1 200 "                     
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:51:01] INFO     HTTP Request: GET                   _client.py:1740
+                             https://id.nlm.nih.gov/mesh/lookup/                
+                             descriptor?label=carcinoma&match=co                
+                             ntains&limit=3 "HTTP/1.1 200 "                     
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:51:07] INFO     HTTP Request: GET                   _client.py:1740
+                             https://id.nlm.nih.gov/mesh/lookup/                
+                             descriptor?label=carcinoma&match=co                
+                             ntains&limit=3 "HTTP/1.1 200 "                     
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:51:14] INFO     HTTP Request: GET                   _client.py:1740
+                             https://id.nlm.nih.gov/mesh/lookup/                
+                             descriptor?label=carcinoma&match=co                
+                             ntains&limit=3 "HTTP/1.1 200 "                     
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+[07/08/26 14:51:19] INFO     HTTP Request: GET                   _client.py:1740
+                             https://eutils.ncbi.nlm.nih.gov/ent                
+                             rez/eutils/esearch.fcgi?retmode=jso                
+                             n&db=pubmed&term=&retmax=20&sort=re                
+                             levance "HTTP/1.1 200 OK"                          
+[07/08/26 14:51:30] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.crossref.org/works?quer                
+                             y=&rows=20&sort=relevance&order=des                
+                             c "HTTP/1.1 200 OK"                                
+[07/08/26 14:51:36] INFO     HTTP Request: GET                   _client.py:1740
+                             https://api.openalex.org/works?sear                
+                             ch=&per-page=20 "HTTP/1.1 200 OK"                  
+[07/08/26 14:51:37] INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+                    INFO     Processing request of type            server.py:733
+                             CallToolRequest                                    
+=== Smoke tests ===
+[smoke] search_literature ...
+[smoke] search_literature: OK (23843ms)
+[smoke] plan_literature_search ...
+[smoke] plan_literature_search: OK (6ms)
+[smoke] get_work ...
+[smoke] get_work: OK (18015ms)
+[smoke] resolve_identifiers ...
+[smoke] resolve_identifiers: OK (17928ms)
+[smoke] get_source_status ...
+[smoke] get_source_status: OK (62022ms)
+[smoke] lookup_mesh ...
+[smoke] lookup_mesh: OK (6336ms)
+[smoke] find_related_articles ...
+[smoke] find_related_articles: OK (9512ms)
+[smoke] convert_identifiers ...
+[smoke] convert_identifiers: FAIL (5902ms)
+[smoke] search_literature_signals ...
+[smoke] search_literature_signals: OK (10699ms)
+[smoke] expand_from_work ...
+[smoke] expand_from_work: OK (17877ms)
+[smoke] export_records ...
+[smoke] export_records: OK (9ms)
+
+=== Repeated search (cache test) ===
+[repeat 1/20] latency=225ms success=True
+[repeat 2/20] latency=194ms success=True
+[repeat 3/20] latency=230ms success=True
+[repeat 4/20] latency=187ms success=True
+[repeat 5/20] latency=208ms success=True
+[repeat 6/20] latency=229ms success=True
+[repeat 7/20] latency=239ms success=True
+[repeat 8/20] latency=192ms success=True
+[repeat 9/20] latency=277ms success=True
+[repeat 10/20] latency=199ms success=True
+[repeat 11/20] latency=183ms success=True
+[repeat 12/20] latency=234ms success=True
+[repeat 13/20] latency=191ms success=True
+[repeat 14/20] latency=191ms success=True
+[repeat 15/20] latency=227ms success=True
+[repeat 16/20] latency=215ms success=True
+[repeat 17/20] latency=190ms success=True
+[repeat 18/20] latency=222ms success=True
+[repeat 19/20] latency=228ms success=True
+[repeat 20/20] latency=254ms success=True
+
+=== Multi-query search ===
+[multi 1/10] 'HCC TACE PD-1' latency=249ms
+[multi 2/10] 'immunotherapy biomarkers' latency=23299ms
+[multi 3/10] 'single-cell RNA-seq' latency=22002ms
+[multi 4/10] 'CRISPR screening cancer' latency=22342ms
+[multi 5/10] 'hepatocellular carcinoma immunotherapy' latency=22470ms
+[multi 6/10] 'PD-L1 expression' latency=27205ms
+[multi 7/10] 'tumor microenvironment' latency=24519ms
+[multi 8/10] 'CAR-T therapy' latency=24819ms
+[multi 9/10] 'immune checkpoint inhibitors' latency=25624ms
+[multi 10/10] 'cancer vaccine' latency=34396ms
+
+=== Degradation tests ===
+[degradation] sources=['pubmed'] succeeded=['pubmed'] failed=[] degraded=[]
+[degradation] sources=['crossref'] succeeded=['crossref'] failed=[] degraded=[]
+[degradation] sources=['openalex'] succeeded=['openalex'] failed=[] degraded=[]
+[degradation] sources=['pubmed', 'crossref'] succeeded=['pubmed', 'crossref'] failed=[] degraded=[]
+[degradation] sources=['pubmed', 'crossref', 'openalex', 'semantic_scholar'] succeeded=['pubmed', 'crossref', 'openalex', 'semantic_scholar'] failed=[] degraded=[]
+
+=== Concurrent calls ===
+[concurrent] round 1/3
+[concurrent] round 1: 5/5 succeeded
+[concurrent] round 2/3
+[concurrent] round 2: 5/5 succeeded
+[concurrent] round 3/3
+[concurrent] round 3: 5/5 succeeded
+
+=== Long session ===
+[long] 10/50 done, last 10: 10/10 succeeded
+[long] 20/50 done, last 10: 10/10 succeeded
+[long] 30/50 done, last 10: 10/10 succeeded
+[long] 40/50 done, last 10: 10/10 succeeded
+[long] 50/50 done, last 10: 10/10 succeeded
+
+=== Invalid input tests ===
+[invalid] get_work({'identifier': 'not-a-real-id'}) success=True summary={'work_count': 0} warnings=[] error=None
+[invalid] search_literature({'query': ''}) success=True summary={'work_count': 20} warnings=['Some sources failed: openalex'] error=None
+[invalid] search_literature({'query': 'HCC', 'sources': ['nonexistent']}) success=True summary={'work_count': 0} warnings=['Some sources failed: nonexistent'] error=None
+[invalid] search_literature({'query': 'HCC', 'limit': 500}) success=False summary={} warnings=[] error=MCP tool error: Error executing tool search_literature: 1 validation error for SearchFilters
+limit
+  Input should be less than or equal to 200 [type=less_than_equal, input_value=500, input_type=int]
+    For further information visit https://errors.pydantic.dev/2.13/v/less_than_equal
+
+Report saved to reports/mcp_benchmark_full.json
+
+=== Summary ===
+Total calls: 115
+Success: 113
+Failure: 2
+Overall success rate: 98.26%
+Latency (ms): mean=4806.14 p50=225.22 p95=24518.61
+BENCHMARK_DONE

@@ -1,0 +1,767 @@
+{
+  "run_at": "2026-07-08T06:13:07.238964+00:00",
+  "total_calls": 15,
+  "total_success": 15,
+  "total_failure": 0,
+  "overall_success_rate": 1.0,
+  "overall_latency_ms": {
+    "count": 15,
+    "mean": 13622.37,
+    "min": 4.2,
+    "max": 76570.6,
+    "p50": 7050.16,
+    "p95": 76570.6,
+    "p99": 76570.6
+  },
+  "by_tool": {
+    "search_literature": {
+      "count": 4,
+      "success": 4,
+      "failure": 0,
+      "success_rate": 1.0,
+      "latency_ms": {
+        "count": 4,
+        "mean": 10606.59,
+        "min": 4.2,
+        "max": 21918.44,
+        "p50": 20493.81,
+        "p95": 21918.44,
+        "p99": 21918.44
+      }
+    },
+    "plan_literature_search": {
+      "count": 1,
+      "success": 1,
+      "failure": 0,
+      "success_rate": 1.0,
+      "latency_ms": {
+        "count": 1,
+        "mean": 5.03,
+        "min": 5.03,
+        "max": 5.03,
+        "p50": 5.03,
+        "p95": 5.03,
+        "p99": 5.03
+      }
+    },
+    "get_work": {
+      "count": 2,
+      "success": 2,
+      "failure": 0,
+      "success_rate": 1.0,
+      "latency_ms": {
+        "count": 2,
+        "mean": 9158.12,
+        "min": 89.85,
+        "max": 18226.39,
+        "p50": 18226.39,
+        "p95": 18226.39,
+        "p99": 18226.39
+      }
+    },
+    "resolve_identifiers": {
+      "count": 1,
+      "success": 1,
+      "failure": 0,
+      "success_rate": 1.0,
+      "latency_ms": {
+        "count": 1,
+        "mean": 17985.83,
+        "min": 17985.83,
+        "max": 17985.83,
+        "p50": 17985.83,
+        "p95": 17985.83,
+        "p99": 17985.83
+      }
+    },
+    "get_source_status": {
+      "count": 1,
+      "success": 1,
+      "failure": 0,
+      "success_rate": 1.0,
+      "latency_ms": {
+        "count": 1,
+        "mean": 76570.6,
+        "min": 76570.6,
+        "max": 76570.6,
+        "p50": 76570.6,
+        "p95": 76570.6,
+        "p99": 76570.6
+      }
+    },
+    "lookup_mesh": {
+      "count": 1,
+      "success": 1,
+      "failure": 0,
+      "success_rate": 1.0,
+      "latency_ms": {
+        "count": 1,
+        "mean": 7050.16,
+        "min": 7050.16,
+        "max": 7050.16,
+        "p50": 7050.16,
+        "p95": 7050.16,
+        "p99": 7050.16
+      }
+    },
+    "find_related_articles": {
+      "count": 1,
+      "success": 1,
+      "failure": 0,
+      "success_rate": 1.0,
+      "latency_ms": {
+        "count": 1,
+        "mean": 10670.2,
+        "min": 10670.2,
+        "max": 10670.2,
+        "p50": 10670.2,
+        "p95": 10670.2,
+        "p99": 10670.2
+      }
+    },
+    "convert_identifiers": {
+      "count": 1,
+      "success": 1,
+      "failure": 0,
+      "success_rate": 1.0,
+      "latency_ms": {
+        "count": 1,
+        "mean": 6245.88,
+        "min": 6245.88,
+        "max": 6245.88,
+        "p50": 6245.88,
+        "p95": 6245.88,
+        "p99": 6245.88
+      }
+    },
+    "search_literature_signals": {
+      "count": 1,
+      "success": 1,
+      "failure": 0,
+      "success_rate": 1.0,
+      "latency_ms": {
+        "count": 1,
+        "mean": 6636.4,
+        "min": 6636.4,
+        "max": 6636.4,
+        "p50": 6636.4,
+        "p95": 6636.4,
+        "p99": 6636.4
+      }
+    },
+    "expand_from_work": {
+      "count": 1,
+      "success": 1,
+      "failure": 0,
+      "success_rate": 1.0,
+      "latency_ms": {
+        "count": 1,
+        "mean": 18422.38,
+        "min": 18422.38,
+        "max": 18422.38,
+        "p50": 18422.38,
+        "p95": 18422.38,
+        "p99": 18422.38
+      }
+    },
+    "export_records": {
+      "count": 1,
+      "success": 1,
+      "failure": 0,
+      "success_rate": 1.0,
+      "latency_ms": {
+        "count": 1,
+        "mean": 6.48,
+        "min": 6.48,
+        "max": 6.48,
+        "p50": 6.48,
+        "p95": 6.48,
+        "p99": 6.48
+      }
+    }
+  },
+  "raw_records": [
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC TACE PD-1",
+        "limit": 5
+      },
+      "start": 40533627.523391016,
+      "end": 40533649.44182988,
+      "latency_ms": 21918.438866734505,
+      "success": true,
+      "result_summary": {
+        "work_count": 0
+      },
+      "warnings": [],
+      "trace": {
+        "query": "HCC TACE PD-1",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 5,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          },
+          {
+            "source": "openalex",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 5,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:09:42.765126Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 15,
+        "merged_count": 14
+      },
+      "error": null
+    },
+    {
+      "tool": "plan_literature_search",
+      "params": {
+        "query": "immunotherapy biomarkers",
+        "profile": "default"
+      },
+      "start": 40533649.44858904,
+      "end": 40533649.45362028,
+      "latency_ms": 5.03123551607132,
+      "success": true,
+      "result_summary": {
+        "selected_sources": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ]
+      },
+      "warnings": [
+        "Manual or unsupported sources are cataloged but not queried automatically: scopus, sciencedirect, webofscience, google_scholar, cnki, wanfang"
+      ],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "get_work",
+      "params": {
+        "identifier": "10.1038/s41586-021-03819-2"
+      },
+      "start": 40533649.45365097,
+      "end": 40533667.68004282,
+      "latency_ms": 18226.391851902008,
+      "success": true,
+      "result_summary": {
+        "work_count": 0
+      },
+      "warnings": [],
+      "trace": {
+        "query": null,
+        "filters": {},
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [],
+        "retrieved_at": "2026-07-08T06:10:04.693052Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 3,
+        "merged_count": 1
+      },
+      "error": null
+    },
+    {
+      "tool": "resolve_identifiers",
+      "params": {
+        "identifiers": [
+          "10.1038/s41586-021-03819-2"
+        ]
+      },
+      "start": 40533667.68147734,
+      "end": 40533685.6673066,
+      "latency_ms": 17985.829263925552,
+      "success": true,
+      "result_summary": {
+        "work_count": 0
+      },
+      "warnings": [],
+      "trace": {
+        "query": null,
+        "filters": {},
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [],
+        "retrieved_at": "2026-07-08T06:10:22.922790Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 3,
+        "merged_count": 1
+      },
+      "error": null
+    },
+    {
+      "tool": "get_source_status",
+      "params": {
+        "include_catalog": true
+      },
+      "start": 40533685.66904315,
+      "end": 40533762.2396404,
+      "latency_ms": 76570.59724628925,
+      "success": true,
+      "result_summary": {
+        "status_count": 9,
+        "available_count": 8
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "lookup_mesh",
+      "params": {
+        "term": "hepatocellular carcinoma",
+        "limit": 5
+      },
+      "start": 40533762.239859216,
+      "end": 40533769.29001929,
+      "latency_ms": 7050.160072743893,
+      "success": true,
+      "result_summary": {
+        "mesh_count": 0
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "find_related_articles",
+      "params": {
+        "pmid": "12345678",
+        "limit": 5
+      },
+      "start": 40533769.290078595,
+      "end": 40533779.960279524,
+      "latency_ms": 10670.200929045677,
+      "success": true,
+      "result_summary": {
+        "pmid_count": 0
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "convert_identifiers",
+      "params": {
+        "identifiers": [
+          "10.1038/s41586-021-03819-2"
+        ]
+      },
+      "start": 40533779.96036708,
+      "end": 40533786.20624241,
+      "latency_ms": 6245.875328779221,
+      "success": true,
+      "result_summary": {
+        "converted_count": 0
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "search_literature_signals",
+      "params": {
+        "entity1": "PDCD1",
+        "entity2_type": "chemical",
+        "limit": 5
+      },
+      "start": 40533786.206293754,
+      "end": 40533792.84269628,
+      "latency_ms": 6636.402525007725,
+      "success": true,
+      "result_summary": {
+        "signal_count": 5
+      },
+      "warnings": [],
+      "trace": {
+        "query": "PDCD1",
+        "filters": {},
+        "sources_requested": [
+          "pubtator3"
+        ],
+        "sources_succeeded": [
+          "pubtator3"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [],
+        "retrieved_at": "2026-07-08T06:12:21.446027Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 0,
+        "merged_count": 0
+      },
+      "error": null
+    },
+    {
+      "tool": "expand_from_work",
+      "params": {
+        "identifier": "10.1038/s41586-021-03819-2",
+        "by": [
+          "citations"
+        ]
+      },
+      "start": 40533792.842859365,
+      "end": 40533811.26523476,
+      "latency_ms": 18422.37539589405,
+      "success": true,
+      "result_summary": {
+        "work_count": 0
+      },
+      "warnings": [
+        "expand_from_work by ['citations'] is a v0.2 extension point; returning resolved work."
+      ],
+      "trace": {
+        "query": null,
+        "filters": {},
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [],
+        "retrieved_at": "2026-07-08T06:12:28.082750Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 3,
+        "merged_count": 1
+      },
+      "error": null
+    },
+    {
+      "tool": "export_records",
+      "params": {
+        "works": [
+          {
+            "work_id": "w1",
+            "title": "Example Paper One",
+            "year": 2024,
+            "authors": [
+              {
+                "name": "Alice"
+              }
+            ],
+            "identifiers": {
+              "doi": "10.1000/one"
+            }
+          },
+          {
+            "work_id": "w2",
+            "title": "Example Paper Two",
+            "year": 2023,
+            "authors": [
+              {
+                "name": "Bob"
+              }
+            ],
+            "identifiers": {
+              "doi": "10.1000/two"
+            }
+          }
+        ],
+        "format": "bibtex"
+      },
+      "start": 40533811.267802,
+      "end": 40533811.27427884,
+      "latency_ms": 6.476841866970062,
+      "success": true,
+      "result_summary": {
+        "content_length": 252
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    },
+    {
+      "tool": "get_work",
+      "params": {
+        "identifier": "not-a-real-id"
+      },
+      "start": 40533811.274321,
+      "end": 40533811.36416639,
+      "latency_ms": 89.84538912773132,
+      "success": true,
+      "result_summary": {
+        "work_count": 0
+      },
+      "warnings": [],
+      "trace": {
+        "query": null,
+        "filters": {},
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [],
+        "sources_degraded": [],
+        "sources_failed": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "source_errors": [],
+        "source_result_counts": [],
+        "retrieved_at": "2026-07-08T06:12:46.513608Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 0,
+        "merged_count": 0
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": ""
+      },
+      "start": 40533811.364225365,
+      "end": 40533831.85803067,
+      "latency_ms": 20493.805304169655,
+      "success": true,
+      "result_summary": {
+        "work_count": 0
+      },
+      "warnings": [
+        "Some sources failed: openalex"
+      ],
+      "trace": {
+        "query": "",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 20,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "pubmed",
+          "crossref",
+          "openalex"
+        ],
+        "sources_succeeded": [
+          "pubmed",
+          "crossref"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [
+          "openalex"
+        ],
+        "source_errors": [
+          {
+            "source": "openalex",
+            "operation": "search",
+            "failure_class": "unknown_error",
+            "message": "'NoneType' object has no attribute 'get'",
+            "timestamp": "2026-07-08T06:12:46.604116Z",
+            "retry_count": 0,
+            "fallback_used": false,
+            "query_or_identifier": null
+          }
+        ],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 0,
+            "merged_count": 0
+          },
+          {
+            "source": "crossref",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 20,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-07-08T06:12:46.604116Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 20,
+        "merged_count": 20
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC",
+        "sources": [
+          "nonexistent"
+        ]
+      },
+      "start": 40533831.86080833,
+      "end": 40533831.870717734,
+      "latency_ms": 9.909406304359436,
+      "success": true,
+      "result_summary": {
+        "work_count": 0
+      },
+      "warnings": [
+        "Some sources failed: nonexistent"
+      ],
+      "trace": {
+        "query": "HCC",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 20,
+          "sort": "relevance"
+        },
+        "sources_requested": [
+          "nonexistent"
+        ],
+        "sources_succeeded": [],
+        "sources_degraded": [],
+        "sources_failed": [
+          "nonexistent"
+        ],
+        "source_errors": [
+          {
+            "source": "nonexistent",
+            "operation": "search",
+            "failure_class": "not_configured",
+            "message": "Unknown source adapter: nonexistent",
+            "timestamp": "2026-07-08T06:13:07.101970Z",
+            "retry_count": 0,
+            "fallback_used": false,
+            "query_or_identifier": null
+          }
+        ],
+        "source_result_counts": [],
+        "retrieved_at": "2026-07-08T06:13:07.101970Z",
+        "cache_policy": "default",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 0,
+        "merged_count": 0
+      },
+      "error": null
+    },
+    {
+      "tool": "search_literature",
+      "params": {
+        "query": "HCC",
+        "limit": 500
+      },
+      "start": 40533831.870764606,
+      "end": 40533831.87496591,
+      "latency_ms": 4.201307892799377,
+      "success": true,
+      "result_summary": {
+        "work_count": 0
+      },
+      "warnings": [],
+      "trace": {},
+      "error": null
+    }
+  ]
+}
