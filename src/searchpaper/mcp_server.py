@@ -166,12 +166,12 @@ async def find_related_articles(pmid: str, limit: int = 20) -> dict[str, Any]:
 @mcp.tool()
 async def convert_identifiers(identifiers: list[str]) -> dict[str, Any]:
     """Convert DOI/PMID/PMCID identifiers through the NCBI ID converter."""
-    data = await pubmed_convert_ids(identifiers)
+    result = await pubmed_convert_ids(identifiers)
     return {
         "schema_version": "0.2",
         "object_type": "identifier_conversion",
-        "data": data,
-        "warnings": [],
+        "data": result.get("records", []),
+        "warnings": result.get("warnings", []),
         "trace": {},
     }
 

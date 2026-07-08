@@ -102,6 +102,14 @@ class SearchEngine:
             cache_policy="no-cache" if no_cache else "default",
         )
 
+        if not query or not query.strip():
+            result = SearchResult(works=[], trace=trace.build())
+            return ResponseEnvelope(
+                data=result.model_dump(mode="json"),
+                warnings=["Empty query; no sources queried."],
+                trace=result.trace.model_dump(mode="json"),
+            )
+
         all_records: list[SourceRecord] = []
         for source_name in requested:
             if source_name.lower() == "pubtator3":

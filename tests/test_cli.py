@@ -56,7 +56,7 @@ def test_cli_pubmed_mesh():
 
 @respx.mock
 def test_cli_pubmed_convert_ids():
-    respx.get("https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/").mock(
+    respx.get("https://pmc.ncbi.nlm.nih.gov/tools/idconv/api/v1/articles/").mock(
         return_value=Response(200, json={"records": [{"doi": "10.1000/test", "pmid": "12345"}]})
     )
 

@@ -41,7 +41,7 @@ async def test_related_articles_returns_pmids():
 
 @respx.mock
 async def test_convert_ids_returns_id_map():
-    respx.get("https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/").mock(
+    respx.get("https://pmc.ncbi.nlm.nih.gov/tools/idconv/api/v1/articles/").mock(
         return_value=Response(
             200,
             json={
@@ -54,5 +54,29 @@ async def test_convert_ids_returns_id_map():
 
     result = await convert_ids(["10.1000/test"])
 
-    assert result[0]["doi"] == "10.1000/test"
-    assert result[0]["pmid"] == "12345"
+    assert result["records"][0]["doi"] == "10.1000/test"
+    assert result["records"][0]["pmid"] == "12345"
+
+
+@respx.mock
+async def test_convert_ids_handles_non_json_response():
+    respx.get("https://pmc.ncbi.nlm.nih.gov/tools/idconv/api/v1/articles/").mock(
+        return_value=Response(200, text="not json")
+    )
+
+    result = await convert_ids(["10.1000/test"])
+
+    assert result["records"] == []
+    assert any("non-JSON" in w for w in result["warnings"])
+
+
+@respx.mock
+async def test_convert_ids_handles_http_error():
+    respx.get("https://pmc.ncbi.nlm.nih.gov/tools/idconv/api/v1/articles/").mock(
+        return_value=Response(500, text="Internal Server Error")
+    )
+
+    result = await convert_ids(["10.1000/test"])
+
+    assert result["records"] == []
+    assert any("500" in w for w in result["warnings"])

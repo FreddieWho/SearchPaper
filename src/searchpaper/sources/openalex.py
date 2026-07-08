@@ -113,6 +113,13 @@ class OpenAlexAdapter(SourceAdapter):
             params.update(extra)
         return params
 
+    def _safe_json(self, resp: Any) -> dict[str, Any] | None:
+        try:
+            data = resp.json()
+            return data if isinstance(data, dict) else None
+        except Exception:
+            return None
+
     async def search(self, query: str, filters: SearchFilters) -> list[SourceRecord]:
         limit = min(max(filters.limit, 1), 200)
         params = self._params({"search": query, "per-page": limit})
@@ -121,8 +128,11 @@ class OpenAlexAdapter(SourceAdapter):
         resp = await self.http.get(f"{OPENALEX_BASE}/works", params=params)
         if resp.status_code >= 400:
             return []
-        data = resp.json()
-        return [_parse_work(w) for w in data.get("results", [])]
+        data = self._safe_json(resp)
+        if data is None:
+            return []
+        results = data.get("results", []) or []
+        return [_parse_work(w) for w in results if isinstance(w, dict)]
 
     async def get(self, identifier: WorkIdentifier) -> SourceRecord | None:
         url: str | None = None
@@ -140,7 +150,10 @@ class OpenAlexAdapter(SourceAdapter):
         resp = await self.http.get(url, params=self._params())
         if resp.status_code >= 400:
             return None
-        return _parse_work(resp.json())
+        data = self._safe_json(resp)
+        if data is None:
+            return None
+        return _parse_work(data)
 
     async def resolve(self, identifier: WorkIdentifier) -> list[SourceRecord]:
         rec = await self.get(identifier)

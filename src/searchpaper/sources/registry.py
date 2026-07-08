@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 from typing import TYPE_CHECKING, Any
 
 from searchpaper.schemas import SourceStatus
@@ -43,25 +44,42 @@ def has_adapter(name: str) -> bool:
     return name.lower().strip() in _SOURCE_CLASSES
 
 
+_STATUS_TIMEOUT_SECONDS = 10.0
+
+
 async def source_status(name: str, **kwargs: object) -> SourceStatus:
     adapter = get_adapter(name, **kwargs)
     try:
-        return await adapter.status()
+        return await asyncio.wait_for(adapter.status(), timeout=_STATUS_TIMEOUT_SECONDS)
+    except asyncio.TimeoutError:
+        return SourceStatus(
+            source=name,
+            state="degraded",
+            message=f"Status check timed out after {_STATUS_TIMEOUT_SECONDS}s",
+        )
+    except Exception as exc:  # noqa: BLE001
+        return SourceStatus(
+            source=name,
+            state="offline",
+            message=f"Status check failed: {exc}",
+        )
     finally:
         await adapter.aclose()
 
 
 async def all_source_statuses(**kwargs: object) -> list[SourceStatus]:
-    results: list[SourceStatus] = []
-    for name in list_sources():
-        try:
-            results.append(await source_status(name, **kwargs))
-        except Exception as exc:
-            results.append(
+    coros = [source_status(name, **kwargs) for name in list_sources()]
+    results = await asyncio.gather(*coros, return_exceptions=True)
+    statuses: list[SourceStatus] = []
+    for name, result in zip(list_sources(), results):
+        if isinstance(result, SourceStatus):
+            statuses.append(result)
+        else:
+            statuses.append(
                 SourceStatus(
                     source=name,
                     state="offline",
-                    message=f"Status check failed: {exc}",
+                    message=f"Status check failed: {result}",
                 )
             )
-    return results
+    return statuses

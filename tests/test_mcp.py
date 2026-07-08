@@ -73,7 +73,7 @@ async def test_mcp_lookup_mesh():
 
 @respx.mock
 async def test_mcp_convert_identifiers():
-    respx.get("https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/").mock(
+    respx.get("https://pmc.ncbi.nlm.nih.gov/tools/idconv/api/v1/articles/").mock(
         return_value=Response(200, json={"records": [{"pmid": "12345", "doi": "10.1000/test"}]})
     )
     result = await convert_identifiers(["10.1000/test"])
