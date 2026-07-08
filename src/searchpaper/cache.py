@@ -88,9 +88,7 @@ class Cache:
     ) -> tuple[Any | None, dict[str, Any]]:
         key = self._make_key(source, endpoint, params, fields)
         with sqlite3.connect(self.db_path) as conn:
-            row = conn.execute(
-                "SELECT value, expires_at FROM cache_entries WHERE key = ?", (key,)
-            ).fetchone()
+            row = conn.execute("SELECT value, expires_at FROM cache_entries WHERE key = ?", (key,)).fetchone()
         now = time.time()
         if row and row[1] > now:
             return json.loads(row[0]), {"from_cache": True, "cache_key": key}
@@ -145,9 +143,7 @@ class Cache:
                 "SELECT COUNT(*) FROM cache_entries WHERE expires_at <= ?", (time.time(),)
             ).fetchone()[0]
             valid = total - expired
-            sources = conn.execute(
-                "SELECT source, COUNT(*) FROM cache_entries GROUP BY source"
-            ).fetchall()
+            sources = conn.execute("SELECT source, COUNT(*) FROM cache_entries GROUP BY source").fetchall()
         return {
             "total_entries": total,
             "valid_entries": valid,

@@ -1,6 +1,5 @@
 """Tests for identifier normalization."""
 
-
 from searchpaper.identifiers import (
     identify,
     normalize_arxiv,

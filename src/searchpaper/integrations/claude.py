@@ -25,10 +25,10 @@ def instructions_content() -> str:
 def mcp_config_snippet() -> str:
     return (
         "{\n"
-        "  \"mcpServers\": {\n"
-        "    \"searchpaper\": {\n"
-        "      \"command\": \"searchpaper\",\n"
-        "      \"args\": [\"serve\", \"--mcp\"]\n"
+        '  "mcpServers": {\n'
+        '    "searchpaper": {\n'
+        '      "command": "searchpaper",\n'
+        '      "args": ["serve", "--mcp"]\n'
         "    }\n"
         "  }\n"
         "}\n"

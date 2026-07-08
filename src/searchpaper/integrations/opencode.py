@@ -37,10 +37,10 @@ def mcp_config_block() -> str:
     return (
         f"{MARKER_START}\n"
         "  // SearchPaper MCP server (managed by searchpaper install --target opencode)\n"
-        "  \"mcpServers\": {\n"
-        "    \"searchpaper\": {\n"
-        "      \"command\": \"searchpaper\",\n"
-        "      \"args\": [\"serve\", \"--mcp\"]\n"
+        '  "mcpServers": {\n'
+        '    "searchpaper": {\n'
+        '      "command": "searchpaper",\n'
+        '      "args": ["serve", "--mcp"]\n'
         "    }\n"
         "  }\n"
         f"{MARKER_END}"

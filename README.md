@@ -15,6 +15,10 @@ medRxiv, Semantic Scholar, Unpaywall, OpenCitations, and PubTator3 (biomedical
 signals). All core workflows are **no-key usable** by default; API keys are
 optional accelerators.
 
+v0.5 adds **full-text readiness**: SearchPaper can report full-text availability,
+resolve OA links through Unpaywall, and extract lightweight structured anchors
+from Europe PMC open-access XML. PDF parsing remains optional and out of scope.
+
 ---
 
 ## What it does
@@ -109,6 +113,8 @@ override file values.
 | `searchpaper get --pmid 12345 --json` | Get work by identifier |
 | `searchpaper resolve --doi 10.xxx --json` | Resolve identifier across sources |
 | `searchpaper expand --doi 10.xxx --by citations,references --json` | Expand from a work |
+| `searchpaper context --doi 10.xxx --json` | Build a paper context pack |
+| `searchpaper get --doi 10.xxx --anchors --json` | Get work with full-text anchors |
 | `searchpaper sources status --json` | Source health status |
 | `searchpaper sources tiers --json` | Source tier catalog |
 | `searchpaper sources preflight --sources pubmed,arxiv --json` | Probe selected sources |
@@ -182,6 +188,31 @@ The MCP server exposes a small stable surface:
 - `export_records`
 
 No source-specific tools are exposed by default.
+
+---
+
+## Full-text readiness
+
+SearchPaper v0.5 reports full-text availability without requiring PDF parsing:
+
+```bash
+searchpaper resolve --doi 10.1038/s41586-021-03819-2 --json
+```
+
+The result includes `full_text_availability`, `open_access_pdf`, and canonical
+URLs (`doi`, `pubmed`, `pmc`, `oa_url`, `oa_pdf_url`).
+
+To fetch lightweight structured anchors from Europe PMC OA XML:
+
+```bash
+searchpaper get --pmcid PMC8371605 --sources europepmc --anchors --json
+```
+
+For a complete paper context pack for downstream agents:
+
+```bash
+searchpaper context --doi 10.1038/s41586-021-03819-2 --json
+```
 
 ---
 

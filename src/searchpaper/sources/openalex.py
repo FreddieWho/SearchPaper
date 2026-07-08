@@ -30,9 +30,7 @@ def _parse_authors(authorships: list[dict[str, Any]]) -> list[Author]:
                 name=name,
                 orcid=author_obj.get("orcid"),
                 affiliations=[
-                    inst.get("display_name", "")
-                    for inst in auth.get("institutions", [])
-                    if isinstance(inst, dict)
+                    inst.get("display_name", "") for inst in auth.get("institutions", []) if isinstance(inst, dict)
                 ],
             )
         )

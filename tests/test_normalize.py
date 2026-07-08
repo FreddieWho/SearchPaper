@@ -88,6 +88,5 @@ def test_normalize_relation():
     assert result["evidence_urls"][0]["pmid"] == "123"
     assert "https://pubmed.ncbi.nlm.nih.gov/123/" in result["evidence_urls"][0]["pubmed_url"]
     assert (
-        "https://www.ncbi.nlm.nih.gov/research/pubtator3/publication/123"
-        in result["evidence_urls"][0]["pubtator_url"]
+        "https://www.ncbi.nlm.nih.gov/research/pubtator3/publication/123" in result["evidence_urls"][0]["pubtator_url"]
     )

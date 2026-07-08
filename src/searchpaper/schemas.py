@@ -150,6 +150,30 @@ class SourceConflict(BaseModel):
     resolution: str = "preserved"
 
 
+class Anchor(BaseModel):
+    """Anchor pointing to a specific location in a source document."""
+
+    model_config = ConfigDict(extra="allow")
+
+    anchor_type: str = Field(default="metadata")
+    text_scope: str | None = None
+    section: str | None = None
+    anchor_text: str | None = None
+    url: str | None = None
+
+
+class FullTextAvailability(BaseModel):
+    """Report whether and where full text is available without downloading it."""
+
+    has_full_text: bool = False
+    has_pdf: bool = False
+    sources: list[str] = Field(default_factory=list)
+    oa_url: str | None = None
+    oa_pdf_url: str | None = None
+    license: str | None = None
+    notes: list[str] = Field(default_factory=list)
+
+
 class WorkRecord(BaseModel):
     """A normalized, merged scholarly work."""
 
@@ -173,6 +197,8 @@ class WorkRecord(BaseModel):
     warnings: list[str] = Field(default_factory=list)
     urls: dict[str, str] = Field(default_factory=dict)
     open_access_pdf: dict[str, Any] | None = None
+    full_text_availability: FullTextAvailability | None = None
+    full_text_anchors: list[Anchor] = Field(default_factory=list)
     citation_count: int | None = None
     fields_of_study: list[str] = Field(default_factory=list)
     publication_types: list[str] = Field(default_factory=list)
@@ -270,15 +296,6 @@ class SearchTrace(BaseModel):
     merged_count: int = 0
 
 
-class Anchor(BaseModel):
-    """Anchor for a literature signal."""
-
-    anchor_type: str = "metadata"
-    anchor_text: str | None = None
-    section: str | None = None
-    url: str | None = None
-
-
 class LiteratureSignal(BaseModel):
     """A structured, provenance-linked literature signal, not an evaluated conclusion."""
 
@@ -293,9 +310,7 @@ class LiteratureSignal(BaseModel):
     source: str
     anchor: Anchor = Field(default_factory=Anchor)
     confidence_or_score: float | None = None
-    interpretation_warning: str = (
-        "This is a literature-backed signal, not evaluated scientific evidence."
-    )
+    interpretation_warning: str = "This is a literature-backed signal, not evaluated scientific evidence."
     provenance: list[ProvenanceEntry] = Field(default_factory=list)
 
 

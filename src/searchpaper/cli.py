@@ -117,6 +117,7 @@ def get_work(
     arxiv: str | None = typer.Option(None, "--arxiv", help="arXiv ID"),
     sources: str = typer.Option(DEFAULT_GET_SOURCES, "--sources", help="Comma-separated source names"),
     json_output: bool = typer.Option(False, "--json", help="Output JSON envelope"),
+    anchors: bool = typer.Option(False, "--anchors", help="Fetch full-text anchors when available"),
 ):
     """Get a work by identifier."""
     raw = pmid or doi or pmcid or arxiv
@@ -128,7 +129,7 @@ def get_work(
         console.print(f"[red]Error:[/red] Could not identify: {raw}")
         raise typer.Exit(code=2)
     source_list = [s.strip() for s in sources.split(",") if s.strip()]
-    result = asyncio.run(_engine().get(identifier, sources=source_list))
+    result = asyncio.run(_engine().get(identifier, sources=source_list, anchors=anchors))
     _print_json(result.model_dump(mode="json"))
 
 
@@ -138,6 +139,7 @@ def resolve(
     pmid: str | None = typer.Option(None, "--pmid", help="PMID"),
     sources: str = typer.Option(DEFAULT_GET_SOURCES, "--sources", help="Comma-separated source names"),
     json_output: bool = typer.Option(False, "--json", help="Output JSON envelope"),
+    anchors: bool = typer.Option(False, "--anchors", help="Fetch full-text anchors when available"),
 ):
     """Resolve an identifier across sources."""
     raw = doi or pmid
@@ -149,7 +151,7 @@ def resolve(
         console.print(f"[red]Error:[/red] Could not identify: {raw}")
         raise typer.Exit(code=2)
     source_list = [s.strip() for s in sources.split(",") if s.strip()]
-    result = asyncio.run(_engine().resolve(identifier, sources=source_list))
+    result = asyncio.run(_engine().resolve(identifier, sources=source_list, anchors=anchors))
     _print_json(result.model_dump(mode="json"))
 
 
@@ -173,6 +175,39 @@ def expand(
         raise typer.Exit(code=2)
     by_list = [s.strip() for s in by.split(",") if s.strip()]
     result = asyncio.run(_engine().expand(identifier, by=by_list, limit=limit))
+    _print_json(result.model_dump(mode="json"))
+
+
+@app.command("context")
+def context(
+    doi: str | None = typer.Option(None, "--doi", help="DOI"),
+    pmid: str | None = typer.Option(None, "--pmid", help="PMID"),
+    pmcid: str | None = typer.Option(None, "--pmcid", help="PMCID"),
+    sources: str = typer.Option(DEFAULT_GET_SOURCES, "--sources", help="Comma-separated source names"),
+    signals: bool = typer.Option(False, "--signals", help="Include PubTator3 biomedical signals"),
+    expand: bool = typer.Option(False, "--expand", help="Include citation expansion"),
+    expand_limit: int = typer.Option(5, "--expand-limit", help="Maximum expanded works"),
+    json_output: bool = typer.Option(False, "--json", help="Output JSON envelope"),
+):
+    """Build a structured paper context pack for downstream agents."""
+    raw = doi or pmid or pmcid
+    if not raw:
+        console.print("[red]Error:[/red] provide --doi, --pmid, or --pmcid")
+        raise typer.Exit(code=2)
+    identifier = identify(raw)
+    if not identifier:
+        console.print(f"[red]Error:[/red] Could not identify: {raw}")
+        raise typer.Exit(code=2)
+    source_list = [s.strip() for s in sources.split(",") if s.strip()]
+    result = asyncio.run(
+        _engine().context(
+            identifier,
+            sources=source_list,
+            include_signals=signals,
+            include_expand=expand,
+            expand_limit=expand_limit,
+        )
+    )
     _print_json(result.model_dump(mode="json"))
 
 
@@ -363,6 +398,8 @@ def capabilities(
             "plan",
             "get",
             "resolve",
+            "expand",
+            "context",
             "sources status",
             "sources tiers",
             "sources preflight",

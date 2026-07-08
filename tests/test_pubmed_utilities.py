@@ -23,13 +23,7 @@ async def test_related_articles_returns_pmids():
         return_value=Response(
             200,
             json={
-                "linksets": [
-                    {
-                        "linksetdbs": [
-                            {"dbto": "pubmed", "linkname": "pubmed_pubmed", "links": ["111", "222"]}
-                        ]
-                    }
-                ]
+                "linksets": [{"linksetdbs": [{"dbto": "pubmed", "linkname": "pubmed_pubmed", "links": ["111", "222"]}]}]
             },
         )
     )

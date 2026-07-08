@@ -10,6 +10,7 @@ from searchpaper.merge import merge_records
 from searchpaper.rank import rank_works
 from searchpaper.schemas import (
     FailureClass,
+    IdentifierType,
     ResponseEnvelope,
     SearchFilters,
     SearchResult,
@@ -61,9 +62,7 @@ class SearchEngine:
     def _cache_params(self, query: str, filters: SearchFilters, source: str) -> dict[str, Any]:
         return {"query": query, "filters": filters.model_dump(mode="json"), "source": source}
 
-    def _read_cached_records(
-        self, query: str, filters: SearchFilters, source: str
-    ) -> list[SourceRecord] | None:
+    def _read_cached_records(self, query: str, filters: SearchFilters, source: str) -> list[SourceRecord] | None:
         cached, _ = self.cache.get("engine", "search", self._cache_params(query, filters, source), None)
         if cached is None:
             return None
@@ -190,7 +189,112 @@ class SearchEngine:
             trace=result.trace.model_dump(mode="json"),
         )
 
-    async def get(self, identifier: WorkIdentifier, sources: list[str] | None = None) -> ResponseEnvelope:
+    async def _maybe_enrich(
+        self,
+        identifier: WorkIdentifier,
+        records: list[SourceRecord],
+        trace: TraceBuilder,
+        enrich: bool,
+        anchors: bool,
+    ) -> list[SourceRecord]:
+        """Optionally enrich records with Unpaywall OA metadata and full-text anchors."""
+        if not enrich:
+            return records
+
+        source_names = {rec.source for rec in records}
+        doi = identifier.normalized if identifier.type.value == "doi" else None
+        if not doi:
+            for rec in records:
+                doi = rec.identifiers.get("doi")
+                if doi:
+                    break
+        if not doi:
+            return records
+
+        # Unpaywall enrichment.
+        if "unpaywall" not in source_names:
+            try:
+                adapter = get_adapter("unpaywall")
+                try:
+                    wid = WorkIdentifier(type=IdentifierType.DOI, value=doi)
+                    rec = await adapter.get(wid)
+                    if rec:
+                        trace.mark_succeeded(adapter.name)
+                        records.append(rec)
+                except Exception as exc:
+                    trace.add_error(
+                        SourceError(
+                            source=adapter.name,
+                            operation="enrich",
+                            failure_class=FailureClass.UNKNOWN_ERROR,
+                            message=str(exc),
+                            timestamp=trace.trace.retrieved_at,
+                        )
+                    )
+                    trace.mark_failed(adapter.name)
+                finally:
+                    await adapter.aclose()
+            except KeyError:
+                pass
+
+        # Europe PMC full-text anchors.
+        if anchors:
+            try:
+                adapter = get_adapter("europepmc")
+                try:
+                    pmcid = None
+                    for rec in records:
+                        pmcid = rec.identifiers.get("pmcid")
+                        if pmcid:
+                            break
+                    if pmcid:
+                        wid = WorkIdentifier(type=IdentifierType.PMCID, value=pmcid)
+                        anchors_list = await adapter.fetch_anchors(wid)
+                        if anchors_list:
+                            for rec in records:
+                                if rec.source == "europepmc":
+                                    rec.normalized_fields["full_text_anchors"] = [
+                                        a.model_dump(mode="json") for a in anchors_list
+                                    ]
+                                    break
+                            else:
+                                # No Europe PMC record yet; create a lightweight enrichment record.
+                                records.append(
+                                    SourceRecord(
+                                        source="europepmc",
+                                        source_record_id=pmcid,
+                                        retrieved_at=trace.trace.retrieved_at,
+                                        query_or_identifier=pmcid,
+                                        identifiers={"pmcid": pmcid},
+                                        normalized_fields={
+                                            "full_text_anchors": [a.model_dump(mode="json") for a in anchors_list]
+                                        },
+                                    )
+                                )
+                except Exception as exc:
+                    trace.add_error(
+                        SourceError(
+                            source=adapter.name,
+                            operation="anchors",
+                            failure_class=FailureClass.UNKNOWN_ERROR,
+                            message=str(exc),
+                            timestamp=trace.trace.retrieved_at,
+                        )
+                    )
+                finally:
+                    await adapter.aclose()
+            except KeyError:
+                pass
+
+        return records
+
+    async def get(
+        self,
+        identifier: WorkIdentifier,
+        sources: list[str] | None = None,
+        enrich: bool = True,
+        anchors: bool = False,
+    ) -> ResponseEnvelope:
         requested = sources or self.sources
         trace = TraceBuilder(sources_requested=requested, cache_policy="default")
         all_records: list[SourceRecord] = []
@@ -220,13 +324,21 @@ class SearchEngine:
             finally:
                 await adapter.aclose()
 
+        all_records = await self._maybe_enrich(identifier, all_records, trace, enrich=enrich, anchors=anchors)
+
         works = merge_records(all_records)
         works = rank_works(works)
         trace.set_result_counts(result_count=len(all_records), merged_count=len(works))
         result = SearchResult(works=works, trace=trace.build())
         return ResponseEnvelope(data=result.model_dump(mode="json"), trace=result.trace.model_dump(mode="json"))
 
-    async def resolve(self, identifier: WorkIdentifier, sources: list[str] | None = None) -> ResponseEnvelope:
+    async def resolve(
+        self,
+        identifier: WorkIdentifier,
+        sources: list[str] | None = None,
+        enrich: bool = True,
+        anchors: bool = False,
+    ) -> ResponseEnvelope:
         requested = sources or self.sources
         trace = TraceBuilder(sources_requested=requested, cache_policy="default")
         all_records: list[SourceRecord] = []
@@ -256,11 +368,89 @@ class SearchEngine:
             finally:
                 await adapter.aclose()
 
+        all_records = await self._maybe_enrich(identifier, all_records, trace, enrich=enrich, anchors=anchors)
+
         works = merge_records(all_records)
         works = rank_works(works)
         trace.set_result_counts(result_count=len(all_records), merged_count=len(works))
         result = SearchResult(works=works, trace=trace.build())
         return ResponseEnvelope(data=result.model_dump(mode="json"), trace=result.trace.model_dump(mode="json"))
+
+    async def context(
+        self,
+        identifier: WorkIdentifier,
+        sources: list[str] | None = None,
+        include_signals: bool = False,
+        include_expand: bool = False,
+        expand_limit: int = 5,
+    ) -> ResponseEnvelope:
+        """Build a structured paper context pack for downstream agents."""
+        resolve_result = await self.resolve(identifier, sources=sources, enrich=True, anchors=True)
+        data = resolve_result.data if hasattr(resolve_result, "data") else resolve_result.get("data", {})
+        works = data.get("works", [])
+        if not works:
+            return ResponseEnvelope(
+                data={"schema_version": "0.2", "object_type": "paper_context_pack", "work": None, "context": {}},
+                warnings=["Could not resolve identifier to a work."],
+                trace=data.get("trace", {}),
+            )
+        work = works[0]
+        work_data = work if isinstance(work, dict) else work.model_dump(mode="json")
+
+        signals: list[dict[str, Any]] = []
+        if include_signals:
+            sig_result = await self.signals(query=work_data.get("title"), limit=10)
+            sig_data = sig_result.data if hasattr(sig_result, "data") else sig_result.get("data", {})
+            signals = sig_data.get("signals", [])
+
+        expand_result: dict[str, Any] | None = None
+        if include_expand:
+            exp_result = await self.expand(identifier, by=["citations"], limit=expand_limit)
+            exp_data = exp_result.data if hasattr(exp_result, "data") else exp_result.get("data", {})
+            expand_result = {
+                "by": ["citations"],
+                "works": exp_data.get("works", []),
+                "count": len(exp_data.get("works", [])),
+            }
+
+        context_pack = {
+            "schema_version": "0.2",
+            "object_type": "paper_context_pack",
+            "work": work_data,
+            "abstract": work_data.get("abstract"),
+            "full_text_availability": work_data.get("full_text_availability"),
+            "full_text_anchors": work_data.get("full_text_anchors", []),
+            "signals": signals,
+            "expand": expand_result,
+            "urls": self._build_urls(work_data),
+        }
+        if hasattr(resolve_result, "warnings"):
+            warnings = resolve_result.warnings
+        else:
+            warnings = resolve_result.get("warnings", [])
+        return ResponseEnvelope(
+            data=context_pack,
+            warnings=warnings,
+            trace=work_data.get("trace", {}),
+        )
+
+    def _build_urls(self, work_data: dict[str, Any]) -> dict[str, str]:
+        urls: dict[str, str] = {}
+        ids = work_data.get("identifiers", {})
+        if ids.get("doi"):
+            urls["doi"] = f"https://doi.org/{ids['doi']}"
+        if ids.get("pmid"):
+            urls["pubmed"] = f"https://pubmed.ncbi.nlm.nih.gov/{ids['pmid']}/"
+        if ids.get("pmcid"):
+            urls["pmc"] = f"https://www.ncbi.nlm.nih.gov/pmc/articles/{ids['pmcid']}/"
+        if ids.get("arxiv"):
+            urls["arxiv"] = f"https://arxiv.org/abs/{ids['arxiv']}"
+        ft = work_data.get("full_text_availability") or {}
+        if ft.get("oa_url"):
+            urls["oa_url"] = ft["oa_url"]
+        if ft.get("oa_pdf_url"):
+            urls["oa_pdf_url"] = ft["oa_pdf_url"]
+        return urls
 
     async def expand(
         self,

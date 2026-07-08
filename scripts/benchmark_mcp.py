@@ -209,7 +209,7 @@ async def run_repeated_search(session: ClientSession, query: str, n: int) -> lis
     for i in range(n):
         record = await _call_tool(session, "search_literature", {"query": query, "limit": 5})
         records.append(record)
-        print(f"[repeat {i+1}/{n}] latency={record.latency_ms:.0f}ms success={record.success}")
+        print(f"[repeat {i + 1}/{n}] latency={record.latency_ms:.0f}ms success={record.success}")
     return records
 
 
@@ -218,7 +218,7 @@ async def run_multi_query_search(session: ClientSession, queries: list[str]) -> 
     for i, query in enumerate(queries):
         record = await _call_tool(session, "search_literature", {"query": query, "limit": 5})
         records.append(record)
-        print(f"[multi {i+1}/{len(queries)}] '{query}' latency={record.latency_ms:.0f}ms")
+        print(f"[multi {i + 1}/{len(queries)}] '{query}' latency={record.latency_ms:.0f}ms")
     return records
 
 
@@ -251,7 +251,7 @@ async def run_degradation_tests(session: ClientSession) -> list[CallRecord]:
 async def run_concurrent_calls(session: ClientSession, concurrency: int, rounds: int) -> list[CallRecord]:
     records: list[CallRecord] = []
     for r in range(rounds):
-        print(f"[concurrent] round {r+1}/{rounds}")
+        print(f"[concurrent] round {r + 1}/{rounds}")
         tasks = [
             _call_tool(session, "search_literature", {"query": SEARCH_QUERIES[i % len(SEARCH_QUERIES)], "limit": 5})
             for i in range(concurrency)
@@ -259,7 +259,7 @@ async def run_concurrent_calls(session: ClientSession, concurrency: int, rounds:
         round_records = await asyncio.gather(*tasks, return_exceptions=False)
         records.extend(round_records)
         ok = sum(1 for rec in round_records if rec.success)
-        print(f"[concurrent] round {r+1}: {ok}/{concurrency} succeeded")
+        print(f"[concurrent] round {r + 1}: {ok}/{concurrency} succeeded")
     return records
 
 
@@ -289,7 +289,7 @@ async def run_long_session(session: ClientSession, n: int) -> list[CallRecord]:
         records.append(record)
         if (i + 1) % 10 == 0:
             ok = sum(1 for rec in records[-10:] if rec.success)
-            print(f"[long] {i+1}/{n} done, last 10: {ok}/10 succeeded")
+            print(f"[long] {i + 1}/{n} done, last 10: {ok}/10 succeeded")
     return records
 
 

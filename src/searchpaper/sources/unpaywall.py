@@ -12,7 +12,14 @@ from typing import Any
 from searchpaper.config import load_config
 from searchpaper.http import HTTPClient
 from searchpaper.identifiers import normalize_doi
-from searchpaper.schemas import SearchFilters, SourceRecord, SourceState, SourceStatus, WorkIdentifier
+from searchpaper.schemas import (
+    FullTextAvailability,
+    SearchFilters,
+    SourceRecord,
+    SourceState,
+    SourceStatus,
+    WorkIdentifier,
+)
 from searchpaper.sources.base import SourceAdapter, classify_http_error, now_iso
 from searchpaper.sources.registry import register
 
@@ -23,15 +30,29 @@ UNPAYWALL_TERMS_URL = "https://unpaywall.org/products/api"
 
 def _normalize_oa_record(doi: str, raw: dict[str, Any]) -> dict[str, Any]:
     best = raw.get("best_oa_location") or {}
+    oa_url = best.get("url")
+    oa_pdf_url = best.get("url_for_pdf")
+    is_oa = bool(raw.get("is_oa"))
+    ft = FullTextAvailability(
+        has_full_text=is_oa and bool(oa_url or oa_pdf_url),
+        has_pdf=bool(oa_pdf_url),
+        sources=[f"unpaywall:{best.get('host_type', 'unknown')}"] if is_oa else [],
+        oa_url=oa_url,
+        oa_pdf_url=oa_pdf_url,
+        license=best.get("license"),
+        notes=[f"oa_status:{raw.get('oa_status')}"] if raw.get("oa_status") else [],
+    )
     return {
         "doi": doi,
-        "is_oa": raw.get("is_oa"),
+        "is_oa": is_oa,
         "oa_status": raw.get("oa_status"),
-        "oa_url": best.get("url"),
-        "oa_pdf_url": best.get("url_for_pdf"),
+        "oa_url": oa_url,
+        "oa_pdf_url": oa_pdf_url,
         "host_type": best.get("host_type"),
         "license": best.get("license"),
         "version": best.get("version"),
+        "open_access_pdf": {"url": oa_pdf_url or oa_url, "status": raw.get("oa_status")} if is_oa else None,
+        "full_text_availability": ft.model_dump(mode="json"),
     }
 
 

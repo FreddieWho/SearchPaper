@@ -4,6 +4,24 @@ All notable changes to SearchPaper are tracked here.
 
 ## Unreleased
 
+## 0.5.0 — Full-Text-Ready Expansion
+
+### Added
+
+- **Full-text availability reporting**: `WorkRecord` now includes `full_text_availability` with `has_full_text`, `has_pdf`, `oa_url`, `oa_pdf_url`, and `license`.
+- **Europe PMC full-text metadata**: Europe PMC adapter parses `fullTextUrlList`, `hasFullText`, and `isOpenAccess`.
+- **Full-text anchors**: `Anchor` schema extended with `anchor_type`, `text_scope`, and `section`; Europe PMC adapter can extract section anchors from OA full-text XML.
+- **Unpaywall automatic enrichment**: `get` and `resolve` now automatically enrich DOIs with Unpaywall OA metadata.
+- **Paper context packs**: new `searchpaper context` CLI command builds a structured context pack for downstream agents.
+- **Canonical URL generation**: merged works now expose DOI, PubMed, PMC, arXiv, and OA URLs.
+- New CLI flags `--anchors` on `get` and `resolve` to fetch full-text anchors when available.
+
+### Changed
+
+- Bumped version to `0.5.0`.
+- Registered `unpaywall` and `opencitations` adapters in `searchpaper.sources` so they are discoverable by name.
+- Updated `searchpaper capabilities` to report `expand`, `context`, and `--anchors` support.
+
 ## 0.4.0 — Integration and Source Expansion
 
 ### Added
