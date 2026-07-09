@@ -841,5 +841,18 @@ def integrate_uninstall(
     _print_json(result)
 
 
+@app.callback(invoke_without_command=True)
+def _callback(
+    ctx: typer.Context,
+    version: bool = typer.Option(False, "--version", "-v", help="Show version and exit", is_eager=True),
+) -> None:
+    if version:
+        typer.echo(__version__)
+        raise typer.Exit()
+    if ctx.invoked_subcommand is None:
+        typer.echo(ctx.get_help())
+        raise typer.Exit()
+
+
 def main() -> None:
     app()

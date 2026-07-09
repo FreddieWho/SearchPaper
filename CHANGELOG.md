@@ -15,12 +15,21 @@ All notable changes to SearchPaper are tracked here.
 - **Paper context packs**: new `searchpaper context` CLI command builds a structured context pack for downstream agents.
 - **Canonical URL generation**: merged works now expose DOI, PubMed, PMC, arXiv, and OA URLs.
 - New CLI flags `--anchors` on `get` and `resolve` to fetch full-text anchors when available.
+- **Source requirement modes**: `--require` and `--source-mode` let callers mark sources as `optional`, `preferred`, or `required`.
+- **`searchpaper batch`**: process JSONL/text files of queries or identifiers and export to any supported format.
+- **Citation verification**: `searchpaper references verify` parses `.txt`, `.docx`, and `.tex` documents and classifies each citation.
+- **Full-text download**: `searchpaper get --download-pdf` and `--download-xml` save OA PDFs and Europe PMC XML without parsing.
+- **APA/MLA export** formats and improved RIS/BibTeX field mapping.
+- **Domain query templates** in `searchpaper plan` for medical, molecular, epidemiology, and methods queries.
+- **`--sort combined`** ranking mode combining relevance, recency, and citations.
+- Schema snapshot tests using `syrupy`.
 
 ### Changed
 
 - Bumped version to `0.5.0`.
 - Registered `unpaywall` and `opencitations` adapters in `searchpaper.sources` so they are discoverable by name.
-- Updated `searchpaper capabilities` to report `expand`, `context`, and `--anchors` support.
+- Updated `searchpaper capabilities` to report `expand`, `context`, `--anchors`, `batch`, `references verify`, and new export formats.
+- Packaging metadata now uses the SPDX `license = "MIT"` form.
 
 ## 0.4.0 — Integration and Source Expansion
 

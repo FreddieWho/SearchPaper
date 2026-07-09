@@ -17,6 +17,14 @@ def test_cli_capabilities():
     assert "plan_literature_search" in result.output
 
 
+def test_cli_version():
+    from searchpaper import __version__
+
+    result = runner.invoke(app, ["--version"])
+    assert result.exit_code == 0
+    assert __version__ in result.output
+
+
 def test_cli_plan():
     result = runner.invoke(app, ["plan", "hepatocellular carcinoma", "--profile", "auto", "--json"])
     assert result.exit_code == 0
