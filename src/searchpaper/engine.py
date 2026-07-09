@@ -6,6 +6,7 @@ from typing import Any
 
 from searchpaper.cache import Cache
 from searchpaper.config import get_cache_path, load_config
+from searchpaper.exceptions import SourceRequiredError
 from searchpaper.merge import merge_records
 from searchpaper.rank import rank_works
 from searchpaper.schemas import (
@@ -15,6 +16,7 @@ from searchpaper.schemas import (
     SearchFilters,
     SearchResult,
     SourceError,
+    SourceMode,
     SourceRecord,
     SourceResultCount,
     WorkIdentifier,
@@ -29,6 +31,23 @@ DEFAULT_SOURCES = ["pubmed", "crossref", "openalex"]
 
 def _source_kwargs(source: str) -> dict[str, Any]:
     return {}
+
+
+def _resolve_source_modes(
+    requested: list[str],
+    modes: dict[str, SourceMode] | None = None,
+) -> dict[str, SourceMode]:
+    """Return a mode for every requested source, defaulting to OPTIONAL."""
+    resolved: dict[str, SourceMode] = {source.lower(): SourceMode.OPTIONAL for source in requested}
+    if modes:
+        for source, mode in modes.items():
+            resolved[source.lower()] = mode
+    return resolved
+
+
+def _format_source_modes(modes: dict[str, SourceMode]) -> dict[str, str]:
+    """Serialize source modes for trace output."""
+    return {source: mode.value for source, mode in modes.items()}
 
 
 class SearchEngine:
@@ -91,12 +110,17 @@ class SearchEngine:
         filters: SearchFilters | None = None,
         sources: list[str] | None = None,
         no_cache: bool = False,
+        source_modes: dict[str, SourceMode] | None = None,
     ) -> ResponseEnvelope:
         filters = filters or SearchFilters()
         requested = sources or self.sources
+        modes = source_modes if source_modes is not None else filters.source_modes
+        source_mode_map = _resolve_source_modes(requested, modes)
+        trace_filters = filters.model_dump(mode="json")
+        trace_filters["source_modes"] = _format_source_modes(source_mode_map)
         trace = TraceBuilder(
             query=query,
-            filters=filters.model_dump(mode="json"),
+            filters=trace_filters,
             sources_requested=requested,
             cache_policy="no-cache" if no_cache else "default",
         )
@@ -183,11 +207,33 @@ class SearchEngine:
             warnings.append(f"Some sources failed: {', '.join(trace.trace.sources_failed)}")
         if trace.trace.sources_degraded:
             warnings.append(f"Some sources are degraded: {', '.join(trace.trace.sources_degraded)}")
-        return ResponseEnvelope(
+
+        failed_required = [
+            source
+            for source in trace.trace.sources_failed
+            if source_mode_map.get(source.lower()) == SourceMode.REQUIRED
+        ]
+        failed_preferred = [
+            source
+            for source in trace.trace.sources_failed
+            if source_mode_map.get(source.lower()) == SourceMode.PREFERRED
+        ]
+        if failed_preferred:
+            warnings.insert(
+                0,
+                f"Preferred sources failed: {', '.join(failed_preferred)}",
+            )
+
+        envelope = ResponseEnvelope(
             data=result.model_dump(mode="json"),
             warnings=warnings,
             trace=result.trace.model_dump(mode="json"),
         )
+        if failed_required:
+            required_msg = f"Required source(s) failed: {', '.join(failed_required)}"
+            envelope.warnings.insert(0, required_msg)
+            raise SourceRequiredError(required_msg, envelope)
+        return envelope
 
     async def _maybe_enrich(
         self,
@@ -294,9 +340,15 @@ class SearchEngine:
         sources: list[str] | None = None,
         enrich: bool = True,
         anchors: bool = False,
+        source_modes: dict[str, SourceMode] | None = None,
     ) -> ResponseEnvelope:
         requested = sources or self.sources
-        trace = TraceBuilder(sources_requested=requested, cache_policy="default")
+        source_mode_map = _resolve_source_modes(requested, source_modes)
+        trace = TraceBuilder(
+            sources_requested=requested,
+            cache_policy="default",
+            filters={"source_modes": _format_source_modes(source_mode_map)},
+        )
         all_records: list[SourceRecord] = []
         for source_name in requested:
             try:
@@ -330,7 +382,29 @@ class SearchEngine:
         works = rank_works(works)
         trace.set_result_counts(result_count=len(all_records), merged_count=len(works))
         result = SearchResult(works=works, trace=trace.build())
-        return ResponseEnvelope(data=result.model_dump(mode="json"), trace=result.trace.model_dump(mode="json"))
+        warnings: list[str] = []
+        failed_required = [
+            source
+            for source in trace.trace.sources_failed
+            if source_mode_map.get(source.lower()) == SourceMode.REQUIRED
+        ]
+        failed_preferred = [
+            source
+            for source in trace.trace.sources_failed
+            if source_mode_map.get(source.lower()) == SourceMode.PREFERRED
+        ]
+        if failed_preferred:
+            warnings.insert(0, f"Preferred sources failed: {', '.join(failed_preferred)}")
+        envelope = ResponseEnvelope(
+            data=result.model_dump(mode="json"),
+            warnings=warnings,
+            trace=result.trace.model_dump(mode="json"),
+        )
+        if failed_required:
+            required_msg = f"Required source(s) failed: {', '.join(failed_required)}"
+            envelope.warnings.insert(0, required_msg)
+            raise SourceRequiredError(required_msg, envelope)
+        return envelope
 
     async def resolve(
         self,
@@ -338,9 +412,15 @@ class SearchEngine:
         sources: list[str] | None = None,
         enrich: bool = True,
         anchors: bool = False,
+        source_modes: dict[str, SourceMode] | None = None,
     ) -> ResponseEnvelope:
         requested = sources or self.sources
-        trace = TraceBuilder(sources_requested=requested, cache_policy="default")
+        source_mode_map = _resolve_source_modes(requested, source_modes)
+        trace = TraceBuilder(
+            sources_requested=requested,
+            cache_policy="default",
+            filters={"source_modes": _format_source_modes(source_mode_map)},
+        )
         all_records: list[SourceRecord] = []
         for source_name in requested:
             try:
@@ -374,7 +454,29 @@ class SearchEngine:
         works = rank_works(works)
         trace.set_result_counts(result_count=len(all_records), merged_count=len(works))
         result = SearchResult(works=works, trace=trace.build())
-        return ResponseEnvelope(data=result.model_dump(mode="json"), trace=result.trace.model_dump(mode="json"))
+        warnings: list[str] = []
+        failed_required = [
+            source
+            for source in trace.trace.sources_failed
+            if source_mode_map.get(source.lower()) == SourceMode.REQUIRED
+        ]
+        failed_preferred = [
+            source
+            for source in trace.trace.sources_failed
+            if source_mode_map.get(source.lower()) == SourceMode.PREFERRED
+        ]
+        if failed_preferred:
+            warnings.insert(0, f"Preferred sources failed: {', '.join(failed_preferred)}")
+        envelope = ResponseEnvelope(
+            data=result.model_dump(mode="json"),
+            warnings=warnings,
+            trace=result.trace.model_dump(mode="json"),
+        )
+        if failed_required:
+            required_msg = f"Required source(s) failed: {', '.join(failed_required)}"
+            envelope.warnings.insert(0, required_msg)
+            raise SourceRequiredError(required_msg, envelope)
+        return envelope
 
     async def context(
         self,
@@ -383,9 +485,12 @@ class SearchEngine:
         include_signals: bool = False,
         include_expand: bool = False,
         expand_limit: int = 5,
+        source_modes: dict[str, SourceMode] | None = None,
     ) -> ResponseEnvelope:
         """Build a structured paper context pack for downstream agents."""
-        resolve_result = await self.resolve(identifier, sources=sources, enrich=True, anchors=True)
+        resolve_result = await self.resolve(
+            identifier, sources=sources, enrich=True, anchors=True, source_modes=source_modes
+        )
         data = resolve_result.data if hasattr(resolve_result, "data") else resolve_result.get("data", {})
         works = data.get("works", [])
         if not works:
@@ -457,6 +562,7 @@ class SearchEngine:
         identifier: WorkIdentifier,
         by: list[str] | None = None,
         limit: int = 20,
+        source_modes: dict[str, SourceMode] | None = None,
     ) -> ResponseEnvelope:
         """Expand from a known work by citations, references, or similar papers.
 
@@ -469,15 +575,21 @@ class SearchEngine:
         if not modes:
             modes = ["citations"]
 
-        trace = TraceBuilder(sources_requested=["semantic_scholar"], cache_policy="default")
+        source_mode_map = _resolve_source_modes(["semantic_scholar"], source_modes)
+        trace = TraceBuilder(
+            sources_requested=["semantic_scholar"],
+            cache_policy="default",
+            filters={"source_modes": _format_source_modes(source_mode_map)},
+        )
         all_records: list[SourceRecord] = []
         warnings: list[str] = []
+        s2_failed = False
 
         try:
             adapter = get_adapter("semantic_scholar")
         except KeyError:
             warnings.append("Semantic Scholar adapter not available; falling back to resolve.")
-            return await self.resolve(identifier)
+            return await self.resolve(identifier, source_modes=source_modes)
 
         try:
             for mode in modes:
@@ -493,6 +605,7 @@ class SearchEngine:
                     all_records.extend(records)
                 else:
                     trace.mark_failed(adapter.name)
+                    s2_failed = True
         except Exception as exc:
             trace.add_error(
                 SourceError(
@@ -504,12 +617,22 @@ class SearchEngine:
                 )
             )
             trace.mark_failed(adapter.name)
+            s2_failed = True
             warnings.append(f"Semantic Scholar expansion failed: {exc}; falling back to resolve.")
         finally:
             await adapter.aclose()
 
         if not all_records and warnings:
-            return await self.resolve(identifier)
+            if source_mode_map.get("semantic_scholar") == SourceMode.REQUIRED and s2_failed:
+                raise SourceRequiredError(
+                    "Required source semantic_scholar failed during expansion.",
+                    ResponseEnvelope(
+                        data=SearchResult(works=[], trace=trace.build()).model_dump(mode="json"),
+                        warnings=warnings,
+                        trace=trace.trace.model_dump(mode="json"),
+                    ),
+                )
+            return await self.resolve(identifier, source_modes=source_modes)
 
         works = merge_records(all_records)
         works = rank_works(works)

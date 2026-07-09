@@ -31,15 +31,88 @@ def test_cli_sources_tiers():
     assert "implemented" in result.output
 
 
+@respx.mock
 def test_cli_references_convert(tmp_path):
+    import os
+
+    os.environ["SEARCHPAPER_CACHE"] = str(tmp_path / "cache.db")
+    respx.get("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi").mock(
+        return_value=Response(
+            200,
+            json={
+                "result": {
+                    "uids": ["12345"],
+                    "12345": {
+                        "uid": "12345",
+                        "title": "HCC Paper",
+                        "pubdate": "2023",
+                        "articleids": [{"idtype": "pubmed", "value": "12345"}],
+                    },
+                }
+            },
+        )
+    )
+    respx.get("https://api.crossref.org/works/10.1000/test").mock(
+        return_value=Response(
+            200,
+            json={
+                "message": {
+                    "DOI": "10.1000/test",
+                    "title": ["Test Paper"],
+                    "published-print": {"date-parts": [[2023]]},
+                    "type": "journal-article",
+                }
+            },
+        )
+    )
+
     refs = tmp_path / "refs.txt"
     refs.write_text("PMID:12345\nDOI:10.1000/test\n", encoding="utf-8")
 
     result = runner.invoke(app, ["references", "convert", str(refs), "--format", "ris"])
 
     assert result.exit_code == 0
-    assert "AN  - 12345" in result.output
+    assert "AN  - PMID:12345" in result.output
     assert "DO  - 10.1000/test" in result.output
+
+
+@respx.mock
+def test_cli_references_convert_query_and_author_title(tmp_path):
+    import os
+
+    os.environ["SEARCHPAPER_CACHE"] = str(tmp_path / "cache.db")
+    respx.get("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi").mock(
+        return_value=Response(200, json={"esearchresult": {"idlist": ["12345"]}})
+    )
+    respx.get("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi").mock(
+        return_value=Response(
+            200,
+            json={
+                "result": {
+                    "uids": ["12345"],
+                    "12345": {
+                        "uid": "12345",
+                        "title": "HCC Paper",
+                        "pubdate": "2023",
+                        "articleids": [{"idtype": "pubmed", "value": "12345"}],
+                    },
+                }
+            },
+        )
+    )
+    respx.get("https://api.crossref.org/works").mock(return_value=Response(500, text="error"))
+    respx.get("https://api.openalex.org/works").mock(return_value=Response(500, text="error"))
+
+    refs = tmp_path / "refs.txt"
+    refs.write_text(
+        "QUERY:HCC\nAUTHOR:Dheda TITLE:drug-resistant tuberculosis\n",
+        encoding="utf-8",
+    )
+
+    result = runner.invoke(app, ["references", "convert", str(refs), "--format", "ris"])
+
+    assert result.exit_code == 0
+    assert "HCC Paper" in result.output
 
 
 @respx.mock
@@ -136,3 +209,88 @@ def test_cli_expand():
     result = runner.invoke(app, ["expand", "--doi", "10.1000/test", "--by", "citations", "--limit", "5", "--json"])
     assert result.exit_code == 0
     assert "cit1" in result.output
+
+
+@respx.mock
+def test_cli_search_required_source_fails(tmp_path):
+    import os
+
+    os.environ["SEARCHPAPER_CACHE"] = str(tmp_path / "cache.db")
+    respx.get("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi").mock(
+        return_value=Response(200, json={"esearchresult": {"idlist": ["12345"]}})
+    )
+    respx.get("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi").mock(
+        return_value=Response(
+            200,
+            json={
+                "result": {
+                    "uids": ["12345"],
+                    "12345": {
+                        "uid": "12345",
+                        "title": "HCC Paper",
+                        "pubdate": "2023",
+                        "articleids": [{"idtype": "pubmed", "value": "12345"}],
+                    },
+                }
+            },
+        )
+    )
+    respx.get("https://api.crossref.org/works").mock(return_value=Response(500, text="error"))
+
+    result = runner.invoke(
+        app,
+        [
+            "search",
+            "HCC",
+            "--sources",
+            "pubmed,crossref",
+            "--require",
+            "crossref",
+            "--json",
+        ],
+    )
+    assert result.exit_code == 1
+    assert "Required source(s) failed: crossref" in result.output
+    assert "HCC Paper" in result.output
+
+
+@respx.mock
+def test_cli_search_source_mode_preferred(tmp_path):
+    import os
+
+    os.environ["SEARCHPAPER_CACHE"] = str(tmp_path / "cache.db")
+    respx.get("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi").mock(
+        return_value=Response(200, json={"esearchresult": {"idlist": ["12345"]}})
+    )
+    respx.get("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi").mock(
+        return_value=Response(
+            200,
+            json={
+                "result": {
+                    "uids": ["12345"],
+                    "12345": {
+                        "uid": "12345",
+                        "title": "HCC Paper",
+                        "pubdate": "2023",
+                        "articleids": [{"idtype": "pubmed", "value": "12345"}],
+                    },
+                }
+            },
+        )
+    )
+    respx.get("https://api.crossref.org/works").mock(return_value=Response(500, text="error"))
+
+    result = runner.invoke(
+        app,
+        [
+            "search",
+            "HCC",
+            "--sources",
+            "pubmed,crossref",
+            "--source-mode",
+            "crossref:preferred",
+            "--json",
+        ],
+    )
+    assert result.exit_code == 0
+    assert "Preferred sources failed: crossref" in result.output

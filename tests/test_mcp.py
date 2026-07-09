@@ -46,6 +46,40 @@ async def test_mcp_search_literature():
 
 
 @respx.mock
+async def test_mcp_search_literature_required_source_fails():
+    respx.get("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi").mock(
+        return_value=Response(200, json={"esearchresult": {"idlist": ["12345"]}})
+    )
+    respx.get("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi").mock(
+        return_value=Response(
+            200,
+            json={
+                "result": {
+                    "uids": ["12345"],
+                    "12345": {
+                        "uid": "12345",
+                        "title": "HCC Paper",
+                        "pubdate": "2023",
+                        "articleids": [{"idtype": "pubmed", "value": "12345"}],
+                    },
+                }
+            },
+        )
+    )
+    respx.get("https://api.crossref.org/works").mock(return_value=Response(500, text="error"))
+
+    result = await search_literature(
+        "HCC",
+        sources=["pubmed", "crossref"],
+        limit=5,
+        source_modes={"crossref": "required"},
+    )
+    assert result["object_type"] == "error"
+    assert "Required source(s) failed: crossref" in result["warnings"]
+    assert result["data"]["trace"]["sources_failed"] == ["crossref"]
+
+
+@respx.mock
 async def test_mcp_get_source_status():
     respx.get("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi").mock(
         return_value=Response(200, json={"esearchresult": {"idlist": ["1"]}})

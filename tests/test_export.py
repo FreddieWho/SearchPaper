@@ -1,6 +1,6 @@
 """Tests for export formats."""
 
-from searchpaper.export import work_to_bibtex, work_to_markdown, work_to_ris, works_to_format
+from searchpaper.export import work_to_apa, work_to_bibtex, work_to_markdown, work_to_mla, work_to_ris, works_to_format
 
 
 def sample_work():
@@ -19,12 +19,33 @@ def test_work_to_bibtex():
     bib = work_to_bibtex(sample_work())
     assert "@article{" in bib
     assert "10.1000/test" in bib
+    assert "pmid12345" in bib
+
+
+def test_work_to_bibtex_key_falls_back_to_author_year():
+    work = {
+        "title": "Another Paper",
+        "year": 2021,
+        "authors": [{"name": "Bob Jones", "last_name": "Jones"}],
+        "identifiers": {},
+    }
+    bib = work_to_bibtex(work)
+    assert "@article{jones2021," in bib
 
 
 def test_work_to_ris():
     ris = work_to_ris(sample_work())
     assert "TY  - JOUR" in ris
     assert "DO  - 10.1000/test" in ris
+    assert "AN  - PMID:12345" in ris
+
+
+def test_work_to_ris_pages_split():
+    work = sample_work()
+    work["pages"] = "123-130"
+    ris = work_to_ris(work)
+    assert "SP  - 123" in ris
+    assert "EP  - 130" in ris
 
 
 def test_work_to_markdown():
@@ -65,3 +86,19 @@ def test_works_to_obsidian():
     assert "---" in out
     assert "A Test Paper" in out
     assert "https://doi.org/10.1000/test" in out
+
+
+def test_work_to_apa():
+    apa = work_to_apa(sample_work())
+    assert "Alice Smith" in apa
+    assert "(2023)." in apa
+    assert "A Test Paper" in apa
+    assert "https://doi.org/10.1000/test" in apa
+
+
+def test_work_to_mla():
+    mla = work_to_mla(sample_work())
+    assert "Alice Smith" in mla
+    assert '"A Test Paper."' in mla
+    assert "Journal of Tests" in mla
+    assert "2023." in mla

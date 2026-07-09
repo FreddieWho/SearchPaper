@@ -20,6 +20,10 @@ class SearchPlan(BaseModel):
 PROFILE_SOURCES: dict[str, list[str]] = {
     "default": ["pubmed", "crossref", "openalex"],
     "biomedical": ["pubmed", "europepmc", "openalex", "crossref"],
+    "medical": ["pubmed", "europepmc", "openalex", "crossref"],
+    "molecular": ["pubmed", "europepmc", "openalex", "crossref"],
+    "epidemiology": ["pubmed", "europepmc", "openalex", "crossref"],
+    "methods": ["pubmed", "europepmc", "openalex", "crossref"],
     "cross-disciplinary": ["openalex", "crossref", "semantic_scholar"],
     "preprint": ["arxiv", "biorxiv", "medrxiv", "openalex", "semantic_scholar"],
     "citation": ["semantic_scholar", "openalex", "crossref"],
@@ -44,6 +48,14 @@ BIOMEDICAL_TERMS = {
 
 PREPRINT_TERMS = {"arxiv", "physics", "mathematics", "computer", "algorithm", "graph neural", "preprint"}
 
+DOMAIN_TEMPLATES: dict[str, list[str]] = {
+    "medical": ["{query}", "{query} clinical trial", "{query} treatment guidelines"],
+    "molecular": ["{query}", "{query} gene expression", "{query} signaling pathway"],
+    "epidemiology": ["{query}", "{query} incidence", "{query} risk factors"],
+    "methods": ["{query}", "{query} systematic review", "{query} meta-analysis"],
+    "biomedical": ["{query}", "{query} clinical", "{query} patients"],
+}
+
 
 def detect_profile(query: str) -> str:
     q = query.lower()
@@ -52,6 +64,19 @@ def detect_profile(query: str) -> str:
     if any(term in q for term in PREPRINT_TERMS):
         return "preprint"
     return "cross-disciplinary"
+
+
+def _template_variants(query: str, profile: str) -> list[str]:
+    """Build query variants from domain templates if available."""
+    templates = DOMAIN_TEMPLATES.get(profile, ["{query}"])
+    variants: list[str] = []
+    seen = set()
+    for template in templates:
+        variant = template.format(query=query)
+        if variant not in seen:
+            variants.append(variant)
+            seen.add(variant)
+    return variants
 
 
 def plan_search(query: str, profile: str = "default", sort: str | None = None) -> SearchPlan:
@@ -74,6 +99,6 @@ def plan_search(query: str, profile: str = "default", sort: str | None = None) -
         selected_sources=implemented,
         fallback_sources=fallback,
         ranking_profile=sort or "relevance",
-        query_variants=[query],
+        query_variants=_template_variants(query, resolved_profile),
         warnings=warnings,
     )

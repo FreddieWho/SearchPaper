@@ -132,14 +132,17 @@ override file values.
 | `searchpaper serve --mcp` | Start MCP server (stdio) |
 | `searchpaper signals "PDCD1" --entity2-type chemical --json` | Biomedical signals |
 | `searchpaper export results.json --format bibtex` | Export results |
+| `searchpaper export results.json --format apa` | APA/MLA export |
 | `searchpaper references convert refs.txt --format ris` | Convert reference IDs |
+| `searchpaper references verify refs.txt --output-format markdown` | Verify citations |
+| `searchpaper batch queries.jsonl --format jsonl` | Batch search/resolve/export |
 | `searchpaper install --target opencode` | Install agent integration |
 | `searchpaper integrate dry-run --target opencode` | Preview integration changes |
 | `searchpaper integrate migrate --target all` | Update managed integrations |
 | `searchpaper integrate uninstall --target opencode` | Remove integration |
 
 Supported export formats: `json`, `jsonl`, `bibtex`, `ris`, `nbib`, `enw`,
-`markdown`, `zotero` (CSV), and `obsidian` (YAML-frontmatter notes).
+`markdown`, `zotero` (CSV), `obsidian` (YAML-frontmatter notes), `apa`, and `mla`.
 
 ---
 
@@ -213,6 +216,55 @@ For a complete paper context pack for downstream agents:
 ```bash
 searchpaper context --doi 10.1038/s41586-021-03819-2 --json
 ```
+
+Download an OA PDF or Europe PMC XML without parsing:
+
+```bash
+searchpaper get --doi 10.1038/s41586-021-03819-2 --download-pdf paper.pdf --json
+searchpaper get --pmcid PMC8371605 --download-xml paper.xml --json
+```
+
+---
+
+## Batch processing
+
+Run many searches or identifier resolutions from a JSONL or text file:
+
+```bash
+searchpaper batch queries.jsonl --format jsonl --output results.jsonl
+```
+
+Each input line may be `{"query": "..."}`, `{"doi": "..."}`, `{"pmid": "..."}`,
+`{"author": "...", "title": "..."}`, or a plain identifier line.
+
+---
+
+## Source requirement modes
+
+Control how failures are handled per source:
+
+```bash
+searchpaper search "HCC TACE" --require pubmed --json
+searchpaper search "HCC TACE" --source-mode pubmed:required,crossref:preferred --json
+```
+
+A required source failure returns exit code 1 with a structured error envelope;
+preferred sources emit louder warnings; optional sources (default) warn and continue.
+
+---
+
+## Citation verification
+
+Verify citations in `.txt`, `.docx`, or `.tex` documents:
+
+```bash
+searchpaper references verify refs.txt --output-format json
+searchpaper references verify manuscript.docx --output-format markdown
+searchpaper references verify paper.tex --output-format csv
+```
+
+Results are classified as `verified`, `mismatch`, `not_found`, `suspicious`, or
+`manual_needed`.
 
 ---
 

@@ -10,16 +10,31 @@ from mcp.server.fastmcp import FastMCP
 
 from searchpaper.config import load_config
 from searchpaper.engine import SearchEngine
+from searchpaper.exceptions import SourceRequiredError
 from searchpaper.identifiers import identify
 from searchpaper.planner import plan_search
 from searchpaper.pubmed_utils import convert_ids as pubmed_convert_ids
 from searchpaper.pubmed_utils import lookup_mesh as pubmed_lookup_mesh
 from searchpaper.pubmed_utils import related_articles as pubmed_related_articles
-from searchpaper.schemas import SearchFilters
+from searchpaper.schemas import SearchFilters, SourceMode
 from searchpaper.source_catalog import list_source_descriptors
 
 _config = load_config()
 _engine = SearchEngine()
+
+
+def _parse_mcp_source_modes(source_modes: dict[str, str] | None) -> dict[str, SourceMode]:
+    """Convert MCP string-valued source modes into typed SourceMode values."""
+    if not source_modes:
+        return {}
+    result: dict[str, SourceMode] = {}
+    for source, mode_str in source_modes.items():
+        mode_str = str(mode_str).strip().lower()
+        try:
+            result[source.lower()] = SourceMode(mode_str)
+        except ValueError:
+            pass
+    return result
 
 
 @asynccontextmanager
@@ -42,11 +57,13 @@ async def search_literature(
     no_cache: bool = False,
     profile: str = "default",
     sort: str = "relevance",
+    source_modes: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     """Search open scholarly literature across configured sources."""
     planned_sources = sources
     if planned_sources is None and profile != "default":
         planned_sources = plan_search(query, profile=profile, sort=sort).selected_sources
+    modes = _parse_mcp_source_modes(source_modes)
     filters = SearchFilters(
         limit=limit,
         year=year,
@@ -54,13 +71,23 @@ async def search_literature(
         min_citation_count=min_citation_count,
         open_access_only=open_access_only,
         sort=sort,
+        source_modes=modes,
     )
-    result = await _engine.search(
-        query=query,
-        filters=filters,
-        sources=planned_sources or ["pubmed", "crossref", "openalex"],
-        no_cache=no_cache,
-    )
+    try:
+        result = await _engine.search(
+            query=query,
+            filters=filters,
+            sources=planned_sources or ["pubmed", "crossref", "openalex"],
+            no_cache=no_cache,
+        )
+    except SourceRequiredError as exc:
+        return {
+            "schema_version": "0.2",
+            "object_type": "error",
+            "data": exc.envelope.data,
+            "warnings": [*exc.envelope.warnings, str(exc)],
+            "trace": exc.envelope.trace,
+        }
     return result.model_dump(mode="json")
 
 
@@ -82,6 +109,7 @@ async def get_work(
     identifier: str,
     identifier_type: str | None = None,
     sources: list[str] | None = None,
+    source_modes: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     """Get a work by identifier (DOI, PMID, PMCID, arXiv, etc.)."""
     wid = identify(identifier)
@@ -93,7 +121,17 @@ async def get_work(
             "warnings": [],
             "trace": {},
         }
-    result = await _engine.get(wid, sources=sources)
+    modes = _parse_mcp_source_modes(source_modes)
+    try:
+        result = await _engine.get(wid, sources=sources, source_modes=modes)
+    except SourceRequiredError as exc:
+        return {
+            "schema_version": "0.2",
+            "object_type": "error",
+            "data": exc.envelope.data,
+            "warnings": [*exc.envelope.warnings, str(exc)],
+            "trace": exc.envelope.trace,
+        }
     return result.model_dump(mode="json")
 
 
@@ -101,22 +139,46 @@ async def get_work(
 async def resolve_identifiers(
     identifiers: list[str],
     sources: list[str] | None = None,
+    source_modes: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     """Resolve a list of identifiers across sources and return merged records."""
     works = []
     trace_accumulated: dict[str, Any] = {}
     warnings: list[str] = []
+    modes = _parse_mcp_source_modes(source_modes)
+    required_failures: list[str] = []
     for raw in identifiers:
         wid = identify(raw)
         if not wid:
             warnings.append(f"Could not identify: {raw}")
             continue
-        result = await _engine.resolve(wid, sources=sources)
+        try:
+            result = await _engine.resolve(wid, sources=sources, source_modes=modes)
+        except SourceRequiredError as exc:
+            required_failures.append(str(exc))
+            data = exc.envelope.data if hasattr(exc.envelope, "data") else exc.envelope.get("data", {})
+            trace = exc.envelope.trace if hasattr(exc.envelope, "trace") else exc.envelope.get("trace", {})
+            works.extend(data.get("works", []))
+            warnings.extend(
+                exc.envelope.warnings if hasattr(exc.envelope, "warnings") else exc.envelope.get("warnings", [])
+            )
+            trace_accumulated = trace
+            continue
         data = result.data if hasattr(result, "data") else result.get("data", {})
         trace = result.trace if hasattr(result, "trace") else result.get("trace", {})
         works.extend(data.get("works", []))
         warnings.extend(result.warnings if hasattr(result, "warnings") else result.get("warnings", []))
         trace_accumulated = trace
+
+    if required_failures:
+        warnings.extend(required_failures)
+        return {
+            "schema_version": "0.2",
+            "object_type": "error",
+            "data": {"works": works, "count": len(works)},
+            "warnings": warnings,
+            "trace": trace_accumulated,
+        }
 
     return {
         "schema_version": "0.2",
@@ -212,6 +274,7 @@ async def expand_from_work(
     by: list[str] | None = None,
     sources: list[str] | None = None,
     limit: int = 20,
+    source_modes: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     """Expand from a known work by citations, references, or similar papers."""
     wid = identify(identifier)
@@ -223,7 +286,17 @@ async def expand_from_work(
             "warnings": [],
             "trace": {},
         }
-    result = await _engine.expand(wid, by=by, limit=limit)
+    modes = _parse_mcp_source_modes(source_modes)
+    try:
+        result = await _engine.expand(wid, by=by, limit=limit, source_modes=modes)
+    except SourceRequiredError as exc:
+        return {
+            "schema_version": "0.2",
+            "object_type": "error",
+            "data": exc.envelope.data,
+            "warnings": [*exc.envelope.warnings, str(exc)],
+            "trace": exc.envelope.trace,
+        }
     data = result.data if hasattr(result, "data") else result.get("data", {})
     works = data.get("works", [])
     return {

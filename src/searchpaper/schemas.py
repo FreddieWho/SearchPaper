@@ -39,6 +39,19 @@ class SignalType(StrEnum):
     ENTITY_ANNOTATION = "entity_annotation"
 
 
+class SourceMode(StrEnum):
+    """Requirement mode for a requested source.
+
+    - optional: use if available, warn if failed (default).
+    - preferred: use if available, warn more loudly if failed.
+    - required: fail the command if the source is unavailable.
+    """
+
+    OPTIONAL = "optional"
+    PREFERRED = "preferred"
+    REQUIRED = "required"
+
+
 class FailureClass(StrEnum):
     """Classification for source failures."""
 
@@ -262,6 +275,7 @@ class SearchFilters(BaseModel):
     open_access_only: bool = False
     limit: int = Field(default=20, ge=1, le=200)
     sort: str | None = None
+    source_modes: dict[str, SourceMode] = Field(default_factory=dict)
 
 
 class SourceResultCount(BaseModel):

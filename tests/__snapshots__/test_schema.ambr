@@ -1,0 +1,186 @@
+# serializer version: 1
+# name: test_literature_signal_snapshot
+  dict({
+    'anchor': dict({
+      'anchor_text': None,
+      'anchor_type': 'metadata',
+      'section': None,
+      'text_scope': None,
+      'url': None,
+    }),
+    'confidence_or_score': None,
+    'entities': list([
+    ]),
+    'interpretation_warning': 'This is a literature-backed signal, not evaluated scientific evidence.',
+    'provenance': list([
+    ]),
+    'relation_label': 'interacts',
+    'signal_id': 's1',
+    'signal_level': 'curated_or_extracted',
+    'signal_type': 'curated_relation',
+    'source': 'pubtator3',
+    'supporting_work_ids': list([
+    ]),
+  })
+# ---
+# name: test_search_result_envelope_snapshot
+  dict({
+    'data': dict({
+      'next_offset': None,
+      'signals': list([
+      ]),
+      'total': None,
+      'trace': dict({
+        'cache_policy': 'default',
+        'filters': dict({
+        }),
+        'merge_strategy_version': '0.2.0',
+        'merged_count': 0,
+        'query': 'test query',
+        'ranking_strategy_version': '0.2.0',
+        'result_count': 0,
+        'retrieved_at': '2026-01-01T00:00:00Z',
+        'source_errors': list([
+        ]),
+        'source_result_counts': list([
+        ]),
+        'sources_degraded': list([
+        ]),
+        'sources_failed': list([
+        ]),
+        'sources_requested': list([
+          'pubmed',
+        ]),
+        'sources_succeeded': list([
+        ]),
+      }),
+      'warnings': list([
+      ]),
+      'works': list([
+        dict({
+          'abstract': None,
+          'authors': list([
+          ]),
+          'citation_count': None,
+          'concepts': list([
+          ]),
+          'conflicts': list([
+          ]),
+          'fields_of_study': list([
+          ]),
+          'full_text_anchors': list([
+          ]),
+          'full_text_availability': None,
+          'identifiers': dict({
+          }),
+          'keywords': list([
+          ]),
+          'merge_reasons': list([
+          ]),
+          'merged_from_sources': list([
+          ]),
+          'mesh_terms': list([
+          ]),
+          'normalized_title': None,
+          'open_access_pdf': None,
+          'provenance': list([
+          ]),
+          'publication_date': None,
+          'publication_types': list([
+          ]),
+          'ranking_reasons': list([
+          ]),
+          'source_records': list([
+          ]),
+          'title': 'Test',
+          'urls': dict({
+          }),
+          'venue': None,
+          'warnings': list([
+          ]),
+          'work_id': 'w1',
+          'year': None,
+        }),
+      ]),
+    }),
+    'object_type': 'search_result',
+    'schema_version': '0.2',
+    'trace': dict({
+    }),
+    'warnings': list([
+    ]),
+  })
+# ---
+# name: test_source_status_snapshot
+  dict({
+    'fixture_tests_available': True,
+    'key_configured': False,
+    'key_required': False,
+    'last_checked_at': None,
+    'last_error_class': None,
+    'live_search_available': True,
+    'message': 'ok',
+    'source': 'pubmed',
+    'source_terms_url': None,
+    'state': 'available',
+    'usage_note': None,
+  })
+# ---
+# name: test_work_record_snapshot
+  dict({
+    'abstract': None,
+    'authors': list([
+      dict({
+        'affiliations': list([
+        ]),
+        'first_name': None,
+        'last_name': 'Smith',
+        'name': 'Alice Smith',
+        'orcid': None,
+        'source_ids': dict({
+        }),
+      }),
+    ]),
+    'citation_count': None,
+    'concepts': list([
+    ]),
+    'conflicts': list([
+    ]),
+    'fields_of_study': list([
+    ]),
+    'full_text_anchors': list([
+    ]),
+    'full_text_availability': None,
+    'identifiers': dict({
+      'doi': '10.1000/test',
+      'pmid': '12345',
+    }),
+    'keywords': list([
+    ]),
+    'merge_reasons': list([
+    ]),
+    'merged_from_sources': list([
+    ]),
+    'mesh_terms': list([
+    ]),
+    'normalized_title': None,
+    'open_access_pdf': None,
+    'provenance': list([
+    ]),
+    'publication_date': None,
+    'publication_types': list([
+    ]),
+    'ranking_reasons': list([
+    ]),
+    'source_records': list([
+    ]),
+    'title': 'A Test Paper',
+    'urls': dict({
+    }),
+    'venue': 'Journal of Tests',
+    'warnings': list([
+    ]),
+    'work_id': 'work:doi:10.1000/test',
+    'year': 2023,
+  })
+# ---

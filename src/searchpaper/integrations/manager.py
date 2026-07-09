@@ -40,7 +40,7 @@ class IntegrationManager:
         "claude": claude,
     }
 
-    async def install(self, target: str, dry_run: bool = False) -> dict[str, Any]:
+    async def install(self, target: str, dry_run: bool = False, modes: list[str] | None = None) -> dict[str, Any]:
         targets = list(self.TARGETS.keys()) if target == "all" else [target]
         results: list[dict[str, Any]] = []
         state = _load_state()
@@ -49,20 +49,29 @@ class IntegrationManager:
             if not module:
                 results.append({"target": t, "error": "Unknown target"})
                 continue
-            result = module.install(dry_run=dry_run)
+            install_kwargs: dict[str, Any] = {"dry_run": dry_run}
+            supports_modes = hasattr(module.install, "__code__") and "modes" in module.install.__code__.co_varnames
+            if modes is not None and supports_modes:
+                install_kwargs["modes"] = modes
+            result = module.install(**install_kwargs)
             results.append(result)
             if not dry_run:
                 managed_files = [change["path"] for change in result.get("changes", []) if "path" in change]
+                config_path = ""
+                if hasattr(module, "config_path"):
+                    config_path = str(module.config_path())
+                installed_modes = result.get("modes") if "modes" in result else (modes or ["mcp", "skill"])
                 state["installed_targets"][t] = {
-                    "modes": ["mcp", "skill"],
+                    "modes": installed_modes,
                     "scope": "user",
+                    "config_path": config_path,
                     "installed_at": _now(),
                     "managed_files": managed_files,
                 }
         if not dry_run:
             state["searchpaper_version"] = __version__
             _save_state(state)
-        return {"target": target, "dry_run": dry_run, "results": results}
+        return {"target": target, "dry_run": dry_run, "modes": modes, "results": results}
 
     def status(self) -> dict[str, Any]:
         state = _load_state()
@@ -74,7 +83,7 @@ class IntegrationManager:
             "detected": statuses,
         }
 
-    async def uninstall(self, target: str, dry_run: bool = False) -> dict[str, Any]:
+    async def uninstall(self, target: str, dry_run: bool = False, modes: list[str] | None = None) -> dict[str, Any]:
         targets = list(self.TARGETS.keys()) if target == "all" else [target]
         results: list[dict[str, Any]] = []
         state = _load_state()
@@ -83,13 +92,17 @@ class IntegrationManager:
             if not module:
                 results.append({"target": t, "error": "Unknown target"})
                 continue
-            result = module.uninstall(dry_run=dry_run)
+            uninstall_kwargs: dict[str, Any] = {"dry_run": dry_run}
+            supports_modes = hasattr(module.uninstall, "__code__") and "modes" in module.uninstall.__code__.co_varnames
+            if modes is not None and supports_modes:
+                uninstall_kwargs["modes"] = modes
+            result = module.uninstall(**uninstall_kwargs)
             results.append(result)
             if not dry_run and t in state["installed_targets"]:
                 del state["installed_targets"][t]
         if not dry_run:
             _save_state(state)
-        return {"target": target, "dry_run": dry_run, "results": results}
+        return {"target": target, "dry_run": dry_run, "modes": modes, "results": results}
 
     def needs_migration(self) -> dict[str, Any]:
         """Check whether installed integrations were created by an older SearchPaper version."""
@@ -106,7 +119,7 @@ class IntegrationManager:
             "installed_targets": list(installed.keys()),
         }
 
-    async def migrate(self, target: str, dry_run: bool = False) -> dict[str, Any]:
+    async def migrate(self, target: str, dry_run: bool = False, modes: list[str] | None = None) -> dict[str, Any]:
         """Re-install managed files for selected targets to bring them up to date."""
         targets = list(self.TARGETS.keys()) if target == "all" else [target]
         results: list[dict[str, Any]] = []
@@ -119,15 +132,24 @@ class IntegrationManager:
             if t not in state.get("installed_targets", {}):
                 results.append({"target": t, "skipped": True, "reason": "Not previously installed by SearchPaper"})
                 continue
-            result = module.install(dry_run=dry_run)
+            previous_modes = state["installed_targets"][t].get("modes", ["mcp", "skill"])
+            migrate_modes = modes or previous_modes
+            install_kwargs: dict[str, Any] = {"dry_run": dry_run}
+            if hasattr(module.install, "__code__") and "modes" in module.install.__code__.co_varnames:
+                install_kwargs["modes"] = migrate_modes
+            result = module.install(**install_kwargs)
             result["target"] = t
             result["migrated"] = True
             results.append(result)
             if not dry_run:
                 managed_files = [change["path"] for change in result.get("changes", []) if "path" in change]
+                config_path = ""
+                if hasattr(module, "config_path"):
+                    config_path = str(module.config_path())
                 state["installed_targets"][t] = {
-                    "modes": ["mcp", "skill"],
+                    "modes": migrate_modes,
                     "scope": "user",
+                    "config_path": config_path,
                     "installed_at": _now(),
                     "migrated_at": _now(),
                     "searchpaper_version": __version__,
@@ -136,7 +158,7 @@ class IntegrationManager:
         if not dry_run:
             state["searchpaper_version"] = __version__
             _save_state(state)
-        return {"target": target, "dry_run": dry_run, "results": results}
+        return {"target": target, "dry_run": dry_run, "modes": modes, "results": results}
 
     def doctor(self) -> dict[str, Any]:
         checks = {t: module.doctor() for t, module in self.TARGETS.items()}

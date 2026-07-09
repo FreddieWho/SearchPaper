@@ -22,6 +22,19 @@ async def test_integration_dry_run_opencode(tmp_path, monkeypatch):
 
 
 @pytest.mark.asyncio
+async def test_integration_state_records_config_path(tmp_path, monkeypatch):
+    from searchpaper.integrations import manager
+
+    monkeypatch.setattr(manager, "STATE_PATH", tmp_path / "integrations.json")
+    mgr = IntegrationManager()
+    await mgr.install("opencode")
+    state = manager._load_state()
+    opencode_state = state["installed_targets"]["opencode"]
+    assert "config_path" in opencode_state
+    assert "opencode.jsonc" in opencode_state["config_path"]
+
+
+@pytest.mark.asyncio
 async def test_integration_migration_updates_state_version(tmp_path, monkeypatch):
     from searchpaper.integrations import manager
 
@@ -65,8 +78,8 @@ async def test_integration_dry_run_codex_and_claude(monkeypatch, tmp_path):
 
     assert any(path.endswith(".codex/searchpaper-mcp.json") for path in codex_paths)
     assert any(path.endswith(".codex/instructions/searchpaper.md") for path in codex_paths)
-    assert any(path.endswith(".claude/CLAUDE.md") for path in claude_paths)
-    assert any(path.endswith(".claude/mcp.json") for path in claude_paths)
+    assert any(path.endswith(".claude/instructions/searchpaper.md") for path in claude_paths)
+    assert any(path.endswith(".claude/searchpaper-mcp.json") for path in claude_paths)
     assert not (tmp_path / "integrations.json").exists()
 
 
@@ -82,3 +95,39 @@ def test_repository_skill_templates_cover_writable_agent_targets():
         assert "search_literature" in content
         assert "DOI/PMID/PMCID" in content
         assert "Do not hide degraded or failed sources" in content
+
+
+@pytest.mark.asyncio
+async def test_integration_custom_tool_install(tmp_path, monkeypatch):
+    from searchpaper.integrations import manager
+
+    monkeypatch.setattr(manager, "STATE_PATH", tmp_path / "integrations.json")
+    mgr = IntegrationManager()
+    result = await mgr.install("opencode", modes=["custom_tool"])
+    assert result["results"][0]["modes"] == ["custom_tool"]
+    wrapper_change = next(
+        (c for c in result["results"][0]["changes"] if "searchpaper_wrapper.py" in c["path"]),
+        None,
+    )
+    assert wrapper_change is not None
+    tools_change = next(
+        (c for c in result["results"][0]["changes"] if "searchpaper_tools.json" in c["path"]),
+        None,
+    )
+    assert tools_change is not None
+
+
+def test_opencode_custom_tool_wrapper_functions():
+    from searchpaper.integrations.opencode_custom_tool import (
+        search,
+        tool_definitions,
+        wrapper_script_content,
+    )
+
+    assert "searchpaper.integrations.opencode_custom_tool" in wrapper_script_content()
+    defs = tool_definitions("/tmp/searchpaper_wrapper.py")
+    assert any(t["name"] == "searchpaper_search" for t in defs["tools"])
+    assert any(t["name"] == "searchpaper_signals" for t in defs["tools"])
+    # Search with empty query should invoke CLI and return an envelope/error.
+    result = search("")
+    assert "schema_version" in result or "error" in result

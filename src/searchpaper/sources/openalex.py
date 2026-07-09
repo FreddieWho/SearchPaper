@@ -124,11 +124,10 @@ class OpenAlexAdapter(SourceAdapter):
         if filters.year:
             params["filter"] = f"publication_year:{filters.year}"
         resp = await self.http.get(f"{OPENALEX_BASE}/works", params=params)
-        if resp.status_code >= 400:
-            return []
+        resp.raise_for_status()
         data = self._safe_json(resp)
         if data is None:
-            return []
+            raise ValueError("OpenAlex returned non-JSON response")
         results = data.get("results", []) or []
         return [_parse_work(w) for w in results if isinstance(w, dict)]
 
@@ -146,11 +145,10 @@ class OpenAlexAdapter(SourceAdapter):
         if not url:
             return None
         resp = await self.http.get(url, params=self._params())
-        if resp.status_code >= 400:
-            return None
+        resp.raise_for_status()
         data = self._safe_json(resp)
         if data is None:
-            return None
+            raise ValueError("OpenAlex returned non-JSON response")
         return _parse_work(data)
 
     async def resolve(self, identifier: WorkIdentifier) -> list[SourceRecord]:

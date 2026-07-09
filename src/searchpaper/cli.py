@@ -13,12 +13,15 @@ from rich.table import Table
 
 from searchpaper import __version__
 from searchpaper.cache import Cache
+from searchpaper.citation_parser import verify_document
 from searchpaper.config import DEFAULT_CONFIG_DIR, DEFAULT_PROJECT_DIR, find_project_dir, get_cache_path, load_config
 from searchpaper.engine import SearchEngine
+from searchpaper.exceptions import SourceRequiredError
+from searchpaper.fulltext import download_full_text
 from searchpaper.identifiers import identify
 from searchpaper.planner import plan_search
 from searchpaper.project import save_search_trace
-from searchpaper.schemas import SearchFilters
+from searchpaper.schemas import SearchFilters, SourceMode
 from searchpaper.source_catalog import list_source_descriptors
 from searchpaper.sources import list_sources
 
@@ -37,6 +40,49 @@ def _print_json(data: Any) -> None:
     console.print(json.dumps(data, indent=2, ensure_ascii=False))
 
 
+def _parse_source_modes(
+    require: str | None = None,
+    source_mode: str | None = None,
+) -> dict[str, SourceMode]:
+    """Build a source-name → SourceMode map from CLI options.
+
+    ``--require pubmed,crossref`` is shorthand for ``--source-mode pubmed:required,crossref:required``.
+    """
+    modes: dict[str, SourceMode] = {}
+    if require:
+        for source in require.split(","):
+            source = source.strip().lower()
+            if source:
+                modes[source] = SourceMode.REQUIRED
+    if source_mode:
+        for part in source_mode.split(","):
+            part = part.strip()
+            if not part:
+                continue
+            if ":" not in part:
+                continue
+            source, mode_str = part.split(":", 1)
+            source = source.strip().lower()
+            mode_str = mode_str.strip().lower()
+            if source:
+                try:
+                    modes[source] = SourceMode(mode_str)
+                except ValueError:
+                    pass
+    return modes
+
+
+def _parse_install_mode(mode: str | None) -> list[str] | None:
+    """Convert CLI --mode value into a list of install modes."""
+    if not mode:
+        return None
+    valid = {"mcp", "skill", "custom_tool"}
+    chosen = [m.strip().lower() for m in mode.split(",") if m.strip()]
+    if "both" in chosen:
+        return ["mcp", "skill"]
+    return [m for m in chosen if m in valid] or None
+
+
 def _filters(
     year: str | None = None,
     venue: str | None = None,
@@ -44,6 +90,7 @@ def _filters(
     open_access_only: bool = False,
     limit: int = 20,
     sort: str | None = None,
+    source_modes: dict[str, SourceMode] | None = None,
 ) -> SearchFilters:
     return SearchFilters(
         year=year,
@@ -52,6 +99,7 @@ def _filters(
         open_access_only=open_access_only,
         limit=limit,
         sort=sort,
+        source_modes=source_modes or {},
     )
 
 
@@ -81,12 +129,19 @@ def search(
     sort: str = typer.Option("relevance", "--sort", help="Ranking mode"),
     json_output: bool = typer.Option(False, "--json", help="Output JSON envelope"),
     save: bool = typer.Option(False, "--save", help="Save trace and results when inside a project"),
+    require: str | None = typer.Option(None, "--require", help="Comma-separated required sources"),
+    source_mode: str | None = typer.Option(
+        None,
+        "--source-mode",
+        help="Comma-separated source:mode pairs (optional/preferred/required)",
+    ),
 ):
     """Search open scholarly literature."""
     if sources == DEFAULT_SEARCH_SOURCES and profile != "default":
         source_list = plan_search(query, profile=profile, sort=sort).selected_sources
     else:
         source_list = [s.strip() for s in sources.split(",") if s.strip()]
+    modes = _parse_source_modes(require=require, source_mode=source_mode)
     filters = _filters(
         year=year,
         venue=venue,
@@ -94,8 +149,13 @@ def search(
         open_access_only=open_access_only,
         limit=limit,
         sort=sort,
+        source_modes=modes,
     )
-    result = asyncio.run(_engine().search(query, filters=filters, sources=source_list, no_cache=no_cache))
+    try:
+        result = asyncio.run(_engine().search(query, filters=filters, sources=source_list, no_cache=no_cache))
+    except SourceRequiredError as exc:
+        _print_json(exc.envelope.model_dump(mode="json"))
+        raise typer.Exit(code=1) from exc
     envelope = result.model_dump(mode="json")
     if save:
         if find_project_dir() is None:
@@ -118,6 +178,14 @@ def get_work(
     sources: str = typer.Option(DEFAULT_GET_SOURCES, "--sources", help="Comma-separated source names"),
     json_output: bool = typer.Option(False, "--json", help="Output JSON envelope"),
     anchors: bool = typer.Option(False, "--anchors", help="Fetch full-text anchors when available"),
+    download_pdf: Path | None = typer.Option(None, "--download-pdf", help="Download OA PDF to this path"),
+    download_xml: Path | None = typer.Option(None, "--download-xml", help="Download Europe PMC XML to this path"),
+    require: str | None = typer.Option(None, "--require", help="Comma-separated required sources"),
+    source_mode: str | None = typer.Option(
+        None,
+        "--source-mode",
+        help="Comma-separated source:mode pairs (optional/preferred/required)",
+    ),
 ):
     """Get a work by identifier."""
     raw = pmid or doi or pmcid or arxiv
@@ -129,8 +197,19 @@ def get_work(
         console.print(f"[red]Error:[/red] Could not identify: {raw}")
         raise typer.Exit(code=2)
     source_list = [s.strip() for s in sources.split(",") if s.strip()]
-    result = asyncio.run(_engine().get(identifier, sources=source_list, anchors=anchors))
-    _print_json(result.model_dump(mode="json"))
+    modes = _parse_source_modes(require=require, source_mode=source_mode)
+    try:
+        result = asyncio.run(_engine().get(identifier, sources=source_list, anchors=anchors, source_modes=modes))
+    except SourceRequiredError as exc:
+        _print_json(exc.envelope.model_dump(mode="json"))
+        raise typer.Exit(code=1) from exc
+
+    output = result.model_dump(mode="json")
+    works = output.get("data", {}).get("works", [])
+    if (download_pdf or download_xml) and works:
+        downloads = asyncio.run(download_full_text(works[0], pdf_path=download_pdf, xml_path=download_xml))
+        output["downloads"] = downloads
+    _print_json(output)
 
 
 @app.command("resolve")
@@ -140,6 +219,12 @@ def resolve(
     sources: str = typer.Option(DEFAULT_GET_SOURCES, "--sources", help="Comma-separated source names"),
     json_output: bool = typer.Option(False, "--json", help="Output JSON envelope"),
     anchors: bool = typer.Option(False, "--anchors", help="Fetch full-text anchors when available"),
+    require: str | None = typer.Option(None, "--require", help="Comma-separated required sources"),
+    source_mode: str | None = typer.Option(
+        None,
+        "--source-mode",
+        help="Comma-separated source:mode pairs (optional/preferred/required)",
+    ),
 ):
     """Resolve an identifier across sources."""
     raw = doi or pmid
@@ -151,7 +236,12 @@ def resolve(
         console.print(f"[red]Error:[/red] Could not identify: {raw}")
         raise typer.Exit(code=2)
     source_list = [s.strip() for s in sources.split(",") if s.strip()]
-    result = asyncio.run(_engine().resolve(identifier, sources=source_list, anchors=anchors))
+    modes = _parse_source_modes(require=require, source_mode=source_mode)
+    try:
+        result = asyncio.run(_engine().resolve(identifier, sources=source_list, anchors=anchors, source_modes=modes))
+    except SourceRequiredError as exc:
+        _print_json(exc.envelope.model_dump(mode="json"))
+        raise typer.Exit(code=1) from exc
     _print_json(result.model_dump(mode="json"))
 
 
@@ -163,6 +253,12 @@ def expand(
     by: str = typer.Option("citations", "--by", help="Comma-separated: citations,references,similar"),
     limit: int = typer.Option(20, "--limit", help="Maximum results"),
     json_output: bool = typer.Option(False, "--json", help="Output JSON envelope"),
+    require: str | None = typer.Option(None, "--require", help="Comma-separated required sources"),
+    source_mode: str | None = typer.Option(
+        None,
+        "--source-mode",
+        help="Comma-separated source:mode pairs (optional/preferred/required)",
+    ),
 ):
     """Expand from a known work by citations, references, or similar papers."""
     raw = doi or pmid or arxiv
@@ -174,7 +270,12 @@ def expand(
         console.print(f"[red]Error:[/red] Could not identify: {raw}")
         raise typer.Exit(code=2)
     by_list = [s.strip() for s in by.split(",") if s.strip()]
-    result = asyncio.run(_engine().expand(identifier, by=by_list, limit=limit))
+    modes = _parse_source_modes(require=require, source_mode=source_mode)
+    try:
+        result = asyncio.run(_engine().expand(identifier, by=by_list, limit=limit, source_modes=modes))
+    except SourceRequiredError as exc:
+        _print_json(exc.envelope.model_dump(mode="json"))
+        raise typer.Exit(code=1) from exc
     _print_json(result.model_dump(mode="json"))
 
 
@@ -188,6 +289,12 @@ def context(
     expand: bool = typer.Option(False, "--expand", help="Include citation expansion"),
     expand_limit: int = typer.Option(5, "--expand-limit", help="Maximum expanded works"),
     json_output: bool = typer.Option(False, "--json", help="Output JSON envelope"),
+    require: str | None = typer.Option(None, "--require", help="Comma-separated required sources"),
+    source_mode: str | None = typer.Option(
+        None,
+        "--source-mode",
+        help="Comma-separated source:mode pairs (optional/preferred/required)",
+    ),
 ):
     """Build a structured paper context pack for downstream agents."""
     raw = doi or pmid or pmcid
@@ -199,16 +306,66 @@ def context(
         console.print(f"[red]Error:[/red] Could not identify: {raw}")
         raise typer.Exit(code=2)
     source_list = [s.strip() for s in sources.split(",") if s.strip()]
-    result = asyncio.run(
-        _engine().context(
-            identifier,
-            sources=source_list,
-            include_signals=signals,
-            include_expand=expand,
-            expand_limit=expand_limit,
+    modes = _parse_source_modes(require=require, source_mode=source_mode)
+    try:
+        result = asyncio.run(
+            _engine().context(
+                identifier,
+                sources=source_list,
+                include_signals=signals,
+                include_expand=expand,
+                expand_limit=expand_limit,
+                source_modes=modes,
+            )
         )
-    )
+    except SourceRequiredError as exc:
+        _print_json(exc.envelope.model_dump(mode="json"))
+        raise typer.Exit(code=1) from exc
     _print_json(result.model_dump(mode="json"))
+
+
+@app.command("batch")
+def batch(
+    input_file: Path = typer.Argument(..., help="Input JSONL/text file (use - for stdin)"),
+    format: str = typer.Option(
+        "json",
+        "--format",
+        help="Output format: json|jsonl|bibtex|ris|nbib|enw|markdown|zotero|obsidian",
+    ),
+    output: Path = typer.Option(Path("-"), "--output", help="Output file (default stdout)"),
+    sources: str = typer.Option(DEFAULT_SEARCH_SOURCES, "--sources", help="Comma-separated source names"),
+    limit: int = typer.Option(20, "--limit", help="Maximum results per search item"),
+    year: str | None = typer.Option(None, "--year", help="Filter by year"),
+    require: str | None = typer.Option(None, "--require", help="Comma-separated required sources"),
+    source_mode: str | None = typer.Option(
+        None,
+        "--source-mode",
+        help="Comma-separated source:mode pairs (optional/preferred/required)",
+    ),
+):
+    """Process a batch of queries or identifiers."""
+    from searchpaper.batch import process_batch
+
+    source_list = [s.strip() for s in sources.split(",") if s.strip()]
+    modes = _parse_source_modes(require=require, source_mode=source_mode)
+    filters = _filters(limit=limit, year=year, source_modes=modes)
+
+    async def _run() -> str:
+        engine = _engine()
+        return await process_batch(
+            input_file,
+            engine,
+            output_format=format,
+            sources=source_list,
+            filters=filters,
+            source_modes=modes,
+        )
+
+    content = asyncio.run(_run())
+    if str(output) == "-":
+        console.print(content)
+    else:
+        output.write_text(content, encoding="utf-8")
 
 
 sources_app = typer.Typer(help="Source diagnostics")
@@ -339,6 +496,21 @@ def references_convert(
         output.write_text(content, encoding="utf-8")
 
 
+@references_app.command("verify")
+def references_verify(
+    input_file: Path = typer.Argument(..., help="Document with citations (.txt/.docx/.tex)"),
+    format: str | None = typer.Option(None, "--format", help="Input format: txt/docx/tex"),
+    output: Path = typer.Option(Path("-"), "--output", help="Output file"),
+    output_format: str = typer.Option("json", "--output-format", help="json/jsonl/csv/markdown"),
+):
+    """Verify citations in a document against SearchPaper results."""
+    content = verify_document(input_file, input_format=format, output_format=output_format)
+    if str(output) == "-":
+        console.print(content)
+    else:
+        output.write_text(content, encoding="utf-8")
+
+
 cache_app = typer.Typer(help="Cache management")
 app.add_typer(cache_app, name="cache")
 
@@ -400,6 +572,7 @@ def capabilities(
             "resolve",
             "expand",
             "context",
+            "batch",
             "sources status",
             "sources tiers",
             "sources preflight",
@@ -420,6 +593,7 @@ def capabilities(
             "project export",
             "export",
             "references convert",
+            "references verify",
             "signals",
         ],
         "mcp_tools": [
@@ -436,7 +610,19 @@ def capabilities(
             "export_records",
         ],
         "sources": list_sources(),
-        "export_formats": ["json", "jsonl", "bibtex", "ris", "markdown", "nbib", "enw", "zotero", "obsidian"],
+        "export_formats": [
+            "json",
+            "jsonl",
+            "bibtex",
+            "ris",
+            "markdown",
+            "nbib",
+            "enw",
+            "zotero",
+            "obsidian",
+            "apa",
+            "mla",
+        ],
         "agent_integrations": ["opencode", "codex", "claude"],
     }
     _print_json(data)
@@ -568,21 +754,24 @@ app.add_typer(integrate_app, name="integrate")
 def install_top(
     target: str = typer.Option("all", "--target", help="Target agent: opencode, codex, claude, all"),
     dry_run: bool = typer.Option(False, "--dry-run", help="Show what would change"),
+    mode: str | None = typer.Option(None, "--mode", help="Install mode: mcp, skill, custom_tool, both (OpenCode only)"),
 ):
     """Install SearchPaper integration for an agent."""
-    install(target=target, dry_run=dry_run)
+    install(target=target, dry_run=dry_run, mode=mode)
 
 
 @integrate_app.command("install")
 def install(
     target: str = typer.Option("all", "--target", help="Target agent: opencode, codex, claude, all"),
     dry_run: bool = typer.Option(False, "--dry-run", help="Show what would change"),
+    mode: str | None = typer.Option(None, "--mode", help="Install mode: mcp, skill, custom_tool, both (OpenCode only)"),
 ):
     """Install SearchPaper integration for an agent."""
     from searchpaper.integrations.manager import IntegrationManager
 
+    modes = _parse_install_mode(mode)
     mgr = IntegrationManager()
-    result = asyncio.run(mgr.install(target, dry_run=dry_run))
+    result = asyncio.run(mgr.install(target, dry_run=dry_run, modes=modes))
     _print_json(result)
 
 
@@ -618,12 +807,14 @@ def integrate_doctor():
 def integrate_migrate(
     target: str = typer.Option("all", "--target", help="Target agent: opencode, codex, claude, all"),
     dry_run: bool = typer.Option(False, "--dry-run", help="Show what would change"),
+    mode: str | None = typer.Option(None, "--mode", help="Install mode: mcp, skill, custom_tool, both (OpenCode only)"),
 ):
     """Re-install managed files to update integrations to the current SearchPaper version."""
     from searchpaper.integrations.manager import IntegrationManager
 
+    modes = _parse_install_mode(mode)
     mgr = IntegrationManager()
-    result = asyncio.run(mgr.migrate(target, dry_run=dry_run))
+    result = asyncio.run(mgr.migrate(target, dry_run=dry_run, modes=modes))
     _print_json(result)
 
 
@@ -631,6 +822,11 @@ def integrate_migrate(
 def integrate_uninstall(
     target: str = typer.Option("all", "--target", help="Target agent: opencode, codex, claude, all"),
     yes: bool = typer.Option(False, "--yes", help="Skip confirmation"),
+    mode: str | None = typer.Option(
+        None,
+        "--mode",
+        help="Uninstall mode: mcp, skill, custom_tool, both (OpenCode only)",
+    ),
 ):
     """Uninstall SearchPaper integration for an agent."""
     if not yes:
@@ -639,8 +835,9 @@ def integrate_uninstall(
             raise typer.Abort()
     from searchpaper.integrations.manager import IntegrationManager
 
+    modes = _parse_install_mode(mode)
     mgr = IntegrationManager()
-    result = asyncio.run(mgr.uninstall(target))
+    result = asyncio.run(mgr.uninstall(target, modes=modes))
     _print_json(result)
 
 

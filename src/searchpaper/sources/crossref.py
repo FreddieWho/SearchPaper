@@ -128,8 +128,7 @@ class CrossrefAdapter(SourceAdapter):
         if filters.year:
             params["filter"] = f"from_pub_date:{filters.year},until_pub_date:{filters.year}"
         resp = await self.http.get(f"{CROSSREF_BASE}/works", params=params)
-        if resp.status_code >= 400:
-            return []
+        resp.raise_for_status()
         data = resp.json()
         items = data.get("message", {}).get("items", [])
         return [_parse_message(item) for item in items]
@@ -142,8 +141,7 @@ class CrossrefAdapter(SourceAdapter):
         if not doi:
             return None
         resp = await self.http.get(f"{CROSSREF_BASE}/works/{doi}", params=self._params())
-        if resp.status_code >= 400:
-            return None
+        resp.raise_for_status()
         item = resp.json().get("message", {})
         if not item:
             return None
