@@ -1,3 +1,8 @@
+---
+name: literature-search
+description: Use when a task requires scholarly literature search, paper metadata, DOI/PMID/PMCID resolution, citation/context expansion, biomedical literature signals, or exportable literature records with SearchPaper.
+---
+
 # Literature Search with SearchPaper
 
 Use SearchPaper when a task requires scholarly literature search, paper metadata,

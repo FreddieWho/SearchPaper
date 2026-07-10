@@ -1,84 +1,70 @@
+<p align="center">
+  <img src="docs/assets/searchpaper-banner.png" alt="SearchPaper banner" width="100%">
+</p>
+
 # SearchPaper
 
 [中文文档](README.zh.md)
 
 **SearchPaper** is a literature-first infrastructure layer for agent-assisted
-research. It searches open scholarly literature across multiple sources,
-normalizes identifiers, merges duplicate records conservatively, preserves
-provenance, and exports traceable results.
+research. It searches open scholarly literature, normalizes identifiers, merges
+duplicate records conservatively, preserves provenance, and exports traceable
+results for downstream agents or human review.
 
-It is **not** a full research agent, systematic-review agent, evidence-evaluation
-engine, PDF parser, or Zotero replacement.
+SearchPaper is **not** a full research agent, systematic-review engine,
+evidence evaluator, PDF parser, or Zotero replacement. It provides structured
+literature records and provenance; interpretation stays with the user or a
+downstream research workflow.
 
-Supported sources: PubMed, Crossref, OpenAlex, Europe PMC, arXiv, bioRxiv,
-medRxiv, Semantic Scholar, Unpaywall, OpenCitations, and PubTator3 (biomedical
-signals). All core workflows are **no-key usable** by default; API keys are
-optional accelerators.
+## 🔎 At a Glance
 
-v0.5 adds **full-text readiness**: SearchPaper can report full-text availability,
-resolve OA links through Unpaywall, and extract lightweight structured anchors
-from Europe PMC open-access XML. PDF parsing remains optional and out of scope.
+| Area | What SearchPaper provides |
+|---|---|
+| 📚 Sources | PubMed, Crossref, OpenAlex, Europe PMC, arXiv, bioRxiv, medRxiv, Semantic Scholar, Unpaywall, OpenCitations, PubTator3 |
+| 🧬 Biomedical workflows | MeSH lookup, PubMed related articles, DOI/PMID/PMCID conversion, PubTator3 literature signals |
+| 🔗 Identifiers | DOI, PMID, PMCID, arXiv, OpenAlex, Semantic Scholar IDs |
+| 🧾 Provenance | Source records, merge reasons, conflicts, warnings, trace fields |
+| 🧠 Agent access | CLI plus MCP tools for OpenCode, Codex, Claude, and other MCP clients |
+| 📦 Exports | JSON, JSONL, BibTeX, RIS, NBIB, ENW, Markdown, Zotero CSV, Obsidian notes, APA, MLA |
+| 🔓 API keys | Core workflows are no-key usable; optional keys improve rate limits and coverage |
 
----
+## ✨ What It Does
 
-## What it does
+- **Multi-source literature search** across open scholarly APIs.
+- **Identifier resolution** for common scholarly IDs.
+- **Conservative duplicate merge** with provenance and conflict preservation.
+- **Local SQLite cache** for speed and reproducibility.
+- **Full-text readiness** via OA links, Europe PMC XML anchors, and full-text availability fields.
+- **Structured literature signals** from PubTator3 with explicit interpretation warnings.
+- **CLI-first workflows** plus a small, stable MCP tool surface.
+- **Agent integration helpers** for OpenCode, Codex, and Claude.
 
-- **Multi-source literature search** across PubMed, Crossref, OpenAlex, Europe
-  PMC, and Semantic Scholar.
-- **Identifier resolution** for DOI, PMID, PMCID, arXiv, OpenAlex, and Semantic
-  Scholar IDs.
-- **Conservative duplicate merge** preserving source provenance, conflicts, and
-  merge reasons.
-- **Local SQLite cache** with query/source-error trace for speed and
-  reproducibility.
-- **Literature signals** from PubTator3 with explicit signal levels and
-  interpretation warnings.
-- **CLI-first interface** and a small, stable MCP tool surface.
-- **Agent integration** helpers for OpenCode, Codex, and Claude.
-
----
-
-## Quick start
+## ⚡ Quick Start
 
 ```bash
-git clone <repo-url> ~/Publish/paperSearch
-cd ~/Publish/paperSearch
+git clone <repo-url> ~/Publish/PaperSearch
+cd ~/Publish/PaperSearch
 uv sync --extra dev
 uv run pytest -q
 ```
 
-Search:
+| Task | Command |
+|---|---|
+| Search literature | `uv run searchpaper search "HCC TACE PD-1" --json` |
+| Resolve a DOI | `uv run searchpaper resolve --doi 10.1038/s41586-021-03819-2 --json` |
+| Check source health | `uv run searchpaper sources status --json` |
+| Run diagnostics | `uv run searchpaper doctor` |
+| Start MCP server | `uv run searchpaper serve --mcp` |
 
-```bash
-searchpaper search "HCC TACE PD-1" --json
-```
-
-Resolve a DOI:
-
-```bash
-searchpaper resolve --doi 10.1038/s41586-021-03819-2 --json
-```
-
-Check source health:
-
-```bash
-searchpaper sources status --json
-searchpaper doctor
-```
-
----
-
-## Installation
-
-The package is named `searchpaper` and provides the `searchpaper` CLI.
+For an editable local install:
 
 ```bash
 uv pip install -e .
 ```
 
----
+After installation, the package provides the `searchpaper` CLI.
 
-## Configuration
+## ⚙️ Configuration
 
 SearchPaper reads `~/.config/searchpaper/config.json`. Environment variables
 override file values.
@@ -97,58 +83,104 @@ override file values.
 |---|---|---|
 | `SEARCHPAPER_CACHE` | `cache_path` | SQLite cache file |
 | `SEARCHPAPER_CONFIG` | `config_path` | Config file path |
-| `SEMANTIC_SCHOLAR_API_KEY` | `semantic_scholar_api_key` | Optional S2 key |
-| `CROSSREF_EMAIL` | `crossref_email` | Polite pool email |
-| `OPENALEX_EMAIL` | `openalex_email` | Polite pool email |
+| `SEMANTIC_SCHOLAR_API_KEY` | `semantic_scholar_api_key` | Optional Semantic Scholar key |
+| `CROSSREF_EMAIL` | `crossref_email` | Crossref polite-pool email |
+| `OPENALEX_EMAIL` | `openalex_email` | OpenAlex polite-pool email |
 | `NCBI_API_KEY` | `ncbi_api_key` | Optional NCBI key |
 
----
+## 🧭 Core CLI Workflows
 
-## CLI commands
-
-| Command | Description |
+| Workflow | Command |
 |---|---|
-| `searchpaper search "query" --json` | Search literature |
-| `searchpaper plan "query" --profile auto --json` | Plan source routing |
-| `searchpaper get --pmid 12345 --json` | Get work by identifier |
-| `searchpaper resolve --doi 10.xxx --json` | Resolve identifier across sources |
-| `searchpaper expand --doi 10.xxx --by citations,references --json` | Expand from a work |
-| `searchpaper context --doi 10.xxx --json` | Build a paper context pack |
-| `searchpaper get --doi 10.xxx --anchors --json` | Get work with full-text anchors |
-| `searchpaper sources status --json` | Source health status |
-| `searchpaper sources tiers --json` | Source tier catalog |
-| `searchpaper sources preflight --sources pubmed,arxiv --json` | Probe selected sources |
-| `searchpaper sources explain pubmed` | Source metadata and recommendations |
-| `searchpaper sources diagnose --json` | Aggregate source health diagnosis |
-| `searchpaper project traces` | List saved project traces |
-| `searchpaper project export <trace_id> --format bibtex` | Export a saved trace |
-| `searchpaper pubmed mesh "term" --json` | MeSH descriptor lookup |
-| `searchpaper pubmed related 12345 --json` | PubMed related articles |
-| `searchpaper pubmed convert-ids 10.xxx --json` | DOI/PMID/PMCID conversion |
-| `searchpaper cache stats` | Cache statistics |
-| `searchpaper cache clear` | Clear cache |
-| `searchpaper doctor` | Diagnostics |
-| `searchpaper capabilities --json` | Report capabilities |
-| `searchpaper serve --mcp` | Start MCP server (stdio) |
-| `searchpaper signals "PDCD1" --entity2-type chemical --json` | Biomedical signals |
-| `searchpaper export results.json --format bibtex` | Export results |
-| `searchpaper export results.json --format apa` | APA/MLA export |
-| `searchpaper references convert refs.txt --format ris` | Convert reference IDs |
-| `searchpaper references verify refs.txt --output-format markdown` | Verify citations |
-| `searchpaper batch queries.jsonl --format jsonl` | Batch search/resolve/export |
-| `searchpaper install --target opencode` | Install agent integration |
-| `searchpaper integrate dry-run --target opencode` | Preview integration changes |
-| `searchpaper integrate migrate --target all` | Update managed integrations |
-| `searchpaper integrate uninstall --target opencode` | Remove integration |
+| Plan source routing | `searchpaper plan "query" --profile auto --json` |
+| Search literature | `searchpaper search "query" --json` |
+| Get work by PMID | `searchpaper get --pmid 12345 --json` |
+| Resolve identifier | `searchpaper resolve --doi 10.xxx --json` |
+| Expand from a seed work | `searchpaper expand --doi 10.xxx --by citations,references --json` |
+| Build context pack | `searchpaper context --doi 10.xxx --json` |
+| Fetch full-text anchors | `searchpaper get --pmcid PMC8371605 --sources europepmc --anchors --json` |
+| Probe sources | `searchpaper sources preflight --sources pubmed,arxiv --json` |
+| Explain source behavior | `searchpaper sources explain pubmed` |
+| Diagnose source health | `searchpaper sources diagnose --json` |
+| Save project trace | `searchpaper search "query" --json --save` |
+| Export saved trace | `searchpaper project export <trace_id> --format bibtex` |
+| Lookup MeSH | `searchpaper pubmed mesh "term" --json` |
+| Find related PubMed articles | `searchpaper pubmed related 12345 --json` |
+| Convert PubMed IDs | `searchpaper pubmed convert-ids 10.xxx --json` |
+| Batch process inputs | `searchpaper batch queries.jsonl --format jsonl --output results.jsonl` |
+| Verify references | `searchpaper references verify refs.txt --output-format markdown` |
+| Export results | `searchpaper export results.json --format bibtex` |
+| Inspect capabilities | `searchpaper capabilities --json` |
 
-Supported export formats: `json`, `jsonl`, `bibtex`, `ris`, `nbib`, `enw`,
-`markdown`, `zotero` (CSV), `obsidian` (YAML-frontmatter notes), `apa`, and `mla`.
+## 🧩 MCP and Agent Integration
 
----
+Start the default stdio MCP server:
 
-## Project mode
+```bash
+searchpaper serve --mcp
+```
 
-Initialize a project directory to save traces and exports locally:
+Start a remote HTTP/SSE MCP server with `searchpaper[remote]` installed:
+
+```bash
+searchpaper serve --mcp --transport http --host 127.0.0.1 --port 8000 --path /mcp
+```
+
+| Tool | Purpose |
+|---|---|
+| `search_literature` | Multi-source literature search |
+| `plan_literature_search` | Source-routing plan without a live search |
+| `get_work` | Fetch one work by identifier |
+| `resolve_identifiers` | Resolve and merge multiple identifiers |
+| `get_source_status` | Source health and optional catalog |
+| `lookup_mesh` | PubMed MeSH descriptor lookup |
+| `find_related_articles` | PubMed related article IDs |
+| `convert_identifiers` | DOI/PMID/PMCID conversion |
+| `search_literature_signals` | Biomedical entity/relation signals |
+| `expand_from_work` | Citations, references, and related papers |
+| `export_records` | Export structured records |
+
+| Agent | Install command | Output |
+|---|---|---|
+| OpenCode | `searchpaper install --target opencode` | MCP config plus `literature-search` skill |
+| Codex | `searchpaper install --target codex` | MCP snippet plus SearchPaper instructions |
+| Claude | `searchpaper install --target claude` | MCP snippet plus SearchPaper instructions |
+| All | `searchpaper install --target all` | Scaffolds all supported integrations |
+
+Review generated files and enable the `searchpaper` MCP server in your agent
+settings.
+
+## 📖 Full-Text Readiness
+
+SearchPaper reports full-text availability without requiring PDF parsing.
+Records may include `full_text_availability`, `open_access_pdf`, and canonical
+URLs such as `doi`, `pubmed`, `pmc`, `oa_url`, and `oa_pdf_url`.
+
+```bash
+searchpaper resolve --doi 10.1038/s41586-021-03819-2 --json
+searchpaper get --pmcid PMC8371605 --sources europepmc --anchors --json
+searchpaper context --doi 10.1038/s41586-021-03819-2 --json
+searchpaper get --doi 10.1038/s41586-021-03819-2 --download-pdf paper.pdf --json
+searchpaper get --pmcid PMC8371605 --download-xml paper.xml --json
+```
+
+PDF parsing remains optional and out of scope.
+
+## 🛡️ Failure Modes and Signal Rules
+
+| Topic | Behavior |
+|---|---|
+| Source degradation | Public APIs can fail; optional sources warn and continue |
+| Required sources | `--require pubmed` or `--source-mode pubmed:required` returns exit code 1 on failure |
+| Preferred sources | `source:preferred` emits louder warnings but does not fail the full search |
+| Biomedical signals | PubTator3/co-mention signals are not proof of causality |
+| Evidence evaluation | Out of scope; SearchPaper returns records, provenance, and signals |
+
+## 🗂️ Cache, Privacy, and Project Mode
+
+- Default cache: `~/.cache/searchpaper/cache.db`
+- Bypass cache: `searchpaper search "query" --no-cache --json`
+- Project mode:
 
 ```bash
 searchpaper init
@@ -157,197 +189,21 @@ searchpaper project traces
 searchpaper project export <trace_id> --format bibtex
 ```
 
----
+The cache may contain raw API responses and query identifiers. Store it
+accordingly.
 
-## MCP server
-
-Start the default stdio MCP server:
-
-```bash
-searchpaper serve --mcp
-```
-
-Start a remote HTTP/SSE MCP server (requires `searchpaper[remote]`):
-
-```bash
-searchpaper serve --mcp --transport http --host 127.0.0.1 --port 8000 --path /mcp
-```
-
-The HTTP endpoint exposes `/mcp/sse` and `/mcp/messages/` for MCP clients that
-support SSE transport.
-
----
-
-## MCP tools
-
-The MCP server exposes a small stable surface:
-
-- `search_literature`
-- `get_work`
-- `resolve_identifiers`
-- `get_source_status`
-- `search_literature_signals`
-- `expand_from_work`
-- `export_records`
-
-No source-specific tools are exposed by default.
-
----
-
-## Full-text readiness
-
-SearchPaper v0.5 reports full-text availability without requiring PDF parsing:
-
-```bash
-searchpaper resolve --doi 10.1038/s41586-021-03819-2 --json
-```
-
-The result includes `full_text_availability`, `open_access_pdf`, and canonical
-URLs (`doi`, `pubmed`, `pmc`, `oa_url`, `oa_pdf_url`).
-
-To fetch lightweight structured anchors from Europe PMC OA XML:
-
-```bash
-searchpaper get --pmcid PMC8371605 --sources europepmc --anchors --json
-```
-
-For a complete paper context pack for downstream agents:
-
-```bash
-searchpaper context --doi 10.1038/s41586-021-03819-2 --json
-```
-
-Download an OA PDF or Europe PMC XML without parsing:
-
-```bash
-searchpaper get --doi 10.1038/s41586-021-03819-2 --download-pdf paper.pdf --json
-searchpaper get --pmcid PMC8371605 --download-xml paper.xml --json
-```
-
----
-
-## Batch processing
-
-Run many searches or identifier resolutions from a JSONL or text file:
-
-```bash
-searchpaper batch queries.jsonl --format jsonl --output results.jsonl
-```
-
-Each input line may be `{"query": "..."}`, `{"doi": "..."}`, `{"pmid": "..."}`,
-`{"author": "...", "title": "..."}`, or a plain identifier line.
-
----
-
-## Source requirement modes
-
-Control how failures are handled per source:
-
-```bash
-searchpaper search "HCC TACE" --require pubmed --json
-searchpaper search "HCC TACE" --source-mode pubmed:required,crossref:preferred --json
-```
-
-A required source failure returns exit code 1 with a structured error envelope;
-preferred sources emit louder warnings; optional sources (default) warn and continue.
-
----
-
-## Citation verification
-
-Verify citations in `.txt`, `.docx`, or `.tex` documents:
-
-```bash
-searchpaper references verify refs.txt --output-format json
-searchpaper references verify manuscript.docx --output-format markdown
-searchpaper references verify paper.tex --output-format csv
-```
-
-Results are classified as `verified`, `mismatch`, `not_found`, `suspicious`, or
-`manual_needed`.
-
----
-
-## Agent integration
-
-### OpenCode
-
-```bash
-searchpaper install --target opencode
-```
-
-This writes an MCP server entry and installs the cross-agent skill.
-
-### Codex and Claude
-
-Scaffolds are generated with MCP config snippets and instruction files:
-
-```bash
-searchpaper install --target codex
-searchpaper install --target claude
-searchpaper install --target all
-```
-
-Review the generated files and enable the `searchpaper` MCP server in your
-agent's settings.
-
----
-
-## Signal levels
-
-SearchPaper returns literature signals with explicit levels:
-
-1. **Bibliographic** — title, venue, year, authors, citation, source hit.
-2. **Abstract** — title/abstract/keywords/MeSH/concepts.
-3. **Curated or extracted** — PubTator3, MeSH-like relations, source-provided
-   entity relations.
-4. **Full-text anchor** — reserved for future OA/PMC support.
-5. **Evaluated evidence** — out of scope for SearchPaper.
-
-A signal is not an evaluated conclusion. Do not report PubTator co-mentions or
-relations as proof of causality.
-
----
-
-## Source degradation
-
-Public APIs can be unreliable. If a source fails, SearchPaper returns partial
-results with clear warnings and trace entries. A degraded source does not fail
-the whole search. Use `searchpaper sources status` to see current source health.
-
----
-
-## Cache and privacy
-
-- Cache is stored in `~/.cache/searchpaper/cache.db` by default.
-- Use `--no-cache` on `search` to bypass it.
-- The cache contains raw API responses and query identifiers; keep the file in a
-  secure location.
-
----
-
-## Testing without live APIs
-
-CI runs fixture-backed tests only. Live API tests are optional and skipped by
-default:
-
-```bash
-uv run pytest -q
-```
-
----
-
-## Development
+## 🧪 Development
 
 ```bash
 uv sync --extra dev
+uv run pytest -q
 uv run ruff check .
 uv run ruff format .
-uv run pytest -q
 ```
 
----
+CI should rely on fixture-backed tests. Live public APIs are useful for manual
+checks but should not be required for routine validation.
 
-## License
+## 📜 License
 
 MIT

@@ -2,7 +2,12 @@
 
 from __future__ import annotations
 
-LITERATURE_SEARCH_SKILL = """# Literature Search with SearchPaper
+LITERATURE_SEARCH_DESCRIPTION = (
+    "Use when a task requires scholarly literature search, paper metadata, DOI/PMID/PMCID resolution, "
+    "citation/context expansion, biomedical literature signals, or exportable literature records with SearchPaper."
+)
+
+LITERATURE_SEARCH_INSTRUCTIONS = """# Literature Search with SearchPaper
 
 Use SearchPaper when a task requires scholarly literature search, paper metadata,
 DOI/PMID/PMCID resolution, citation/context expansion, biomedical literature
@@ -55,6 +60,17 @@ When summarizing SearchPaper results, include:
 - warnings or degraded-source notes.
 """
 
+LITERATURE_SEARCH_SKILL = f"""---
+name: literature-search
+description: {LITERATURE_SEARCH_DESCRIPTION}
+---
+
+{LITERATURE_SEARCH_INSTRUCTIONS}"""
+
 
 def literature_search_skill() -> str:
     return LITERATURE_SEARCH_SKILL
+
+
+def literature_search_instructions() -> str:
+    return LITERATURE_SEARCH_INSTRUCTIONS

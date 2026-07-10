@@ -61,6 +61,9 @@ def test_agent_instruction_content_contains_required_safety_rules():
         assert "search_literature" in content
         assert "DOI/PMID/PMCID" in content
         assert "Do not hide degraded or failed sources" in content
+    assert opencode.skill_content().startswith("---\n")
+    assert codex.instructions_content().startswith("# Literature Search with SearchPaper")
+    assert claude.instructions_content().startswith("# Literature Search with SearchPaper")
 
 
 @pytest.mark.asyncio
@@ -92,6 +95,10 @@ def test_repository_skill_templates_cover_writable_agent_targets():
 
     for path in paths:
         content = path.read_text(encoding="utf-8")
+        assert content.startswith("---\n")
+        assert "\nname: literature-search\n" in content
+        assert "\ndescription: " in content
+        assert "\n---\n\n# Literature Search with SearchPaper" in content
         assert "search_literature" in content
         assert "DOI/PMID/PMCID" in content
         assert "Do not hide degraded or failed sources" in content

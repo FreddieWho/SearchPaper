@@ -4,6 +4,28 @@ All notable changes to SearchPaper are tracked here.
 
 ## Unreleased
 
+## 0.5.1 — Integration Polish and README Refresh
+
+Release date: 2026-07-10
+
+### Fixed
+
+- Fixed a deterministic Codex/OpenCode skill-loading issue by adding required YAML frontmatter to repository `SKILL.md` files.
+- Updated the shared integration template so generated OpenCode skills include valid frontmatter.
+- Split agent skill content from Codex/Claude instruction content so ordinary instruction files do not receive skill-only frontmatter.
+- Added regression coverage to prevent future `SKILL.md` files from missing required frontmatter.
+
+### Changed
+
+- Refreshed English and Chinese README files with a generated header banner, friendlier tables, clearer quick-start commands, and synchronized MCP/agent documentation.
+- Added `docs/assets/searchpaper-banner.png` as the README header visual.
+- Bumped version to `0.5.1`.
+
+### Validation
+
+- Scanned all repository `SKILL.md` files for YAML frontmatter.
+- Ran `pytest tests/test_integration.py`.
+
 ## 0.5.0 — Full-Text-Ready Expansion
 
 ### Added

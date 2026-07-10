@@ -34,9 +34,9 @@ def mcp_snippet_path() -> Path:
 
 
 def instructions_content() -> str:
-    from searchpaper.integrations.skill_template import literature_search_skill
+    from searchpaper.integrations.skill_template import literature_search_instructions
 
-    return literature_search_skill()
+    return literature_search_instructions()
 
 
 def mcp_config_snippet() -> str:
