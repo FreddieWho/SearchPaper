@@ -1,0 +1,799 @@
+{
+  "checked_at": "2026-10-19",
+  "scope": "paperSearch MCP operational check",
+  "version": "0.5.1",
+  "mcp_tools": [
+    "mcp__paperSearch__convert_identifiers",
+    "mcp__paperSearch__expand_from_work",
+    "mcp__paperSearch__export_records",
+    "mcp__paperSearch__find_related_articles",
+    "mcp__paperSearch__get_source_status",
+    "mcp__paperSearch__get_work",
+    "mcp__paperSearch__lookup_mesh",
+    "mcp__paperSearch__plan_literature_search",
+    "mcp__paperSearch__resolve_identifiers",
+    "mcp__paperSearch__search_literature",
+    "mcp__paperSearch__search_literature_signals"
+  ],
+  "checks": {
+    "source_status_before_patch": {
+      "schema_version": "0.2",
+      "object_type": "source_statuses",
+      "data": [
+        {
+          "source": "arxiv",
+          "state": "available",
+          "key_configured": false,
+          "key_required": false,
+          "last_checked_at": "2026-10-19T06:19:37.288172Z",
+          "last_error_class": null,
+          "live_search_available": true,
+          "fixture_tests_available": true,
+          "message": "arXiv API responded to a probe query.",
+          "usage_note": "arXiv Atom API; no API key required. Respect arXiv rate limits.",
+          "source_terms_url": "https://info.arxiv.org/help/api/tou.html"
+        },
+        {
+          "source": "biorxiv",
+          "state": "available",
+          "key_configured": false,
+          "key_required": false,
+          "last_checked_at": "2026-10-19T06:19:38.815759Z",
+          "last_error_class": null,
+          "live_search_available": true,
+          "fixture_tests_available": true,
+          "message": "biorxiv API responded.",
+          "usage_note": null,
+          "source_terms_url": "https://api.biorxiv.org/"
+        },
+        {
+          "source": "crossref",
+          "state": "available",
+          "key_configured": false,
+          "key_required": false,
+          "last_checked_at": "2026-10-19T06:19:38.557518Z",
+          "last_error_class": null,
+          "live_search_available": true,
+          "fixture_tests_available": true,
+          "message": "Crossref API responded to a probe query.",
+          "usage_note": "Crossref API is no-key usable; polite pool with email is recommended.",
+          "source_terms_url": "https://www.crossref.org/documentation/researchers/"
+        },
+        {
+          "source": "europepmc",
+          "state": "available",
+          "key_configured": false,
+          "key_required": false,
+          "last_checked_at": "2026-10-19T06:19:37.954917Z",
+          "last_error_class": null,
+          "live_search_available": true,
+          "fixture_tests_available": true,
+          "message": "Europe PMC API responded to a probe query.",
+          "usage_note": "Europe PMC REST API; no API key required.",
+          "source_terms_url": "https://europepmc.org/Libraries"
+        },
+        {
+          "source": "medrxiv",
+          "state": "available",
+          "key_configured": false,
+          "key_required": false,
+          "last_checked_at": "2026-10-19T06:19:38.426830Z",
+          "last_error_class": null,
+          "live_search_available": true,
+          "fixture_tests_available": true,
+          "message": "medrxiv API responded.",
+          "usage_note": null,
+          "source_terms_url": "https://api.biorxiv.org/"
+        },
+        {
+          "source": "openalex",
+          "state": "available",
+          "key_configured": false,
+          "key_required": false,
+          "last_checked_at": "2026-10-19T06:19:38.238772Z",
+          "last_error_class": null,
+          "live_search_available": true,
+          "fixture_tests_available": true,
+          "message": "OpenAlex API responded to a probe query.",
+          "usage_note": "OpenAlex API is no-key usable; set OPENALEX_EMAIL for polite pool.",
+          "source_terms_url": "https://openalex.org/about"
+        },
+        {
+          "source": "opencitations",
+          "state": "degraded",
+          "key_configured": false,
+          "key_required": false,
+          "last_checked_at": "2026-10-19T06:19:38.140800Z",
+          "last_error_class": "unknown_error",
+          "live_search_available": false,
+          "fixture_tests_available": true,
+          "message": "OpenCitations probe returned HTTP 301.",
+          "usage_note": "OpenCitations provides DOI-to-DOI citation links. Rate limits apply.",
+          "source_terms_url": "https://opencitations.net/"
+        },
+        {
+          "source": "pubmed",
+          "state": "available",
+          "key_configured": false,
+          "key_required": false,
+          "last_checked_at": "2026-10-19T06:19:37.673866Z",
+          "last_error_class": null,
+          "live_search_available": true,
+          "fixture_tests_available": true,
+          "message": "PubMed E-utilities responded to a probe query.",
+          "usage_note": "NCBI E-utilities; no API key required. Respect NCBI rate limits.",
+          "source_terms_url": "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+        },
+        {
+          "source": "pubtator3",
+          "state": "available",
+          "key_configured": false,
+          "key_required": false,
+          "last_checked_at": "2026-10-19T06:19:38.478341Z",
+          "last_error_class": null,
+          "live_search_available": true,
+          "fixture_tests_available": true,
+          "message": "PubTator3 API responded to a probe query.",
+          "usage_note": "PubTator3 provides biomedical entity annotations and reported relations; no API key required.",
+          "source_terms_url": "https://www.ncbi.nlm.nih.gov/research/pubtator3/api.html"
+        },
+        {
+          "source": "semantic_scholar",
+          "state": "degraded",
+          "key_configured": false,
+          "key_required": false,
+          "last_checked_at": "2026-10-19T06:19:39.065368Z",
+          "last_error_class": "rate_limited",
+          "live_search_available": false,
+          "fixture_tests_available": true,
+          "message": "Semantic Scholar probe returned HTTP 429.",
+          "usage_note": "Semantic Scholar API is no-key usable; set SEMANTIC_SCHOLAR_API_KEY for higher rate limits.",
+          "source_terms_url": "https://www.semanticscholar.org/product/api"
+        },
+        {
+          "source": "unpaywall",
+          "state": "available",
+          "key_configured": false,
+          "key_required": false,
+          "last_checked_at": "2026-10-19T06:19:38.061504Z",
+          "last_error_class": null,
+          "live_search_available": true,
+          "fixture_tests_available": true,
+          "message": "Unpaywall API responded to a probe query.",
+          "usage_note": "Unpaywall is DOI-only; provide email for polite pool.",
+          "source_terms_url": "https://unpaywall.org/products/api"
+        }
+      ],
+      "warnings": [],
+      "trace": {}
+    },
+    "pubmed_live_search": {
+      "schema_version": "0.2",
+      "object_type": "response",
+      "data": {
+        "works": [
+          {
+            "work_id": "work:doi:10.1186/s12943-024-02040-9",
+            "title": "Advances in spatial transcriptomics and its applications in cancer research.",
+            "normalized_title": "advances in spatial transcriptomics and its applications in cancer research",
+            "year": 2024,
+            "publication_date": "2024 Jun 20",
+            "venue": "Molecular cancer",
+            "authors": [
+              {
+                "name": "Jin Y",
+                "first_name": null,
+                "last_name": null,
+                "orcid": null,
+                "affiliations": [],
+                "source_ids": {}
+              },
+              {
+                "name": "Zuo Y",
+                "first_name": null,
+                "last_name": null,
+                "orcid": null,
+                "affiliations": [],
+                "source_ids": {}
+              },
+              {
+                "name": "Li G",
+                "first_name": null,
+                "last_name": null,
+                "orcid": null,
+                "affiliations": [],
+                "source_ids": {}
+              },
+              {
+                "name": "Liu W",
+                "first_name": null,
+                "last_name": null,
+                "orcid": null,
+                "affiliations": [],
+                "source_ids": {}
+              },
+              {
+                "name": "Pan Y",
+                "first_name": null,
+                "last_name": null,
+                "orcid": null,
+                "affiliations": [],
+                "source_ids": {}
+              },
+              {
+                "name": "Fan T",
+                "first_name": null,
+                "last_name": null,
+                "orcid": null,
+                "affiliations": [],
+                "source_ids": {}
+              },
+              {
+                "name": "Fu X",
+                "first_name": null,
+                "last_name": null,
+                "orcid": null,
+                "affiliations": [],
+                "source_ids": {}
+              },
+              {
+                "name": "Yao X",
+                "first_name": null,
+                "last_name": null,
+                "orcid": null,
+                "affiliations": [],
+                "source_ids": {}
+              },
+              {
+                "name": "Peng Y",
+                "first_name": null,
+                "last_name": null,
+                "orcid": null,
+                "affiliations": [],
+                "source_ids": {}
+              }
+            ],
+            "abstract": null,
+            "identifiers": {
+              "pmid": "38902727",
+              "pmcid": "PMC11188176",
+              "doi": "10.1186/s12943-024-02040-9"
+            },
+            "source_records": [
+              {
+                "source": "pubmed",
+                "source_record_id": "38902727",
+                "retrieved_at": "2026-10-19T06:19:33.920172Z",
+                "query_or_identifier": "\"spatial transcriptomics\"",
+                "raw_record": {
+                  "uid": "38902727",
+                  "pubdate": "2024 Jun 20",
+                  "epubdate": "2024 Jun 20",
+                  "source": "Mol Cancer",
+                  "authors": [
+                    {
+                      "name": "Jin Y",
+                      "authtype": "Author",
+                      "clusterid": ""
+                    },
+                    {
+                      "name": "Zuo Y",
+                      "authtype": "Author",
+                      "clusterid": ""
+                    },
+                    {
+                      "name": "Li G",
+                      "authtype": "Author",
+                      "clusterid": ""
+                    },
+                    {
+                      "name": "Liu W",
+                      "authtype": "Author",
+                      "clusterid": ""
+                    },
+                    {
+                      "name": "Pan Y",
+                      "authtype": "Author",
+                      "clusterid": ""
+                    },
+                    {
+                      "name": "Fan T",
+                      "authtype": "Author",
+                      "clusterid": ""
+                    },
+                    {
+                      "name": "Fu X",
+                      "authtype": "Author",
+                      "clusterid": ""
+                    },
+                    {
+                      "name": "Yao X",
+                      "authtype": "Author",
+                      "clusterid": ""
+                    },
+                    {
+                      "name": "Peng Y",
+                      "authtype": "Author",
+                      "clusterid": ""
+                    }
+                  ],
+                  "lastauthor": "Peng Y",
+                  "title": "Advances in spatial transcriptomics and its applications in cancer research.",
+                  "sorttitle": "advances in spatial transcriptomics and its applications in cancer research",
+                  "volume": "23",
+                  "issue": "1",
+                  "pages": "129",
+                  "lang": [
+                    "eng"
+                  ],
+                  "nlmuniqueid": "101147698",
+                  "issn": "",
+                  "essn": "1476-4598",
+                  "pubtype": [
+                    "Journal Article",
+                    "Review",
+                    "Research Support, Non-U.S. Gov't"
+                  ],
+                  "recordstatus": "PubMed - indexed for MEDLINE",
+                  "pubstatus": "3",
+                  "articleids": [
+                    {
+                      "idtype": "pubmed",
+                      "idtypen": 1,
+                      "value": "38902727"
+                    },
+                    {
+                      "idtype": "pmc",
+                      "idtypen": 8,
+                      "value": "PMC11188176"
+                    },
+                    {
+                      "idtype": "pmcid",
+                      "idtypen": 5,
+                      "value": "pmc-id: PMC11188176;"
+                    },
+                    {
+                      "idtype": "doi",
+                      "idtypen": 3,
+                      "value": "10.1186/s12943-024-02040-9"
+                    },
+                    {
+                      "idtype": "pii",
+                      "idtypen": 4,
+                      "value": "10.1186/s12943-024-02040-9"
+                    }
+                  ],
+                  "history": [
+                    {
+                      "pubstatus": "received",
+                      "date": "2024/04/28 00:00"
+                    },
+                    {
+                      "pubstatus": "accepted",
+                      "date": "2024/06/10 00:00"
+                    },
+                    {
+                      "pubstatus": "medline",
+                      "date": "2024/06/21 06:42"
+                    },
+                    {
+                      "pubstatus": "pubmed",
+                      "date": "2024/06/21 00:42"
+                    },
+                    {
+                      "pubstatus": "entrez",
+                      "date": "2024/06/20 23:39"
+                    },
+                    {
+                      "pubstatus": "pmc-release",
+                      "date": "2024/06/20 00:00"
+                    }
+                  ],
+                  "references": [],
+                  "attributes": [
+                    "Has Abstract"
+                  ],
+                  "pmcrefcount": 136,
+                  "fulljournalname": "Molecular cancer",
+                  "elocationid": "doi: 10.1186/s12943-024-02040-9",
+                  "doctype": "citation",
+                  "srccontriblist": [],
+                  "booktitle": "",
+                  "medium": "",
+                  "edition": "",
+                  "publisherlocation": "",
+                  "publishername": "",
+                  "srcdate": "",
+                  "reportnumber": "",
+                  "availablefromurl": "",
+                  "locationlabel": "",
+                  "doccontriblist": [],
+                  "docdate": "",
+                  "bookname": "",
+                  "chapter": "",
+                  "sortpubdate": "2024/06/20 00:00",
+                  "sortfirstauthor": "Jin Y",
+                  "vernaculartitle": ""
+                },
+                "normalized_fields": {
+                  "title": "Advances in spatial transcriptomics and its applications in cancer research.",
+                  "year": "2024",
+                  "publication_date": "2024 Jun 20",
+                  "venue": "Molecular cancer",
+                  "authors": [
+                    {
+                      "name": "Jin Y",
+                      "first_name": null,
+                      "last_name": null,
+                      "orcid": null,
+                      "affiliations": [],
+                      "source_ids": {}
+                    },
+                    {
+                      "name": "Zuo Y",
+                      "first_name": null,
+                      "last_name": null,
+                      "orcid": null,
+                      "affiliations": [],
+                      "source_ids": {}
+                    },
+                    {
+                      "name": "Li G",
+                      "first_name": null,
+                      "last_name": null,
+                      "orcid": null,
+                      "affiliations": [],
+                      "source_ids": {}
+                    },
+                    {
+                      "name": "Liu W",
+                      "first_name": null,
+                      "last_name": null,
+                      "orcid": null,
+                      "affiliations": [],
+                      "source_ids": {}
+                    },
+                    {
+                      "name": "Pan Y",
+                      "first_name": null,
+                      "last_name": null,
+                      "orcid": null,
+                      "affiliations": [],
+                      "source_ids": {}
+                    },
+                    {
+                      "name": "Fan T",
+                      "first_name": null,
+                      "last_name": null,
+                      "orcid": null,
+                      "affiliations": [],
+                      "source_ids": {}
+                    },
+                    {
+                      "name": "Fu X",
+                      "first_name": null,
+                      "last_name": null,
+                      "orcid": null,
+                      "affiliations": [],
+                      "source_ids": {}
+                    },
+                    {
+                      "name": "Yao X",
+                      "first_name": null,
+                      "last_name": null,
+                      "orcid": null,
+                      "affiliations": [],
+                      "source_ids": {}
+                    },
+                    {
+                      "name": "Peng Y",
+                      "first_name": null,
+                      "last_name": null,
+                      "orcid": null,
+                      "affiliations": [],
+                      "source_ids": {}
+                    }
+                  ],
+                  "abstract": null,
+                  "identifiers": {
+                    "pmid": "38902727",
+                    "pmcid": "PMC11188176",
+                    "doi": "10.1186/s12943-024-02040-9"
+                  },
+                  "keywords": [],
+                  "mesh_terms": [],
+                  "publication_types": [
+                    "Journal Article",
+                    "Review",
+                    "Research Support, Non-U.S. Gov't"
+                  ]
+                },
+                "identifiers": {
+                  "pmid": "38902727",
+                  "pmcid": "PMC11188176",
+                  "doi": "10.1186/s12943-024-02040-9"
+                },
+                "usage_note": "NCBI E-utilities; no API key required, but an NCBI API key increases rate limits.",
+                "source_terms_url": "https://www.ncbi.nlm.nih.gov/home/about/policies/",
+                "warnings": [],
+                "from_cache": false
+              }
+            ],
+            "merged_from_sources": [
+              "pubmed"
+            ],
+            "provenance": [
+              {
+                "source": "pubmed",
+                "source_record_id": "38902727",
+                "field": "title",
+                "value": "Advances in spatial transcriptomics and its applications in cancer research.",
+                "retrieved_at": "2026-10-19T06:19:33.920172Z"
+              },
+              {
+                "source": "pubmed",
+                "source_record_id": "38902727",
+                "field": "year",
+                "value": "2024",
+                "retrieved_at": "2026-10-19T06:19:33.920172Z"
+              },
+              {
+                "source": "pubmed",
+                "source_record_id": "38902727",
+                "field": "publication_date",
+                "value": "2024 Jun 20",
+                "retrieved_at": "2026-10-19T06:19:33.920172Z"
+              },
+              {
+                "source": "pubmed",
+                "source_record_id": "38902727",
+                "field": "venue",
+                "value": "Molecular cancer",
+                "retrieved_at": "2026-10-19T06:19:33.920172Z"
+              },
+              {
+                "source": "pubmed",
+                "source_record_id": "38902727",
+                "field": "authors",
+                "value": [
+                  {
+                    "name": "Jin Y",
+                    "first_name": null,
+                    "last_name": null,
+                    "orcid": null,
+                    "affiliations": [],
+                    "source_ids": {}
+                  },
+                  {
+                    "name": "Zuo Y",
+                    "first_name": null,
+                    "last_name": null,
+                    "orcid": null,
+                    "affiliations": [],
+                    "source_ids": {}
+                  },
+                  {
+                    "name": "Li G",
+                    "first_name": null,
+                    "last_name": null,
+                    "orcid": null,
+                    "affiliations": [],
+                    "source_ids": {}
+                  },
+                  {
+                    "name": "Liu W",
+                    "first_name": null,
+                    "last_name": null,
+                    "orcid": null,
+                    "affiliations": [],
+                    "source_ids": {}
+                  },
+                  {
+                    "name": "Pan Y",
+                    "first_name": null,
+                    "last_name": null,
+                    "orcid": null,
+                    "affiliations": [],
+                    "source_ids": {}
+                  },
+                  {
+                    "name": "Fan T",
+                    "first_name": null,
+                    "last_name": null,
+                    "orcid": null,
+                    "affiliations": [],
+                    "source_ids": {}
+                  },
+                  {
+                    "name": "Fu X",
+                    "first_name": null,
+                    "last_name": null,
+                    "orcid": null,
+                    "affiliations": [],
+                    "source_ids": {}
+                  },
+                  {
+                    "name": "Yao X",
+                    "first_name": null,
+                    "last_name": null,
+                    "orcid": null,
+                    "affiliations": [],
+                    "source_ids": {}
+                  },
+                  {
+                    "name": "Peng Y",
+                    "first_name": null,
+                    "last_name": null,
+                    "orcid": null,
+                    "affiliations": [],
+                    "source_ids": {}
+                  }
+                ],
+                "retrieved_at": "2026-10-19T06:19:33.920172Z"
+              },
+              {
+                "source": "pubmed",
+                "source_record_id": "38902727",
+                "field": "identifiers",
+                "value": {
+                  "pmid": "38902727",
+                  "pmcid": "PMC11188176",
+                  "doi": "10.1186/s12943-024-02040-9"
+                },
+                "retrieved_at": "2026-10-19T06:19:33.920172Z"
+              },
+              {
+                "source": "pubmed",
+                "source_record_id": "38902727",
+                "field": "keywords",
+                "value": [],
+                "retrieved_at": "2026-10-19T06:19:33.920172Z"
+              },
+              {
+                "source": "pubmed",
+                "source_record_id": "38902727",
+                "field": "mesh_terms",
+                "value": [],
+                "retrieved_at": "2026-10-19T06:19:33.920172Z"
+              },
+              {
+                "source": "pubmed",
+                "source_record_id": "38902727",
+                "field": "publication_types",
+                "value": [
+                  "Journal Article",
+                  "Review",
+                  "Research Support, Non-U.S. Gov't"
+                ],
+                "retrieved_at": "2026-10-19T06:19:33.920172Z"
+              }
+            ],
+            "conflicts": [],
+            "merge_reasons": [
+              "merged from 1 source(s): pubmed"
+            ],
+            "ranking_reasons": [
+              "has DOI",
+              "has PMID",
+              "has PMCID"
+            ],
+            "warnings": [],
+            "urls": {
+              "doi": "https://doi.org/10.1186/s12943-024-02040-9",
+              "pubmed": "https://pubmed.ncbi.nlm.nih.gov/38902727/",
+              "pmc": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11188176/"
+            },
+            "open_access_pdf": null,
+            "full_text_availability": null,
+            "full_text_anchors": [],
+            "citation_count": null,
+            "fields_of_study": [],
+            "publication_types": [
+              "Journal Article",
+              "Review",
+              "Research Support, Non-U.S. Gov't"
+            ],
+            "keywords": [],
+            "mesh_terms": [],
+            "concepts": []
+          }
+        ],
+        "signals": [],
+        "trace": {
+          "query": "\"spatial transcriptomics\"",
+          "filters": {
+            "year": null,
+            "year_from": null,
+            "year_to": null,
+            "venue": null,
+            "fields_of_study": [],
+            "publication_types": [],
+            "min_citation_count": null,
+            "open_access_only": false,
+            "limit": 1,
+            "sort": "relevance",
+            "source_modes": {
+              "pubmed": "optional"
+            }
+          },
+          "sources_requested": [
+            "pubmed"
+          ],
+          "sources_succeeded": [
+            "pubmed"
+          ],
+          "sources_degraded": [],
+          "sources_failed": [],
+          "source_errors": [],
+          "source_result_counts": [
+            {
+              "source": "pubmed",
+              "requested": true,
+              "succeeded": true,
+              "degraded": false,
+              "failed": false,
+              "from_cache": false,
+              "returned_count": 1,
+              "merged_count": 0
+            }
+          ],
+          "retrieved_at": "2026-10-19T06:19:32.151519Z",
+          "cache_policy": "no-cache",
+          "merge_strategy_version": "0.2.0",
+          "ranking_strategy_version": "0.2.0",
+          "result_count": 1,
+          "merged_count": 1
+        },
+        "warnings": [],
+        "total": null,
+        "next_offset": null
+      },
+      "warnings": [],
+      "trace": {
+        "query": "\"spatial transcriptomics\"",
+        "filters": {
+          "year": null,
+          "year_from": null,
+          "year_to": null,
+          "venue": null,
+          "fields_of_study": [],
+          "publication_types": [],
+          "min_citation_count": null,
+          "open_access_only": false,
+          "limit": 1,
+          "sort": "relevance",
+          "source_modes": {
+            "pubmed": "optional"
+          }
+        },
+        "sources_requested": [
+          "pubmed"
+        ],
+        "sources_succeeded": [
+          "pubmed"
+        ],
+        "sources_degraded": [],
+        "sources_failed": [],
+        "source_errors": [],
+        "source_result_counts": [
+          {
+            "source": "pubmed",
+            "requested": true,
+            "succeeded": true,
+            "degraded": false,
+            "failed": false,
+            "from_cache": false,
+            "returned_count": 1,
+            "merged_count": 0
+          }
+        ],
+        "retrieved_at": "2026-10-19T06:19:32.151519Z",
+        "cache_policy": "no-cache",
+        "merge_strategy_version": "0.2.0",
+        "ranking_strategy_version": "0.2.0",
+        "result_count": 1,
+        "merged_count": 1
+      }
+    }
+  }
+}

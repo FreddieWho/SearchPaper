@@ -1,6 +1,6 @@
 """OpenCitations adapter for citation relationship enrichment.
 
-OpenCitations provides DOI-to-DOI citation links via the COCI index. This
+OpenCitations provides DOI-to-DOI citation links via its unified v1 API. This
 adapter is registered as an enrichment source and is not included in the
 default search source list.
 """
@@ -15,7 +15,7 @@ from searchpaper.schemas import SearchFilters, SourceRecord, SourceState, Source
 from searchpaper.sources.base import SourceAdapter, classify_http_error, now_iso
 from searchpaper.sources.registry import register
 
-OCOCI_BASE = "https://opencitations.net/index/coci/api/v1"
+OCOCI_BASE = "https://api.opencitations.net/index/v1"
 OPENCITATIONS_SOURCE = "opencitations"
 OPENCITATIONS_TERMS_URL = "https://opencitations.net/"
 
@@ -40,7 +40,7 @@ def _parse_relation(raw: dict[str, Any], relation_type: str, subject_doi: str) -
 
 @register(OPENCITATIONS_SOURCE)
 class OpenCitationsAdapter(SourceAdapter):
-    """Enrich DOIs with citation links from OpenCitations COCI."""
+    """Enrich DOIs with citation links from OpenCitations."""
 
     name = OPENCITATIONS_SOURCE
     source_terms_url = OPENCITATIONS_TERMS_URL

@@ -3,13 +3,27 @@
 import respx
 from httpx import Response
 
-from searchpaper.schemas import WorkIdentifier
+from searchpaper.schemas import SourceState, WorkIdentifier
 from searchpaper.sources.opencitations import OpenCitationsAdapter
 
 
 @respx.mock
+async def test_opencitations_status_uses_canonical_endpoint():
+    probe = respx.get(
+        "https://api.opencitations.net/index/v1/citations/10.1038/nature12373"
+    ).mock(return_value=Response(200, json=[]))
+    adapter = OpenCitationsAdapter()
+    try:
+        status = await adapter.status()
+    finally:
+        await adapter.aclose()
+    assert probe.called
+    assert status.state == SourceState.AVAILABLE
+
+
+@respx.mock
 async def test_opencitations_get_citations():
-    respx.get("https://opencitations.net/index/coci/api/v1/citations/10.1000/test").mock(
+    respx.get("https://api.opencitations.net/index/v1/citations/10.1000/test").mock(
         return_value=Response(
             200,
             json=[
@@ -18,7 +32,7 @@ async def test_opencitations_get_citations():
             ],
         )
     )
-    respx.get("https://opencitations.net/index/coci/api/v1/references/10.1000/test").mock(
+    respx.get("https://api.opencitations.net/index/v1/references/10.1000/test").mock(
         return_value=Response(200, json=[])
     )
 
@@ -32,10 +46,10 @@ async def test_opencitations_get_citations():
 
 @respx.mock
 async def test_opencitations_get_references():
-    respx.get("https://opencitations.net/index/coci/api/v1/citations/10.1000/test").mock(
+    respx.get("https://api.opencitations.net/index/v1/citations/10.1000/test").mock(
         return_value=Response(200, json=[])
     )
-    respx.get("https://opencitations.net/index/coci/api/v1/references/10.1000/test").mock(
+    respx.get("https://api.opencitations.net/index/v1/references/10.1000/test").mock(
         return_value=Response(
             200,
             json=[
